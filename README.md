@@ -9,8 +9,9 @@ Examples of generated content
 
 ## Libraries Used
 - React
+- TypeScript
 - Tailwind/PostCSS
-- NextJS
+- Vite
 
 ## Git Messages
 - feat: user facing new feature
