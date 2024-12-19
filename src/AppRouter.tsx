@@ -5,15 +5,15 @@ import { HomePage } from "./pages/HomePage";
 import { GeneratorPage } from "./pages/GeneratorPage";
 
 export default function AppRouter() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="generator" element={<GeneratorPage />} />
-                    <Route path="*" element={<ErrorPage />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="generator" element={<GeneratorPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
