@@ -3,11 +3,12 @@ import { CustomFieldLabel } from "../types/randomField";
 
 export interface ISwitchLabel { onLabel: string, offLabel: string };
 export interface IRandomField { variableName: string, options: string };
-interface IPredefinedSelection {
+interface ICustomFieldSelection {
   onHandleSelection: (selectedType: string, field: IRandomField) => void;
 }
 
-const NewCustomField = ({ onHandleSelection }: IPredefinedSelection) => {
+// Todo: Date Future vs Past
+const CustomFieldSelection = ({ onHandleSelection }: ICustomFieldSelection) => {
   const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.DATE)
   const [newFieldLabel, setNewFieldLabel] = useState<string>('')
   const [options, setOptions] = useState<string>('')
@@ -108,4 +109,4 @@ const NewCustomField = ({ onHandleSelection }: IPredefinedSelection) => {
   )
 }
 
-export { NewCustomField }
+export { CustomFieldSelection }
