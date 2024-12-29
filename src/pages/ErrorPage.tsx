@@ -3,7 +3,7 @@ const ErrorPage = () => {
     <>
       <h1>Error Page</h1>
     </>
-  )
-}
+  );
+};
 
-export { ErrorPage }
+export { ErrorPage };

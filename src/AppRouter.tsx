@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import { ErrorPage } from "./pages/ErrorPage";
-import { HomePage } from "./pages/HomePage";
-import { GeneratorPage } from "./pages/GeneratorPage";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './Layout';
+import { ErrorPage } from './pages/ErrorPage';
+import { HomePage } from './pages/HomePage';
+import { GeneratorPage } from './pages/GeneratorPage';
 
 export default function AppRouter() {
   return (

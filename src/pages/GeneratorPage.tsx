@@ -22,7 +22,7 @@ const MIN_ROW_COUNT = 1;
 const MAX_ROW_COUNT = 1000;
 
 export const GeneratorPage = () => {
-  const [data, setData] = useState<{ column: string, value: string }[][]>([]);
+  const [data, setData] = useState<{ column: string; value: string }[][]>([]);
   const [rowCount, setRowCount] = useState<number>(DEFAULT_ROW_COUNT);
   const [columns, setColumns] = useState<IFieldType[]>([fieldTypes[INDEX_ZERO]]);
 
@@ -44,7 +44,7 @@ export const GeneratorPage = () => {
       console.error(errors);
       return;
     }
-    const result: { column: string, value: string }[][] = [];
+    const result: { column: string; value: string }[][] = [];
     for (let i = ZERO; i < rowCount; i++) {
       const currentRow = columns.map((col, index) => {
         const value = getCorrectGeneratedValue(col, 10 * i + index);

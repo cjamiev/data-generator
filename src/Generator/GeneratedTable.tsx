@@ -4,7 +4,7 @@ import { getJSONRow } from './exportHelper';
 
 const ZERO = 0;
 
-const getTableData = (data: { column: string, value: string }[][]) => {
+const getTableData = (data: { column: string; value: string }[][]) => {
   if (!data.length) {
     return { headers: [], rows: [] };
   }
@@ -18,7 +18,7 @@ const getTableData = (data: { column: string, value: string }[][]) => {
 };
 
 interface IGenerateTable {
-  data: { column: string, value: string }[][],
+  data: { column: string; value: string }[][];
   deleteRow: (selectedIndex: number) => void;
 }
 
@@ -55,8 +55,7 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
                 <button
                   onClick={() => {
                     deleteRow(index);
-                  }}
-                >
+                  }}>
                   D
                 </button>
               </td>
@@ -64,8 +63,7 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
                 <button
                   onClick={() => {
                     copyToClipboard(getJSONRow(headers, entry));
-                  }}
-                >
+                  }}>
                   C
                 </button>
               </td>
