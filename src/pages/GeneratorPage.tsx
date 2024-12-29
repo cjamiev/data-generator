@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { copyToClipboard } from '../utils/copy';
 import { GeneratedSection } from '../molecules/GeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
-import { fieldTypes, IFieldType, RandomType } from '../atoms/DisplayRandomFields/types';
+import { fieldTypes, IFieldType, PredefinedRandomLabel, PredefinedRandomValue } from '../types/randomField';
 import { getSQLCreateData, getSQLReadData } from '../molecules/GeneratedSection/exportHelper';
 import { getAggregatedReactCode } from '../atoms/DisplayRandomFields/exportHelper';
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
+import { RandomFieldForm } from '../molecules/RandomFieldForm';
 /*
  * TODO:
  * insert sql template, json, csv switch between formats, preview mode
@@ -17,6 +18,8 @@ import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
  */
 
 const INDEX_ZERO = 0;
+const INDEX_ONE = 1;
+const INDEX_TWO = 2;
 const ZERO = 0;
 const DEFAULT_ROW_COUNT = 10;
 const MIN_ROW_COUNT = 1;
@@ -25,7 +28,16 @@ const MAX_ROW_COUNT = 1000;
 export const GeneratorPage = () => {
   const [data, setData] = useState<{ column: string; value: string }[][]>([]);
   const [rowCount, setRowCount] = useState<number>(DEFAULT_ROW_COUNT);
-  const [columns, setColumns] = useState<IFieldType[]>([fieldTypes[INDEX_ZERO]]);
+  const [columns, setColumns] = useState<IFieldType[]>([
+    fieldTypes[INDEX_ZERO],
+    fieldTypes[INDEX_ONE],
+    fieldTypes[INDEX_TWO],
+  ]);
+  const [predefinedSelection, setPredifinedSelection] = useState<string[]>([
+    PredefinedRandomValue.ID,
+    PredefinedRandomValue.FIRST_NAME,
+    PredefinedRandomValue.LAST_NAME,
+  ]);
 
   const validate = () => {
     const errors = columns.map((item, index) => {
@@ -47,8 +59,8 @@ export const GeneratorPage = () => {
     }
     const result: { column: string; value: string }[][] = [];
     for (let i = ZERO; i < rowCount; i++) {
-      const currentRow = columns.map((col, index) => {
-        const value = getCorrectGeneratedValue(col, 10 * i + index);
+      const currentRow = columns.map((col) => {
+        const value = getCorrectGeneratedValue(col, i);
 
         return { column: col.variableName, value };
       });
@@ -78,18 +90,13 @@ export const GeneratorPage = () => {
     }
   };
 
-  const onHandleAddField = (randomType: RandomType) => {
-    const initialField = fieldTypes.find((i) => i.randomType === randomType);
-    if (initialField) {
-      const updatedData = columns.concat(initialField);
-      setColumns(updatedData);
-    }
-  };
-
   const onHandleRemoveField = (selectedIndex: number) => {
     const updatedData = columns.filter((_, i) => i !== selectedIndex);
-
+    const matched = columns.find((_, i) => i === selectedIndex);
     setColumns(updatedData);
+
+    const updatedSelection = predefinedSelection.filter((item) => item !== matched?.randomType);
+    setPredifinedSelection(updatedSelection);
   };
 
   const onHandleColumnNameChange = (event: React.ChangeEvent<HTMLInputElement>, selectedIndex: number) => {
@@ -167,11 +174,36 @@ export const GeneratorPage = () => {
     }
   };
 
+  const updatePredefinedSelection = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedValue = event.target.value;
+    const matched = predefinedSelection.some((item) => item === selectedValue);
+    const updatedSelection = matched
+      ? predefinedSelection.filter((item) => item !== selectedValue)
+      : predefinedSelection.concat([selectedValue]);
+    setPredifinedSelection(updatedSelection);
+  };
+
+  const confirmPredfinedSelection = () => {
+    const columnFormedValues = predefinedSelection.map((item) => {
+      const randomType = PredefinedRandomLabel[item as keyof typeof PredefinedRandomLabel];
+      const newField = fieldTypes.find((i) => i.randomType === randomType);
+      return newField as IFieldType;
+    });
+    setColumns(columnFormedValues);
+  };
+
+  const onClickSelectAll = () => {
+    if (predefinedSelection.length === 13) {
+      setPredifinedSelection([]);
+    } else {
+      setPredifinedSelection(Object.values(PredefinedRandomValue));
+    }
+  };
+
   return (
     <div className="m-8">
       <DisplayRandomFields
         columns={columns}
-        onHandleAddField={onHandleAddField}
         onHandleRemoveField={onHandleRemoveField}
         onHandleColumnNameChange={onHandleColumnNameChange}
         onHandleColumnOptionsChange={onHandleColumnOptionsChange}
@@ -179,10 +211,13 @@ export const GeneratorPage = () => {
         onHandleDataTypeChange={onHandleDataTypeChange}
         onHandleFormTypeChange={onHandleFormTypeChange}
       />
+      <RandomFieldForm
+        predefinedSelection={predefinedSelection}
+        updatePredefinedSelection={updatePredefinedSelection}
+        confirmPredfinedSelection={confirmPredfinedSelection}
+        onClickSelectAll={onClickSelectAll}
+      />
       <div>
-        <button onClick={() => copyToClipboard(getAggregatedReactCode(columns))}>Get React Code</button>
-        <button onClick={() => copyToClipboard(getSQLReadData(columns))}>Read SQL</button>
-        <button onClick={() => copyToClipboard(getSQLCreateData(columns))}>Create SQL</button>
         <button onClick={generateData}>Generate Data</button>
         <input type="text" onChange={onHandleCountUpdate} value={rowCount} />
       </div>

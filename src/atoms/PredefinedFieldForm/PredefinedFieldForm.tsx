@@ -4,13 +4,24 @@ import { PredefinedRandomLabel, PredefinedRandomValue } from '../../types/random
 interface IPredefinedSelection {
   predefinedSelection: string[];
   onHandleSelection: (event: ChangeEvent<HTMLInputElement>) => void;
+  onHandleSelectAll: () => void;
+  onHandleConfirm: () => void;
 }
 
 // TODO: Un/Select All
-const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredefinedSelection) => {
+const PredefinedFieldForm = ({
+  predefinedSelection,
+  onHandleSelection,
+  onHandleSelectAll,
+  onHandleConfirm,
+}: IPredefinedSelection) => {
   return (
-    <div className="h-fit w-fit rounded border border-gray-500 p-2">
-      <div className="flex">
+    <div className="relative left-1/4 top-1/4 h-2/5 w-1/2 rounded border border-gray-500 bg-white p-4">
+      <h2 className="mb-4 border-b-2 border-dashed border-sky-500 text-3xl">Select Predefined Fields</h2>
+      <button className="absolute right-0 top-0 h-fit w-fit border-none" onClick={onHandleConfirm}>
+        X
+      </button>
+      <div className="mb-8 flex">
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
@@ -23,14 +34,14 @@ const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredef
           {PredefinedRandomLabel.FIRST_NAME}
         </label>
         <input
-          className="mr-2 w-6"
+          className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
           id={PredefinedRandomValue.LAST_NAME}
           value={PredefinedRandomValue.LAST_NAME}
           checked={predefinedSelection.some((item) => item === PredefinedRandomValue.LAST_NAME)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.LAST_NAME}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.LAST_NAME}>
           {PredefinedRandomLabel.LAST_NAME}
         </label>
         <input
@@ -67,27 +78,27 @@ const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredef
           {PredefinedRandomLabel.BIRTH_DATE}
         </label>
       </div>
-      <div className="flex">
+      <div className="mb-8 flex">
         <input
-          className="mr-2 w-6"
+          className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
           id={PredefinedRandomValue.STREET}
           value={PredefinedRandomValue.STREET}
           checked={predefinedSelection.some((item) => item === PredefinedRandomValue.STREET)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.STREET}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.STREET}>
           {PredefinedRandomLabel.STREET}
         </label>
         <input
-          className="mr-2 w-6"
+          className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
           id={PredefinedRandomValue.CITY}
           value={PredefinedRandomValue.CITY}
           checked={predefinedSelection.some((item) => item === PredefinedRandomValue.CITY)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.CITY}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.CITY}>
           {PredefinedRandomLabel.CITY}
         </label>
         <input
@@ -113,27 +124,27 @@ const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredef
           {PredefinedRandomLabel.ZIP_CODE}
         </label>
       </div>
-      <div className="flex">
+      <div className="mb-8 flex">
         <input
-          className="mr-2 w-6"
+          className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
           id={PredefinedRandomValue.SSN}
           value={PredefinedRandomValue.SSN}
           checked={predefinedSelection.some((item) => item === PredefinedRandomValue.SSN)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.SSN}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.SSN}>
           {PredefinedRandomLabel.SSN}
         </label>
         <input
-          className="mr-2 w-6"
+          className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
           id={PredefinedRandomValue.CREDIT_CARD}
           value={PredefinedRandomValue.CREDIT_CARD}
           checked={predefinedSelection.some((item) => item === PredefinedRandomValue.CREDIT_CARD)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.CREDIT_CARD}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.CREDIT_CARD}>
           {PredefinedRandomLabel.CREDIT_CARD}
         </label>
         <input
@@ -158,6 +169,12 @@ const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredef
         <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.UUID}>
           {PredefinedRandomLabel.UUID}
         </label>
+      </div>
+      <div className="border-t-2 border-dashed border-sky-500 pt-4">
+        <button className="mr-4" onClick={onHandleSelectAll}>
+          {predefinedSelection.length === 13 ? 'Unselect All' : 'Select All'}
+        </button>
+        <button onClick={onHandleConfirm}>Confirm</button>
       </div>
     </div>
   );

@@ -2,10 +2,21 @@ import { ChangeEvent, useState } from 'react';
 import { PredefinedFieldForm } from '../../atoms/PredefinedFieldForm/PredefinedFieldForm';
 import { IRandomField, CustomRandomFieldForm } from '../../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 
-const RandomFieldForm = () => {
+interface IRandomFieldForm {
+  predefinedSelection: string[];
+  updatePredefinedSelection: (event: ChangeEvent<HTMLInputElement>) => void;
+  confirmPredfinedSelection: () => void;
+  onClickSelectAll: () => void;
+}
+
+const RandomFieldForm = ({
+  predefinedSelection,
+  updatePredefinedSelection,
+  confirmPredfinedSelection,
+  onClickSelectAll,
+}: IRandomFieldForm) => {
   const [showCustomFields, setShowCustomFields] = useState<boolean>(false);
   const [showPredefinedFields, setShowPredifinedFields] = useState<boolean>(false);
-  const [predefinedSelection, setPredifinedSelection] = useState<string[]>([]);
 
   const displayCustomFields = () => {
     setShowCustomFields(true);
@@ -19,17 +30,9 @@ const RandomFieldForm = () => {
     setShowPredifinedFields(true);
   };
 
-  const hidePredefinedFields = () => {
+  const onClickConfirm = () => {
     setShowPredifinedFields(false);
-  };
-
-  const updatePredefinedSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedValue = event.target.value;
-    const matched = predefinedSelection.some((item) => item === selectedValue);
-    const updatedSelection = matched
-      ? predefinedSelection.filter((item) => item !== selectedValue)
-      : predefinedSelection.concat([selectedValue]);
-    setPredifinedSelection(updatedSelection);
+    confirmPredfinedSelection();
   };
 
   const updateNewFieldSelection = (selectedType: string, field: IRandomField) => {
@@ -38,7 +41,6 @@ const RandomFieldForm = () => {
 
   return (
     <>
-      <label>{predefinedSelection.join(',')}</label>
       {showCustomFields && (
         <div>
           <CustomRandomFieldForm onHandleSelection={updateNewFieldSelection} />
@@ -46,15 +48,18 @@ const RandomFieldForm = () => {
         </div>
       )}
       {showPredefinedFields && (
-        <div>
+        <div className="absolute left-0 top-0 h-full w-full backdrop-brightness-50">
           <PredefinedFieldForm
             predefinedSelection={predefinedSelection}
             onHandleSelection={updatePredefinedSelection}
+            onHandleSelectAll={onClickSelectAll}
+            onHandleConfirm={onClickConfirm}
           />
-          <button onClick={hidePredefinedFields}>Close</button>
         </div>
       )}
-      <button onClick={displayCustomFields}>Add Custom Field</button>
+      <button className="mr-4" onClick={displayCustomFields}>
+        Add Custom Field
+      </button>
       <button onClick={displayPredefinedFields}>Add Predefined Field</button>
     </>
   );
