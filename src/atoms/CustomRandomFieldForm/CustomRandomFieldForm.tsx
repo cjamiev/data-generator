@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { CustomFieldLabel } from '../types/randomField';
+import { CustomFieldLabel } from '../../types/randomField';
 
 export interface ISwitchLabel {
   onLabel: string;
@@ -9,12 +9,12 @@ export interface IRandomField {
   variableName: string;
   options: string;
 }
-interface ICustomFieldSelection {
+interface ICustomRandomFieldForm {
   onHandleSelection: (selectedType: string, field: IRandomField) => void;
 }
 
 // Todo: Date Future vs Past
-const CustomFieldSelection = ({ onHandleSelection }: ICustomFieldSelection) => {
+const CustomRandomFieldForm = ({ onHandleSelection }: ICustomRandomFieldForm) => {
   const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.DATE);
   const [newFieldLabel, setNewFieldLabel] = useState<string>('');
   const [options, setOptions] = useState<string>('');
@@ -232,4 +232,4 @@ const CustomFieldSelection = ({ onHandleSelection }: ICustomFieldSelection) => {
   );
 };
 
-export { CustomFieldSelection };
+export { CustomRandomFieldForm };

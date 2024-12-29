@@ -5,14 +5,14 @@ import {
   generateStreetName,
   generateCity,
   generateState,
-} from '../utils/randomContentHelper';
+} from '../../utils/randomContentHelper';
 import {
   generateDate,
   generateBoolean,
   generateCustomState,
   customStringGenerator
-} from '../utils/randomHelper';
-import { IFieldType, RandomType } from './types';
+} from '../../utils/randomHelper';
+import { IFieldType, RandomType } from '../../atoms/DisplayRandomFields/types';
 
 const THREE_YEARS_IN_MONTHS = 36;
 

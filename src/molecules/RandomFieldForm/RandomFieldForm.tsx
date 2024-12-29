@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
-import { PredefinedFieldSelection } from '../atoms/PredefinedFieldSelection';
-import { IRandomField, CustomFieldSelection } from '../atoms/CustomFieldSelection';
+import { PredefinedFieldForm } from '../../atoms/PredefinedFieldForm/PredefinedFieldForm';
+import { IRandomField, CustomRandomFieldForm } from '../../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 
 const RandomFieldForm = () => {
   const [showCustomFields, setShowCustomFields] = useState<boolean>(false);
@@ -41,13 +41,13 @@ const RandomFieldForm = () => {
       <label>{predefinedSelection.join(',')}</label>
       {showCustomFields && (
         <div>
-          <CustomFieldSelection onHandleSelection={updateNewFieldSelection} />
+          <CustomRandomFieldForm onHandleSelection={updateNewFieldSelection} />
           <button onClick={hideCustomFields}>Close</button>
         </div>
       )}
       {showPredefinedFields && (
         <div>
-          <PredefinedFieldSelection
+          <PredefinedFieldForm
             predefinedSelection={predefinedSelection}
             onHandleSelection={updatePredefinedSelection}
           />

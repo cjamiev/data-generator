@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { PredefinedRandomLabel, PredefinedRandomValue } from '../types/randomField';
+import { PredefinedRandomLabel, PredefinedRandomValue } from '../../types/randomField';
 
 interface IPredefinedSelection {
   predefinedSelection: string[];
@@ -7,7 +7,7 @@ interface IPredefinedSelection {
 }
 
 // TODO: Un/Select All
-const PredefinedFieldSelection = ({ predefinedSelection, onHandleSelection }: IPredefinedSelection) => {
+const PredefinedFieldForm = ({ predefinedSelection, onHandleSelection }: IPredefinedSelection) => {
   return (
     <div className="h-fit w-fit rounded border border-gray-500 p-2">
       <div className="flex">
@@ -163,4 +163,4 @@ const PredefinedFieldSelection = ({ predefinedSelection, onHandleSelection }: IP
   );
 };
 
-export { PredefinedFieldSelection };
+export { PredefinedFieldForm };

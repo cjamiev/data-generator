@@ -1,7 +1,7 @@
 import React from 'react';
-import { copyToClipboard } from '../utils/copy';
+import { copyToClipboard } from '../../utils/copy';
 import { getJSONData, getCSVData, getSQLInsertData } from './exportHelper';
-import { GeneratedTable } from './GeneratedTable';
+import { GeneratedTable } from '../../atoms/GeneratedTable';
 
 const ZERO = 0;
 

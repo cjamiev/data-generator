@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
-import { copyToClipboard } from '../utils/copy';
+import { copyToClipboard } from '../../utils/copy';
 import { getReactCode } from './exportHelper';
 import { IFieldType, RandomType } from './types';
 
 const AMOUNT_TWO = 2;
 
-interface IFieldSection {
+interface IDisplayRandomFields {
   columns: IFieldType[];
   onHandleAddField: (randomType: RandomType) => void;
   onHandleRemoveField: (selectedIndex: number) => void;
@@ -16,7 +16,7 @@ interface IFieldSection {
   onHandleFormTypeChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
 }
 
-export const FieldSection = ({
+export const DisplayRandomFields = ({
   columns,
   onHandleAddField,
   onHandleRemoveField,
@@ -25,9 +25,9 @@ export const FieldSection = ({
   onHandleBuiltInOptionsChange,
   onHandleDataTypeChange,
   onHandleFormTypeChange,
-}: IFieldSection) => {
+}: IDisplayRandomFields) => {
   return (
-    <div className="flex- flex flex-row">
+    <div className="flex flex-row">
       <div className="mr-8 flex flex-col gap-2">
         {Object.keys(RandomType)
           .filter(

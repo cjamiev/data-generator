@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { copyToClipboard } from '../utils/copy';
-import { GeneratedSection } from '../Generator/GeneratedSection';
-import { FieldSection } from '../Generator/FieldSection';
-import { fieldTypes, IFieldType, RandomType } from '../Generator/types';
-import { getSQLCreateData, getSQLReadData, getAggregatedReactCode } from '../Generator/exportHelper';
-import { getCorrectGeneratedValue } from '../Generator/helper';
+import { GeneratedSection } from '../molecules/GeneratedSection';
+import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
+import { fieldTypes, IFieldType, RandomType } from '../atoms/DisplayRandomFields/types';
+import { getSQLCreateData, getSQLReadData } from '../molecules/GeneratedSection/exportHelper';
+import { getAggregatedReactCode } from '../atoms/DisplayRandomFields/exportHelper';
+import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 /*
  * TODO:
  * insert sql template, json, csv switch between formats, preview mode
@@ -168,7 +169,7 @@ export const GeneratorPage = () => {
 
   return (
     <div className="m-8">
-      <FieldSection
+      <DisplayRandomFields
         columns={columns}
         onHandleAddField={onHandleAddField}
         onHandleRemoveField={onHandleRemoveField}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { copyToClipboard } from '../utils/copy';
-import { getJSONRow } from './exportHelper';
+import { copyToClipboard } from '../../utils/copy';
+import { getJSONRow } from '../../molecules/GeneratedSection/exportHelper';
 
 const ZERO = 0;
 

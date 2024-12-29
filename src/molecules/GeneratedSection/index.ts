@@ -1,0 +1,1 @@
+export { GeneratedSection } from './GeneratedSection';
