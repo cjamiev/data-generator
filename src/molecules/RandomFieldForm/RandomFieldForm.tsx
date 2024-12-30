@@ -7,6 +7,7 @@ interface IRandomFieldForm {
   updatePredefinedSelection: (event: ChangeEvent<HTMLInputElement>) => void;
   confirmPredfinedSelection: () => void;
   onClickSelectAll: () => void;
+  confirmCustomFieldSelection: (selectedType: string, field: IRandomField) => void;
 }
 
 const RandomFieldForm = ({
@@ -14,6 +15,7 @@ const RandomFieldForm = ({
   updatePredefinedSelection,
   confirmPredfinedSelection,
   onClickSelectAll,
+  confirmCustomFieldSelection,
 }: IRandomFieldForm) => {
   const [showCustomFields, setShowCustomFields] = useState<boolean>(false);
   const [showPredefinedFields, setShowPredifinedFields] = useState<boolean>(false);
@@ -22,29 +24,32 @@ const RandomFieldForm = ({
     setShowCustomFields(true);
   };
 
-  const hideCustomFields = () => {
-    setShowCustomFields(false);
-  };
-
   const displayPredefinedFields = () => {
     setShowPredifinedFields(true);
   };
 
-  const onClickConfirm = () => {
+  const onClickConfirmForPredefinedFields = () => {
     setShowPredifinedFields(false);
     confirmPredfinedSelection();
   };
 
-  const updateNewFieldSelection = (selectedType: string, field: IRandomField) => {
-    console.log(selectedType, field);
+  const onClickConfirmForCustomField = (selectedType: string, field: IRandomField) => {
+    setShowCustomFields(false);
+    confirmCustomFieldSelection(selectedType, field);
   };
+
+  const cancelNewFieldSelection = () => {
+    setShowCustomFields(false);
+  }
 
   return (
     <>
       {showCustomFields && (
-        <div>
-          <CustomRandomFieldForm onHandleSelection={updateNewFieldSelection} />
-          <button onClick={hideCustomFields}>Close</button>
+        <div className="absolute left-0 top-0 h-full w-full backdrop-brightness-50">
+          <CustomRandomFieldForm
+            onHandleConfirm={onClickConfirmForCustomField}
+            onHandleCancel={cancelNewFieldSelection}
+          />
         </div>
       )}
       {showPredefinedFields && (
@@ -53,7 +58,7 @@ const RandomFieldForm = ({
             predefinedSelection={predefinedSelection}
             onHandleSelection={updatePredefinedSelection}
             onHandleSelectAll={onClickSelectAll}
-            onHandleConfirm={onClickConfirm}
+            onHandleConfirm={onClickConfirmForPredefinedFields}
           />
         </div>
       )}

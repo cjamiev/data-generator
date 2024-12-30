@@ -37,10 +37,11 @@ const getRandomAlphanumberic = (): string | number => {
   return randomIndex < 10 ? randomIndex : letters.charAt(getRandomInt(randomIndex - 10));
 };
 
-const generateBoolean = (): boolean => {
-  const randomTwoState = getRandomInt(1);
+const generateBoolean = (booleanWeight: number): boolean => {
+  const weight = isNaN(booleanWeight) ? 50 : booleanWeight;
+  const randomTwoState = getRandomInt(100);
 
-  return randomTwoState < 1;
+  return weight > randomTwoState;
 };
 
 const generateRange = (min: number, max: number) => {
@@ -88,8 +89,8 @@ const getNumberofDays = (numberOfMonth: number) => {
   }
 };
 
-const generateDate = (yearsFromThisYear: number, format: string) => {
-  const randomYear = getRandomInt(yearsFromThisYear) + ADD_ONE;
+const generateDate = (distance: number, modifier: string, format: string) => {
+  const randomYear = getRandomInt(36) + ADD_ONE;
   const randomMonth = getRandomInt(NUMBER_OF_MONTHS) + ADD_ONE;
   const randomDay = getRandomInt(getNumberofDays(randomMonth)) + ADD_ONE;
 

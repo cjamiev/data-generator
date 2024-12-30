@@ -1,12 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import { copyToClipboard } from '../utils/copy';
 import { GeneratedSection } from '../molecules/GeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
-import { fieldTypes, IFieldType, PredefinedRandomLabel, PredefinedRandomValue } from '../types/randomField';
-import { getSQLCreateData, getSQLReadData } from '../molecules/GeneratedSection/exportHelper';
-import { getAggregatedReactCode } from '../atoms/DisplayRandomFields/exportHelper';
+import { fieldTypes, IFieldType, PredefinedRandomLabel, PredefinedRandomValue, CustomFieldLabel } from '../types/randomField';
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
+import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 /*
  * TODO:
  * insert sql template, json, csv switch between formats, preview mode
@@ -192,6 +190,17 @@ export const GeneratorPage = () => {
     setColumns(columnFormedValues);
   };
 
+  const confirmCustomFieldSelection = (selectedType: string, field: IRandomField) => {
+    const randomType = CustomFieldLabel[selectedType as keyof typeof CustomFieldLabel];
+    const newField = fieldTypes.find((i) => i.randomType === randomType);
+    const updatedNewField = {
+      ...newField,
+      variableName: field.variableName,
+      userOptions: field.options
+    } as IFieldType;
+    setColumns(columns.concat([updatedNewField]));
+  };
+
   const onClickSelectAll = () => {
     if (predefinedSelection.length === 13) {
       setPredifinedSelection([]);
@@ -199,6 +208,8 @@ export const GeneratorPage = () => {
       setPredifinedSelection(Object.values(PredefinedRandomValue));
     }
   };
+
+  const isGenerateDisabled = columns.length === 0;
 
   return (
     <div className="m-8">
@@ -216,9 +227,10 @@ export const GeneratorPage = () => {
         updatePredefinedSelection={updatePredefinedSelection}
         confirmPredfinedSelection={confirmPredfinedSelection}
         onClickSelectAll={onClickSelectAll}
+        confirmCustomFieldSelection={confirmCustomFieldSelection}
       />
       <div>
-        <button onClick={generateData}>Generate Data</button>
+        <button className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''} disabled={isGenerateDisabled} onClick={generateData}>Generate Data</button>
         <input type="text" onChange={onHandleCountUpdate} value={rowCount} />
       </div>
       <GeneratedSection data={data} deleteRow={deleteRowFromData} />

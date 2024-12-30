@@ -46,6 +46,13 @@ export enum PredefinedRandomLabel {
   BIRTH_DATE = 'Birth Date',
 };
 
+export enum CustomFieldValue {
+  CUSTOM_STRING = 'CUSTOM_STRING',
+  CUSTOM_STATE = 'CUSTOM_STATE',
+  DATE = 'DATE',
+  BOOLEAN = 'BOOLEAN',
+}
+
 export enum CustomFieldLabel {
   CUSTOM_STRING = 'Custom String',
   CUSTOM_STATE = 'Custom State',

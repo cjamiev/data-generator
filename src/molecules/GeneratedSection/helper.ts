@@ -95,13 +95,14 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const randomDate = generateDate(THREE_YEARS_IN_MONTHS, col.selectedBuiltInOptions);
+    const [dateCount, dateModifier] = col.userOptions.split(',');
+    const randomDate = generateDate(Number(dateCount), dateModifier, col.selectedBuiltInOptions);
 
     return randomDate;
   }
 
   if (col.randomType === CustomFieldLabel.BOOLEAN) {
-    const bool = generateBoolean();
+    const bool = generateBoolean(Number(col.userOptions));
 
     return bool ? 'true' : 'false';
   }

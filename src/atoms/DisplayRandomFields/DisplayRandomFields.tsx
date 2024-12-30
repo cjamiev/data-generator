@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IFieldType } from '../../types/randomField';
 
 interface IDisplayRandomFields {
@@ -25,7 +25,7 @@ export const DisplayRandomFields = ({
       </div>
       {columns.map((item: IFieldType, index: number) => {
         return (
-          <div key={item.randomType} className="mb-2 flex flex-row gap-2">
+          <div key={item.variableName} className="mb-2 flex flex-row gap-2">
             <input
               type="text"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {

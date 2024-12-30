@@ -1,13 +1,11 @@
-import { ChangeEvent, useState } from "react";
-import { RandomFieldForm } from "../molecules/RandomFieldForm";
+import { ChangeEvent, useEffect, useState, useMemo } from 'react';
 
 const HomePage = () => {
-
   return (
     <>
-      <p>Test Page</p>
+      <div>Test</div>
     </>
-  )
-}
+  );
+};
 
-export { HomePage }
+export { HomePage };
