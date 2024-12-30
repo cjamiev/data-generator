@@ -54,7 +54,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
     if (selectedType === CustomFieldValue.DATE || selectedType === CustomFieldValue.BOOLEAN) {
       return !isValidName;
     }
-    if (selectedType === CustomFieldValue.CUSTOM_STATE) {
+    if (selectedType === CustomFieldValue.CUSTOM_STATE || selectedType === CustomFieldValue.CUSTOM_STRING) {
       return !isValidName || !(options);
     }
   }

@@ -5,6 +5,7 @@ import { fieldTypes, IFieldType, PredefinedRandomLabel, PredefinedRandomValue, C
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
+import { PageWrapper } from '../layout';
 /*
  * TODO:
  * insert sql template, json, csv switch between formats, preview mode
@@ -37,24 +38,7 @@ export const GeneratorPage = () => {
     PredefinedRandomValue.LAST_NAME,
   ]);
 
-  const validate = () => {
-    const errors = columns.map((item, index) => {
-      if (item.variableName) {
-        return '';
-      } else {
-        return 'Error missing name for entry' + index + ' ' + item.randomType;
-      }
-    });
-
-    return errors.filter(Boolean);
-  };
-
   const generateData = () => {
-    const errors = validate();
-    if (errors[INDEX_ZERO]) {
-      console.error(errors);
-      return;
-    }
     const result: { column: string; value: string }[][] = [];
     for (let i = ZERO; i < rowCount; i++) {
       const currentRow = columns.map((col) => {
@@ -209,10 +193,15 @@ export const GeneratorPage = () => {
     }
   };
 
+  const onHandleScroll = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
   const isGenerateDisabled = columns.length === 0;
 
   return (
-    <div className="m-8">
+    <PageWrapper>
       <DisplayRandomFields
         columns={columns}
         onHandleRemoveField={onHandleRemoveField}
@@ -229,11 +218,12 @@ export const GeneratorPage = () => {
         onClickSelectAll={onClickSelectAll}
         confirmCustomFieldSelection={confirmCustomFieldSelection}
       />
-      <div>
-        <button className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''} disabled={isGenerateDisabled} onClick={generateData}>Generate Data</button>
-        <input type="text" onChange={onHandleCountUpdate} value={rowCount} />
-      </div>
       <GeneratedSection data={data} deleteRow={deleteRowFromData} />
-    </div>
+      <div className='fixed left-0 bottom-0 w-full h-24 border-t-2 border-dashed border-sky-500 bg-white p-4'>
+        <button className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''} disabled={isGenerateDisabled} onClick={generateData}>Generate Data</button>
+        <span className='ml-2'># Rows:</span><input type="text" onChange={onHandleCountUpdate} value={rowCount} />
+        <button className='ml-2' onClick={onHandleScroll} id="myBtn" title="Go to top">Scroll Top</button>
+      </div>
+    </PageWrapper>
   );
 };
