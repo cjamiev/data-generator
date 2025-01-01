@@ -124,7 +124,8 @@ const generatePassword = ({
 };
 
 const PasswordGeneratorPage = () => {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [shouldGeneratePasswords, setShouldGeneratePasswords] = useState<boolean>(false);
+  const [shouldRegenOnChange, setShouldRegenOnChange] = useState<boolean>(true);
   const [generatedPasswords, setGeneratedPasswords] = useState<string[]>(['a', 'b', 'c', 'd', 'e']);
   const [passwordLength, setPasswordLength] = useState<number>(16);
   const [specialCharacters, setSpecialCharacters] = useState<string>(SPECIAL_CHARACTERS);
@@ -134,7 +135,7 @@ const PasswordGeneratorPage = () => {
   const [shouldAllowSequence, setShouldAllowSequence] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!isMounted) {
+    if (!shouldGeneratePasswords) {
       const passwords = [];
       for (let pCount = 0; pCount < 5; pCount++) {
         const content = generatePassword({
@@ -150,10 +151,10 @@ const PasswordGeneratorPage = () => {
       }
 
       setGeneratedPasswords(passwords);
-      setIsMounted(true);
+      setShouldGeneratePasswords(true);
     }
   }, [
-    isMounted,
+    shouldGeneratePasswords,
     passwordLength,
     shouldAllowSequence,
     shouldIncludeLowercasedLetters,
@@ -195,26 +196,48 @@ const PasswordGeneratorPage = () => {
 
   const onHandlePasswordLengthChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswordLength(Number(event.target.value));
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
   };
 
   const onHandleIncludeNumbersChange = () => {
     setShouldIncludeNumbers(!shouldIncludeNumbers);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
   };
 
   const onHandleIncludeLowercasedLettersChange = () => {
     setShouldIncludeLowercasedLetters(!shouldIncludeLowercasedLetters);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
   };
 
   const onHandleIncludeUppercasedLettersChange = () => {
     setShouldIncludeUppercasedLetters(!shouldIncludeUppercasedLetters);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
   };
 
   const onHandleAllowSequenceChange = () => {
     setShouldAllowSequence(!shouldAllowSequence);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
   };
 
   const onHandleSymbolsChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSpecialCharacters(event.target.value);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(false);
+    }
+  };
+
+  const onHandleRegenOnChange = () => {
+    setShouldRegenOnChange(!shouldRegenOnChange);
   };
 
   return (
@@ -235,7 +258,7 @@ const PasswordGeneratorPage = () => {
                 onChange={(event) => onHandlePasswordLengthChange(event)}
               />
             </div>
-            <div className="flex w-80 flex-col rounded-b-lg border-2 border-sky-600 p-4">
+            <div className="flex w-80 flex-col border-2 border-sky-600 p-4">
               <span className="text-2xl font-bold">Include</span>
               <div>
                 <input
@@ -296,12 +319,24 @@ const PasswordGeneratorPage = () => {
                 />
               </div>
             </div>
+            <div className='w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4'>
+              <input
+                className="mr-2 w-6"
+                onChange={onHandleRegenOnChange}
+                type="checkbox"
+                id="should-regen-on-change"
+                checked={shouldRegenOnChange}
+              />
+              <label className="w-32 pt-2" htmlFor="should-regen-on-change">
+                Regenerate Password On Change
+              </label>
+            </div>
           </div>
           <div className="ml-2 w-fit rounded border-2 border-sky-600 p-8">
             {generatedPasswords.map((password, index) => {
               return (
                 <div key={password} className="mt-2 flex gap-4">
-                  <span className="mt-3 w-60 font-mono text-2xl">{password}</span>
+                  <span className="mt-3 w-fit min-w-60 font-mono text-2xl">{password}</span>
                   <button className="w-32 shadow-md" onClick={() => copyToClipboard(password)}>
                     copy
                   </button>
