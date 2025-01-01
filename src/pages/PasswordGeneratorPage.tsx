@@ -2,22 +2,30 @@ import { ChangeEvent, useEffect, useState, useCallback } from 'react';
 import { copyToClipboard } from '../utils/copy';
 import { PageWrapper } from '../layout';
 
-// no duplicate, no repeated, number count, number position, using words
-const letters = 'abcdefghijklmnopqrstuvwxyz';
-const uppercasedletters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const numbers = '0123456789';
+/*
+ * TODO: Refactor code: Split into smaller components
+ * Missing features
+ * - Readable password made of real words
+ * - No repeated characters in a sequence
+ * - No duplicate character
+ * - Limit number of occurance of a particular character
+ */
+const LOWERCASED_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
+const UPPERCASED_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const NUMBERS = '0123456789';
 const SPECIAL_CHARACTERS = '`~!@#$%^&*=+-_\\/|,.;(){}[]<>';
+const ERROR_MESSAGE = 'NOT ENOUGH CHARACTERS TO WORK WITH!';
 
 const getNumbers = (shouldIncludeNumbers: boolean) => {
-  return shouldIncludeNumbers ? numbers.split('') : [];
+  return shouldIncludeNumbers ? NUMBERS.split('') : [];
 };
 
 const getLowercasedLetters = (shouldIncludeLowercasedLetters: boolean) => {
-  return shouldIncludeLowercasedLetters ? letters.split('') : [];
+  return shouldIncludeLowercasedLetters ? LOWERCASED_LETTERS.split('') : [];
 };
 
 const getUppercasedLetters = (shouldIncludeUppercasedLetters: boolean) => {
-  return shouldIncludeUppercasedLetters ? uppercasedletters.split('') : [];
+  return shouldIncludeUppercasedLetters ? UPPERCASED_LETTERS.split('') : [];
 };
 
 interface IGetCharactersProp {
@@ -72,16 +80,16 @@ const getNextCharacter = ({
     const index = Math.floor(Math.random() * size);
     const currentChar = allPossibilities[index];
 
-    // Need to unit test this section
     foundChar =
-      index > 0 && allPossibilities[index - 1] === oneCharacterBack && allPossibilities[index - 1] === twoCharactersBack
+      index > 0 && allPossibilities[index - 1] === oneCharacterBack && allPossibilities[index - 2] === twoCharactersBack
         ? ''
         : currentChar;
+
     loopCounter++;
   }
 
   if (loopCounter > 99) {
-    console.error('Loop Counter hit:', loopCounter);
+    console.error('Max Loop Counter Hit');
   }
 
   return foundChar;
@@ -103,7 +111,7 @@ const generatePassword = ({
   });
 
   if (allPossibilities.length === 0) {
-    return 'NOT ENOUGH CHARACTERS TO WORK WITH!';
+    return ERROR_MESSAGE;
   }
 
   const generated: string[] = [];
@@ -124,7 +132,7 @@ const generatePassword = ({
 };
 
 const PasswordGeneratorPage = () => {
-  const [shouldGeneratePasswords, setShouldGeneratePasswords] = useState<boolean>(false);
+  const [shouldGeneratePasswords, setShouldGeneratePasswords] = useState<boolean>(true);
   const [shouldRegenOnChange, setShouldRegenOnChange] = useState<boolean>(true);
   const [generatedPasswords, setGeneratedPasswords] = useState<string[]>(['a', 'b', 'c', 'd', 'e']);
   const [passwordLength, setPasswordLength] = useState<number>(16);
@@ -135,7 +143,7 @@ const PasswordGeneratorPage = () => {
   const [shouldAllowSequence, setShouldAllowSequence] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!shouldGeneratePasswords) {
+    if (shouldGeneratePasswords) {
       const passwords = [];
       for (let pCount = 0; pCount < 5; pCount++) {
         const content = generatePassword({
@@ -151,7 +159,7 @@ const PasswordGeneratorPage = () => {
       }
 
       setGeneratedPasswords(passwords);
-      setShouldGeneratePasswords(true);
+      setShouldGeneratePasswords(false);
     }
   }, [
     shouldGeneratePasswords,
@@ -197,48 +205,60 @@ const PasswordGeneratorPage = () => {
   const onHandlePasswordLengthChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswordLength(Number(event.target.value));
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleIncludeNumbersChange = () => {
     setShouldIncludeNumbers(!shouldIncludeNumbers);
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleIncludeLowercasedLettersChange = () => {
     setShouldIncludeLowercasedLetters(!shouldIncludeLowercasedLetters);
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleIncludeUppercasedLettersChange = () => {
     setShouldIncludeUppercasedLetters(!shouldIncludeUppercasedLetters);
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleAllowSequenceChange = () => {
     setShouldAllowSequence(!shouldAllowSequence);
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleSymbolsChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSpecialCharacters(event.target.value);
     if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(false);
+      setShouldGeneratePasswords(true);
     }
   };
 
   const onHandleRegenOnChange = () => {
     setShouldRegenOnChange(!shouldRegenOnChange);
   };
+
+  const reset = () => {
+    setShouldRegenOnChange(true);
+    setPasswordLength(16);
+    setSpecialCharacters(SPECIAL_CHARACTERS);
+    setShouldIncludeNumbers(true);
+    setShouldIncludeLowercasedLetters(true);
+    setShouldIncludeUppercasedLetters(true);
+    setShouldAllowSequence(false);
+  };
+
+  const hasError = generatedPasswords[0] !== ERROR_MESSAGE;
 
   return (
     <PageWrapper>
@@ -319,7 +339,7 @@ const PasswordGeneratorPage = () => {
                 />
               </div>
             </div>
-            <div className='w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4'>
+            <div className="w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4">
               <input
                 className="mr-2 w-6"
                 onChange={onHandleRegenOnChange}
@@ -330,27 +350,39 @@ const PasswordGeneratorPage = () => {
               <label className="w-32 pt-2" htmlFor="should-regen-on-change">
                 Regenerate Password On Change
               </label>
+              <button className="ml-16 mt-4 w-32 shadow-md" onClick={reset}>
+                Reset Options
+              </button>
             </div>
           </div>
           <div className="ml-2 w-fit rounded border-2 border-sky-600 p-8">
-            {generatedPasswords.map((password, index) => {
-              return (
-                <div key={password} className="mt-2 flex gap-4">
-                  <span className="mt-3 w-fit min-w-60 font-mono text-2xl">{password}</span>
-                  <button className="w-32 shadow-md" onClick={() => copyToClipboard(password)}>
-                    copy
-                  </button>
-                  <button className="w-32 shadow-md" onClick={() => regeneratePassword(index)}>
-                    regenerate
-                  </button>
-                </div>
-              );
-            })}
-            <button
-              className="ml-48 mt-4 w-32 shadow-md"
-              onClick={() => copyToClipboard(generatedPasswords.join('\n'))}>
-              copy all
-            </button>
+            {generatedPasswords[0] !== ERROR_MESSAGE ? (
+              generatedPasswords.map((password, index) => {
+                return (
+                  <div key={password} className="mt-2 flex gap-4">
+                    <span className="mt-3 w-fit min-w-60 font-mono text-2xl">{password}</span>
+                    <button className="w-32 shadow-md" onClick={() => copyToClipboard(password)}>
+                      Copy
+                    </button>
+                    <button className="w-32 shadow-md" onClick={() => regeneratePassword(index)}>
+                      Regenerate
+                    </button>
+                  </div>
+                );
+              })
+            ) : (
+              <div>{ERROR_MESSAGE}</div>
+            )}
+            {hasError ? (
+              <div className="flex items-center justify-center pt-4">
+                <button className="mr-4 w-32 shadow-md" onClick={() => copyToClipboard(generatedPasswords.join('\n'))}>
+                  Copy All
+                </button>
+                <button className="w-32 shadow-md" onClick={() => setShouldGeneratePasswords(true)}>
+                  Regenerate All
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </>
