@@ -14,12 +14,22 @@ import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldFo
 import { PageWrapper } from '../layout';
 /*
  * TODO:
- * insert sql template, json, csv switch between formats, preview mode
- * Color Code, Time Stamp
- * Words, Fake Words, Password, Sentence
- * Money, Formula (compute from other columns/values), Geometric/Weighted Distributed Number
- * improve email generator, with the name
- * improve Custom format string generator
+ * Hi Priority Features
+ * - Fix Date Field, Fix Edit Mode
+ * - Formula (sequence, compute from other columns/values)
+ * - Money, Geometric/Weighted Distributed Number
+ * - Time Field
+ * - weighted range of numbers
+ * - Download Result, CSV, HTML, JSON, Insert SQL
+ * Lo Priority Features
+ * - Improve email generator with the name
+ * - Words, Fake Words, Sentence
+ * - Escape Characters in Custom String Fix
+ * - Sort Column, Collapse Column
+ * - Edit Row, Delete Row
+ * - Convert Input File to Fields
+ * - Frequency: Never, Once, Daily, Weekly, Monthly, Yearly
+ * - Height, Bloodtype, weight, shirt size, profession, race, title
  */
 
 const INDEX_ZERO = 0;
@@ -209,6 +219,7 @@ export const GeneratorPage = () => {
   return (
     <PageWrapper>
       <>
+        <h1 className="text-6xl">Data Generator</h1>
         <DisplayRandomFields
           columns={columns}
           onHandleRemoveField={onHandleRemoveField}

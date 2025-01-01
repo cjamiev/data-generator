@@ -4,8 +4,9 @@ import { PageWrapper } from '../layout';
 
 /*
  * TODO: Refactor code: Split into smaller components
- * Missing features
+ * Hi Priority Missing features
  * - Readable password made of real words
+ * Lo Priority Missing features
  * - No duplicate character
  * - Limit number of occurance of a particular character
  */
@@ -72,8 +73,13 @@ const getCharacterWithCheck = ({
   const index = Math.floor(Math.random() * size);
   const currentChar = allPossibilities[index];
 
-  const isInSequence = !shouldAllowSequence && index > 1 && allPossibilities[index - 1] === oneCharacterBack && allPossibilities[index - 2] === twoCharactersBack;
-  const isTripleRepeat = !shouldAllowTripleRepeat && currentChar === oneCharacterBack && currentChar === twoCharactersBack;
+  const isInSequence =
+    !shouldAllowSequence &&
+    index > 1 &&
+    allPossibilities[index - 1] === oneCharacterBack &&
+    allPossibilities[index - 2] === twoCharactersBack;
+  const isTripleRepeat =
+    !shouldAllowTripleRepeat && currentChar === oneCharacterBack && currentChar === twoCharactersBack;
 
   if (isInSequence || isTripleRepeat) {
     return ''; // Not valid character
@@ -386,7 +392,7 @@ const PasswordGeneratorPage = () => {
               </div>
               <div>
                 <input
-                  className="w-64 rounded border-2 border-sky-700 p-4"
+                  className="h-8 w-64 rounded border-2 border-sky-700 p-4"
                   type="text"
                   onChange={(event) => {
                     onHandleSymbolsChange(event);

@@ -1,6 +1,6 @@
 # data-generator
 Primary use is to generate mock data.
-Specifically used to generate for other project: SQL, CSV, JSON, or even Code
+Specifically used to generate data for other project: SQL, CSV, JSON, or even Code
 
 Examples of generated content
 - user info: Name, Phone Number, Address, SSN, etc
@@ -21,3 +21,34 @@ Examples of generated content
 - refactor: code restructuring
 - test: missing or updating tests
 - chore: scripts
+
+# Current Features
+- Password Generator
+- Base 64 Encode/Decode
+
+## Future Features
+Hi Priority
+- Form Generator
+  - Specify Button, input
+  - general html or react code
+  - useReducer vs useState
+  - useContext, useCustomHook
+  - unit test generation
+- Other
+  - Database 
+    - articles, nouns, adjectives, verbs
+    - colors
+    - plants, animals, vegetables, fruits 
+    - word { name, definition, type, tags }
+  - convert variable name to dashcase, camelcase
+- CSS Generator
+  - Wave/shape maker
+  - Color Picker (hex, rgb)
+  - SVG shapes and animation
+Lo Priority
+- Face Generator
+  - generate cards with fake people
+- Random Text Generator
+  - word
+  - lorem ipsum
+  - playing cards, dice
