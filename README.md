@@ -25,6 +25,7 @@ Examples of generated content
 # Current Features
 - Password Generator
 - Base 64 Encode/Decode
+- Paragraph Generator: lorem ipsum
 
 ## Future Features
 Hi Priority
@@ -48,7 +49,6 @@ Hi Priority
 Lo Priority
 - Face Generator
   - generate cards with fake people
-- Random Text Generator
-  - word
-  - lorem ipsum
+- Other
+  - realistic looking but fake word
   - playing cards, dice

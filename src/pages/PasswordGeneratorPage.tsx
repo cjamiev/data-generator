@@ -6,6 +6,7 @@ import { PageWrapper } from '../layout';
  * TODO: Refactor code: Split into smaller components
  * Hi Priority Missing features
  * - Readable password made of real words
+ * - Add confirmation message on copy password(s)
  * Lo Priority Missing features
  * - No duplicate character
  * - Limit number of occurance of a particular character

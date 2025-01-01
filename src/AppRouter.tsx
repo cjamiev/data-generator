@@ -4,6 +4,7 @@ import { ErrorPage } from './pages/ErrorPage';
 import { HomePage } from './pages/HomePage';
 import { GeneratorPage } from './pages/GeneratorPage';
 import { PasswordGeneratorPage } from './pages/PasswordGeneratorPage';
+import { ParagraphGeneratorPage } from './pages/ParagraphGeneratorPage';
 import { EncodePage } from './pages/EncodePage';
 
 export default function AppRouter() {
@@ -14,6 +15,7 @@ export default function AppRouter() {
           <Route index element={<HomePage />} />
           <Route path="data-generator" element={<GeneratorPage />} />
           <Route path="password-generator" element={<PasswordGeneratorPage />} />
+          <Route path="paragraph-generator" element={<ParagraphGeneratorPage />} />
           <Route path="encode" element={<EncodePage />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>

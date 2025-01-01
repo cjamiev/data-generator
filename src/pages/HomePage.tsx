@@ -1,10 +1,13 @@
 import { ChangeEvent, useEffect, useState, useMemo } from 'react';
+import { PageWrapper } from '../layout';
 
 const HomePage = () => {
   return (
-    <>
-      <div>Home Page</div>
-    </>
+    <PageWrapper>
+      <>
+        <h1 className="mb-4 text-6xl">Home Page</h1>
+      </>
+    </PageWrapper>
   );
 };
 
