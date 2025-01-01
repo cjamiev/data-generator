@@ -313,7 +313,7 @@ const PasswordGeneratorPage = () => {
   return (
     <PageWrapper>
       <>
-        <h1 className="text-6xl">Password Generator</h1>
+        <h1 className="mb-4 text-6xl">Password Generator</h1>
         <div className="flex">
           <div>
             <div className="w-80 rounded-t-lg border-l-2 border-r-2 border-t-2 border-sky-600 p-4">

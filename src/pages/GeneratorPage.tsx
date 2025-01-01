@@ -219,7 +219,7 @@ export const GeneratorPage = () => {
   return (
     <PageWrapper>
       <>
-        <h1 className="text-6xl">Data Generator</h1>
+        <h1 className="mb-4 text-6xl">Data Generator</h1>
         <DisplayRandomFields
           columns={columns}
           onHandleRemoveField={onHandleRemoveField}
