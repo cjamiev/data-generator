@@ -218,7 +218,3 @@ nav>ul {
     border-bottom: 1px solid #ccc;
     width: fit-content;
 }
-
-nav>ul>li {
-    cursor: pointer
-}
