@@ -6,7 +6,6 @@ import { PageWrapper } from '../layout';
  * TODO: Refactor code: Split into smaller components
  * Missing features
  * - Readable password made of real words
- * - No repeated characters in a sequence
  * - No duplicate character
  * - Limit number of occurance of a particular character
  */
@@ -39,6 +38,7 @@ interface IGetPasswordProp {
   shouldIncludeLowercasedLetters: boolean;
   shouldIncludeUppercasedLetters: boolean;
   shouldAllowSequence: boolean;
+  shouldAllowTripleRepeat: boolean;
   specialCharacters: string[];
   passwordLength: number;
 }
@@ -55,19 +55,48 @@ const getAllCharacters = ({
   return [...upperLetterList, ...lowerLetterList, ...numList, ...specialCharacters];
 };
 
-const getNextCharacter = ({
+const getCharacterWithCheck = ({
   oneCharacterBack,
   twoCharactersBack,
   shouldAllowSequence,
+  shouldAllowTripleRepeat,
   allPossibilities,
 }: {
   oneCharacterBack: string;
   twoCharactersBack: string;
   shouldAllowSequence: boolean;
+  shouldAllowTripleRepeat: boolean;
   allPossibilities: string[];
 }) => {
   const size = allPossibilities.length;
-  if (shouldAllowSequence) {
+  const index = Math.floor(Math.random() * size);
+  const currentChar = allPossibilities[index];
+
+  const isInSequence = !shouldAllowSequence && index > 1 && allPossibilities[index - 1] === oneCharacterBack && allPossibilities[index - 2] === twoCharactersBack;
+  const isTripleRepeat = !shouldAllowTripleRepeat && currentChar === oneCharacterBack && currentChar === twoCharactersBack;
+
+  if (isInSequence || isTripleRepeat) {
+    return ''; // Not valid character
+  }
+
+  return currentChar;
+};
+
+const getNextCharacter = ({
+  oneCharacterBack,
+  twoCharactersBack,
+  shouldAllowSequence,
+  shouldAllowTripleRepeat,
+  allPossibilities,
+}: {
+  oneCharacterBack: string;
+  twoCharactersBack: string;
+  shouldAllowSequence: boolean;
+  shouldAllowTripleRepeat: boolean;
+  allPossibilities: string[];
+}) => {
+  const size = allPossibilities.length;
+  if (shouldAllowSequence && shouldAllowTripleRepeat) {
     const index = Math.floor(Math.random() * size);
     const currentChar = allPossibilities[index];
 
@@ -77,13 +106,13 @@ const getNextCharacter = ({
   let foundChar = '';
   let loopCounter = 0;
   while (!foundChar && loopCounter < 100) {
-    const index = Math.floor(Math.random() * size);
-    const currentChar = allPossibilities[index];
-
-    foundChar =
-      index > 0 && allPossibilities[index - 1] === oneCharacterBack && allPossibilities[index - 2] === twoCharactersBack
-        ? ''
-        : currentChar;
+    foundChar = getCharacterWithCheck({
+      oneCharacterBack,
+      twoCharactersBack,
+      shouldAllowSequence,
+      shouldAllowTripleRepeat,
+      allPossibilities,
+    });
 
     loopCounter++;
   }
@@ -100,6 +129,7 @@ const generatePassword = ({
   shouldIncludeLowercasedLetters,
   shouldIncludeUppercasedLetters,
   shouldAllowSequence,
+  shouldAllowTripleRepeat,
   specialCharacters,
   passwordLength,
 }: IGetPasswordProp) => {
@@ -122,6 +152,7 @@ const generatePassword = ({
       oneCharacterBack,
       twoCharactersBack,
       shouldAllowSequence,
+      shouldAllowTripleRepeat,
       allPossibilities,
     });
 
@@ -141,6 +172,7 @@ const PasswordGeneratorPage = () => {
   const [shouldIncludeLowercasedLetters, setShouldIncludeLowercasedLetters] = useState<boolean>(true);
   const [shouldIncludeUppercasedLetters, setShouldIncludeUppercasedLetters] = useState<boolean>(true);
   const [shouldAllowSequence, setShouldAllowSequence] = useState<boolean>(false);
+  const [shouldAllowTripleRepeat, setShouldAllowTripleRepeat] = useState<boolean>(false);
 
   useEffect(() => {
     if (shouldGeneratePasswords) {
@@ -151,6 +183,7 @@ const PasswordGeneratorPage = () => {
           shouldIncludeLowercasedLetters,
           shouldIncludeUppercasedLetters,
           shouldAllowSequence,
+          shouldAllowTripleRepeat,
           specialCharacters: specialCharacters.split(''),
           passwordLength,
         });
@@ -163,12 +196,14 @@ const PasswordGeneratorPage = () => {
     }
   }, [
     shouldGeneratePasswords,
-    passwordLength,
-    shouldAllowSequence,
-    shouldIncludeLowercasedLetters,
+    generatedPasswords,
     shouldIncludeNumbers,
+    shouldIncludeLowercasedLetters,
     shouldIncludeUppercasedLetters,
+    shouldAllowSequence,
+    shouldAllowTripleRepeat,
     specialCharacters,
+    passwordLength,
   ]);
 
   const regeneratePassword = useCallback(
@@ -178,6 +213,7 @@ const PasswordGeneratorPage = () => {
         shouldIncludeLowercasedLetters,
         shouldIncludeUppercasedLetters,
         shouldAllowSequence,
+        shouldAllowTripleRepeat,
         specialCharacters: specialCharacters.split(''),
         passwordLength,
       });
@@ -197,6 +233,7 @@ const PasswordGeneratorPage = () => {
       shouldIncludeLowercasedLetters,
       shouldIncludeUppercasedLetters,
       shouldAllowSequence,
+      shouldAllowTripleRepeat,
       specialCharacters,
       passwordLength,
     ]
@@ -232,6 +269,13 @@ const PasswordGeneratorPage = () => {
 
   const onHandleAllowSequenceChange = () => {
     setShouldAllowSequence(!shouldAllowSequence);
+    if (shouldRegenOnChange) {
+      setShouldGeneratePasswords(true);
+    }
+  };
+
+  const onHandleAllowTripleRepeatChange = () => {
+    setShouldAllowTripleRepeat(!shouldAllowTripleRepeat);
     if (shouldRegenOnChange) {
       setShouldGeneratePasswords(true);
     }
@@ -326,6 +370,18 @@ const PasswordGeneratorPage = () => {
                 />
                 <label className="w-32 pt-2" htmlFor="should-allow-sequence">
                   Allow Sequence (e.g. 123 or abc)
+                </label>
+              </div>
+              <div>
+                <input
+                  className="mr-2 w-6"
+                  onChange={onHandleAllowTripleRepeatChange}
+                  type="checkbox"
+                  id="should-triple-repeat"
+                  checked={shouldAllowTripleRepeat}
+                />
+                <label className="w-32 pt-2" htmlFor="should-triple-repeat">
+                  Allow Triple Repeat (e.g. 111 or aaa)
                 </label>
               </div>
               <div>
