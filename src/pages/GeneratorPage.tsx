@@ -1,7 +1,13 @@
 import React, { ChangeEvent, useState } from 'react';
 import { GeneratedSection } from '../molecules/GeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
-import { fieldTypes, IFieldType, PredefinedRandomLabel, PredefinedRandomValue, CustomFieldLabel } from '../types/randomField';
+import {
+  fieldTypes,
+  IFieldType,
+  PredefinedRandomLabel,
+  PredefinedRandomValue,
+  CustomFieldLabel,
+} from '../types/randomField';
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
@@ -180,7 +186,7 @@ export const GeneratorPage = () => {
     const updatedNewField = {
       ...newField,
       variableName: field.variableName,
-      userOptions: field.options
+      userOptions: field.options,
     } as IFieldType;
     setColumns(columns.concat([updatedNewField]));
   };
@@ -196,34 +202,44 @@ export const GeneratorPage = () => {
   const onHandleScroll = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-  }
+  };
 
   const isGenerateDisabled = columns.length === 0;
 
   return (
     <PageWrapper>
-      <DisplayRandomFields
-        columns={columns}
-        onHandleRemoveField={onHandleRemoveField}
-        onHandleColumnNameChange={onHandleColumnNameChange}
-        onHandleColumnOptionsChange={onHandleColumnOptionsChange}
-        onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
-        onHandleDataTypeChange={onHandleDataTypeChange}
-        onHandleFormTypeChange={onHandleFormTypeChange}
-      />
-      <RandomFieldForm
-        predefinedSelection={predefinedSelection}
-        updatePredefinedSelection={updatePredefinedSelection}
-        confirmPredfinedSelection={confirmPredfinedSelection}
-        onClickSelectAll={onClickSelectAll}
-        confirmCustomFieldSelection={confirmCustomFieldSelection}
-      />
-      <GeneratedSection data={data} deleteRow={deleteRowFromData} />
-      <div className='fixed left-0 bottom-0 w-full h-24 border-t-2 border-dashed border-sky-500 bg-white p-4'>
-        <button className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''} disabled={isGenerateDisabled} onClick={generateData}>Generate Data</button>
-        <span className='ml-2'># Rows:</span><input type="text" onChange={onHandleCountUpdate} value={rowCount} />
-        <button className='ml-2' onClick={onHandleScroll} id="myBtn" title="Go to top">Scroll Top</button>
-      </div>
+      <>
+        <DisplayRandomFields
+          columns={columns}
+          onHandleRemoveField={onHandleRemoveField}
+          onHandleColumnNameChange={onHandleColumnNameChange}
+          onHandleColumnOptionsChange={onHandleColumnOptionsChange}
+          onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
+          onHandleDataTypeChange={onHandleDataTypeChange}
+          onHandleFormTypeChange={onHandleFormTypeChange}
+        />
+        <RandomFieldForm
+          predefinedSelection={predefinedSelection}
+          updatePredefinedSelection={updatePredefinedSelection}
+          confirmPredfinedSelection={confirmPredfinedSelection}
+          onClickSelectAll={onClickSelectAll}
+          confirmCustomFieldSelection={confirmCustomFieldSelection}
+        />
+        <GeneratedSection data={data} deleteRow={deleteRowFromData} />
+        <div className="fixed bottom-0 left-0 h-24 w-full border-t-2 border-dashed border-sky-500 bg-white p-4">
+          <button
+            className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''}
+            disabled={isGenerateDisabled}
+            onClick={generateData}>
+            Generate Data
+          </button>
+          <span className="ml-2"># Rows:</span>
+          <input type="text" onChange={onHandleCountUpdate} value={rowCount} />
+          <button className="ml-2" onClick={onHandleScroll} id="myBtn" title="Go to top">
+            Scroll Top
+          </button>
+        </div>
+      </>
     </PageWrapper>
   );
 };

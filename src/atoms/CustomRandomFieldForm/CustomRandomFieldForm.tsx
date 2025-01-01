@@ -38,8 +38,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
   const submitNewField = () => {
     if (selectedType === CustomFieldValue.DATE) {
       onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + dateModifier });
-    }
-    else if (selectedType === CustomFieldValue.BOOLEAN) {
+    } else if (selectedType === CustomFieldValue.BOOLEAN) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
         options: String(booleanWeight),
@@ -55,16 +54,18 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
       return !isValidName;
     }
     if (selectedType === CustomFieldValue.CUSTOM_STATE || selectedType === CustomFieldValue.CUSTOM_STRING) {
-      return !isValidName || !(options);
+      return !isValidName || !options;
     }
-  }
+  };
 
   const isConfirmDisabled = getShouldDisableConfirm();
 
   return (
     <div className="relative left-1/4 top-1/4 h-2/5 w-1/2 rounded border border-gray-500 bg-white p-4">
       <h2 className="mb-4 border-b-2 border-dashed border-sky-500 text-3xl">Specify Custom Field</h2>
-      <button className="absolute right-0 top-0 h-fit w-fit border-none" onClick={onHandleCancel}>X</button>
+      <button className="absolute right-0 top-0 h-fit w-fit border-none" onClick={onHandleCancel}>
+        X
+      </button>
       <div className="flex">
         <input
           onChange={() => setSelectedType(CustomFieldValue.DATE)}
@@ -114,12 +115,13 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
       <div className="pb-2 pt-4">
         <label className="mr-12">Name</label>
         <input
+          className="w-48 rounded border-2 border-gray-500 p-4"
           type="text"
           onChange={(event) => {
             onHandleNameChange(event);
           }}
           name="variable_name"
-          placeholder='Enter Column Name'
+          placeholder="Enter Column Name"
           value={columnName}
         />
       </div>
@@ -179,7 +181,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
         </div>
       )}
       {selectedType === CustomFieldValue.BOOLEAN && (
-        <div className='flex flex-row'>
+        <div className="flex flex-row">
           <div className="pb-4 pt-4">
             <label className="mr-4">True Weight: {booleanWeight}%</label>
             <label className="mr-4">False Weight: {100 - booleanWeight}%</label>
@@ -200,6 +202,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
         <div className="pb-4 pt-4">
           <label className="mr-11">States</label>
           <input
+            className="w-48 rounded border-2 border-gray-500 p-4"
             type="text"
             placeholder="state1, state2, state3"
             onChange={(event) => {
@@ -208,13 +211,14 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
             name="state-options"
             value={options}
           />
-          <span className="mt-2 ml-2 text-gray-400">Add Comma Separated Values</span>
+          <span className="ml-2 mt-2 text-gray-400">Add Comma Separated Values</span>
         </div>
       )}
       {selectedType === CustomFieldValue.CUSTOM_STRING && (
-        <div className="pb-4 pt-4 relative">
+        <div className="relative pb-4 pt-4">
           <label className="mr-14">Text </label>
           <input
+            className="w-48 rounded border-2 border-gray-500 p-4"
             type="text"
             placeholder="#@&:^"
             onChange={(event) => {
@@ -224,16 +228,21 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
             value={options}
           />
           <div className="absolute bottom-4 right-32 w-32 text-wrap">
-            <div className='text-gray-400'># - Digit</div>
-            <div className='text-gray-400'>@ - Letter</div>
-            <div className='text-gray-400'>& - Alphanumeric</div>
-            <div className='text-gray-400'>: - time</div>
-            <div className='text-gray-400'>^ - count</div>
+            <div className="text-gray-400"># - Digit</div>
+            <div className="text-gray-400">@ - Letter</div>
+            <div className="text-gray-400">& - Alphanumeric</div>
+            <div className="text-gray-400">: - time</div>
+            <div className="text-gray-400">^ - count</div>
           </div>
         </div>
       )}
       <div className="border-t-2 border-dashed border-sky-500 pt-4">
-        <button className={isConfirmDisabled ? 'bg-gray-300 cursor-not-allowed' : ''} disabled={isConfirmDisabled} onClick={submitNewField}>Confirm</button>
+        <button
+          className={isConfirmDisabled ? 'cursor-not-allowed bg-gray-300' : ''}
+          disabled={isConfirmDisabled}
+          onClick={submitNewField}>
+          Confirm
+        </button>
       </div>
     </div>
   );

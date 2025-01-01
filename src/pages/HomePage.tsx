@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState, useMemo } from 'react';
 const HomePage = () => {
   return (
     <>
-      <div>Test</div>
+      <div>Home Page</div>
     </>
   );
 };

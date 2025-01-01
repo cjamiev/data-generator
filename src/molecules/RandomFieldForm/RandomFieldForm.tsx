@@ -40,12 +40,12 @@ const RandomFieldForm = ({
 
   const cancelNewFieldSelection = () => {
     setShowCustomFields(false);
-  }
+  };
 
   return (
     <>
       {showCustomFields && (
-        <div className="absolute left-0 top-0 h-full w-full backdrop-brightness-50 z-10">
+        <div className="absolute left-0 top-0 z-10 h-full w-full backdrop-brightness-50">
           <CustomRandomFieldForm
             onHandleConfirm={onClickConfirmForCustomField}
             onHandleCancel={cancelNewFieldSelection}
@@ -53,7 +53,7 @@ const RandomFieldForm = ({
         </div>
       )}
       {showPredefinedFields && (
-        <div className="absolute left-0 top-0 h-full w-full backdrop-brightness-50 z-10">
+        <div className="absolute left-0 top-0 z-10 h-full w-full backdrop-brightness-50">
           <PredefinedFieldForm
             predefinedSelection={predefinedSelection}
             onHandleSelection={updatePredefinedSelection}

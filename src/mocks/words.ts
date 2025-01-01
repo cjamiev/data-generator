@@ -33,20 +33,20 @@ export const animals: string[] = [
   'ant', 'bird', 'cat', 'dog', 'ferret', 'fish', 'hambster', 'monkey', 'rabbit'
 ];
 export const plants: string[] = [
-  'Bamboo',
-  'Cactus',
-  'Daffodil',
-  'Dandalion',
-  'Pine',
-  'Petunia',
-  'Oak',
-  'Rose',
-  'Lily',
-  'Sunflower',
-  'Orchid',
-  'Venus Fly Trap',
-  'Violet',
-  'Grass',
+  'bamboo',
+  'cactus',
+  'daffodil',
+  'dandalion',
+  'pine',
+  'petunia',
+  'oak',
+  'rose',
+  'lily',
+  'sunflower',
+  'orchid',
+  'venus fly trap',
+  'violet',
+  'grass',
 ];
 
 export const everything = [...fruits, ...vegetables, ...animals, ...plants];
