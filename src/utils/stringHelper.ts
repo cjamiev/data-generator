@@ -9,7 +9,29 @@ const capitalizeFirstLetter = (text: string) => {
   return text.charAt(ZERO).toUpperCase() + text.slice(ONE);
 };
 
+const formatMoney = (amount: number) => {
+  const amountAsString = String(amount).split('')
+  const length = amountAsString.length;
+
+  if (length < 4) {
+    return `$${amount}`
+  }
+
+  const amountAry = [];
+  for (let i = 0; i < length; i++) {
+    if (i !== 0 && i % 3 === 0) {
+      amountAry.push(amountAsString[length - i - 1] + ',');
+    }
+    else {
+      amountAry.push(amountAsString[length - i - 1]);
+    }
+  }
+
+  return `$${amountAry.reverse().join('')}`;
+}
+
 export {
   lowerCaseFirstLetter,
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  formatMoney
 };

@@ -17,6 +17,14 @@ const INDEX_FOR_SEPTEMBER = 9;
 const INDEX_FOR_NOVEMBER = 11;
 const today = new Date();
 
+// Helper for weighted range only
+const getDigitRange = (digitLength: number) => {
+  const min = digitLength === 1 ? '0' : '1' + Array.from({ length: digitLength - 1 }, () => '0').join('');
+  const max = Array.from({ length: digitLength }, () => '9').join('');
+
+  return { min: Number(min), max: Number(max) }
+}
+
 const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);
 };
@@ -47,6 +55,30 @@ const generateBoolean = (booleanWeight: number): boolean => {
 const generateRange = (min: number, max: number) => {
   return getRandomInt(max - min + 1) + min;
 };
+
+const generateWeightedRangeValue = (min: number, max: number) => {
+  const minDigitLength = String(min).length;
+  const maxDigitLength = String(max).length;
+
+  if (maxDigitLength === minDigitLength) {
+    return generateRange(min, max);
+  }
+
+  const digitLength = generateRange(minDigitLength, maxDigitLength);
+  const range = getDigitRange(digitLength)
+
+  if (digitLength > minDigitLength && digitLength < maxDigitLength) {
+    return generateRange(range.min, range.max);
+  }
+
+  if (digitLength === minDigitLength) {
+    return generateRange(min, range.max);
+  }
+
+  if (digitLength === maxDigitLength) {
+    return generateRange(range.min, max);
+  }
+}
 
 const customStringGenerator = (input: string, index: number) => {
   const content = input.split('');
@@ -123,5 +155,6 @@ export {
   generateDate,
   generateCustomState,
   generateRange,
+  generateWeightedRangeValue,
   customStringGenerator
 };
