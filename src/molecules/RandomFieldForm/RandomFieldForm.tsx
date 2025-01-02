@@ -8,6 +8,7 @@ interface IRandomFieldForm {
   confirmPredfinedSelection: () => void;
   onClickSelectAll: () => void;
   confirmCustomFieldSelection: (selectedType: string, field: IRandomField) => void;
+  currentLength: number;
 }
 
 const RandomFieldForm = ({
@@ -16,6 +17,7 @@ const RandomFieldForm = ({
   confirmPredfinedSelection,
   onClickSelectAll,
   confirmCustomFieldSelection,
+  currentLength,
 }: IRandomFieldForm) => {
   const [showCustomFields, setShowCustomFields] = useState<boolean>(false);
   const [showPredefinedFields, setShowPredifinedFields] = useState<boolean>(false);
@@ -49,6 +51,7 @@ const RandomFieldForm = ({
           <CustomRandomFieldForm
             onHandleConfirm={onClickConfirmForCustomField}
             onHandleCancel={cancelNewFieldSelection}
+            currentLength={currentLength}
           />
         </div>
       )}

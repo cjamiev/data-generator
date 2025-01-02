@@ -14,10 +14,6 @@ import { PageWrapper } from '../layout';
 /*
  * TODO: Refactor
  * Hi Priority Features
- * - Formula (sequence, compute from other columns/values)
- * - Money, Geometric/Weighted Distributed Number
- * - Time Field
- * - weighted range of numbers
  * - Download Result, CSV, HTML, JSON, Insert SQL
  * - Move Fields up and down
  * Lo Priority Features
@@ -224,6 +220,7 @@ export const GeneratorPage = () => {
           onHandleFormTypeChange={onHandleFormTypeChange}
         />
         <RandomFieldForm
+          currentLength={columns.length}
           predefinedSelection={predefinedSelection}
           updatePredefinedSelection={updatePredefinedSelection}
           confirmPredfinedSelection={confirmPredfinedSelection}

@@ -9,12 +9,13 @@ export interface IRandomField {
 interface ICustomRandomFieldForm {
   onHandleConfirm: (selectedType: string, field: IRandomField) => void;
   onHandleCancel: () => void;
+  currentLength: number;
 }
 
 // Todo: Date Future vs Past
-const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRandomFieldForm) => {
+const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength }: ICustomRandomFieldForm) => {
   const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.DATE);
-  const [columnName, setColumnName] = useState<string>('');
+  const [columnName, setColumnName] = useState<string>(`field${currentLength}`);
   const [options, setOptions] = useState<string>('');
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
   const [isDateInFuture, setIsDateInFuture] = useState<boolean>(false);
