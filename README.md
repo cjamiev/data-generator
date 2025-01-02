@@ -35,6 +35,10 @@ Hi Priority
   - useReducer vs useState
   - useContext, useCustomHook
   - unit test generation
+- CSS Generator
+  - Wave/shape maker
+  - Color Picker (hex, rgb)
+  - SVG shapes and animation
 - Other
   - Database 
     - articles, nouns, adjectives, verbs
@@ -42,10 +46,6 @@ Hi Priority
     - plants, animals, vegetables, fruits 
     - word { name, definition, type, tags }
   - convert variable name to dashcase, camelcase
-- CSS Generator
-  - Wave/shape maker
-  - Color Picker (hex, rgb)
-  - SVG shapes and animation
 Lo Priority
 - Face Generator
   - generate cards with fake people

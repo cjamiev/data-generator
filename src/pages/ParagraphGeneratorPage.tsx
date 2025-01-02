@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from '../utils/stringHelper';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 /*
- * Refactor
+ * TODO: Refactor
  */
 
 interface ICopy {
@@ -27,7 +27,7 @@ const getFakeWord = () => {
 };
 
 const getFakeSentence = (wordsPerSentence: INumRange) => {
-  const numOfWords = Math.floor(Math.random() * (wordsPerSentence.max - wordsPerSentence.min)) + wordsPerSentence.min;
+  const numOfWords = Math.floor(Math.random() * (wordsPerSentence.max - wordsPerSentence.min + 1)) + wordsPerSentence.min;
   const genFakeSentence: string[] = [];
   for (let count = 0; count < numOfWords; count++) {
     const newFakeWord = getFakeWord();
@@ -40,7 +40,7 @@ const getFakeSentence = (wordsPerSentence: INumRange) => {
 
 const getFakeParagraph = (sentencesPerParagraph: INumRange, wordsPerSentence: INumRange) => {
   const numOfSentences =
-    Math.floor(Math.random() * (sentencesPerParagraph.max - sentencesPerParagraph.min)) + sentencesPerParagraph.min;
+    Math.floor(Math.random() * (sentencesPerParagraph.max - sentencesPerParagraph.min + 1)) + sentencesPerParagraph.min;
   const genFakeParagraph: string[] = [];
   for (let count = 0; count < numOfSentences; count++) {
     const newFakeSentence = getFakeSentence(wordsPerSentence);
@@ -79,28 +79,28 @@ const getFontClassType = (type: string) => {
   if (type === 'mono') {
     return 'font-mono';
   } else if (type === 'serif') {
-    return 'font-serif'
+    return 'font-serif';
   } else if (type === 'sans') {
-    return 'font-sans'
+    return 'font-sans';
   } else {
     return '';
   }
-}
+};
 
 const getFontClassSize = (size: string) => {
   if (size === 'extra-small') {
-    return 'text-xs'
+    return 'text-xs';
   } else if (size === 'small') {
-    return 'text-sm'
+    return 'text-sm';
   } else if (size === 'base') {
-    return 'text-base'
+    return 'text-base';
   } else if (size === 'large') {
-    return 'text-lg'
+    return 'text-lg';
   } else if (size === 'extra-large') {
-    return 'text-xl'
+    return 'text-xl';
   }
   return 'text-2xl';
-}
+};
 
 const ParagraphGeneratorPage = () => {
   const [fontType, setFontType] = useState<string>('');
@@ -108,7 +108,7 @@ const ParagraphGeneratorPage = () => {
   const [wordsPerSentence, setWordsPerSentence] = useState<INumRange>({ min: 2, max: 9 });
   const [sentencesPerParagraph, setSentencesPerParagraph] = useState<INumRange>({ min: 3, max: 6 });
   const [numOfParagraphs, setNumOfParagraphs] = useState<number>(5);
-  const [content, setContent] = useState<string[]>([])
+  const [content, setContent] = useState<string[]>([]);
 
   const onHandleWordCountMinChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWordsPerSentence({ max: wordsPerSentence.max, min: Number(event.target.value) });
@@ -133,28 +133,29 @@ const ParagraphGeneratorPage = () => {
   const generateContent = useCallback(() => {
     const newContent = getFakePage(numOfParagraphs, sentencesPerParagraph, wordsPerSentence);
     setContent(newContent);
-  }, [numOfParagraphs, sentencesPerParagraph, wordsPerSentence])
+  }, [numOfParagraphs, sentencesPerParagraph, wordsPerSentence]);
 
   useEffect(() => {
     if (content.length === 0) {
       generateContent();
     }
-  }, [content, generateContent])
+  }, [content, generateContent]);
 
   const fontClass = getFontClassType(fontType) + ' ' + getFontClassSize(fontSize);
 
   return (
     <PageWrapper>
       <>
-        <h1 className="pb-4 text-6xl">Paragraph Generator</h1>
+        <h1 className="pb-4 text-6xl">Lorem Ipsum Generator</h1>
+        <span>Generate fake paragraphs</span>
         <div className="flex flex-row gap-10">
           <div>
-            <div className="ml-2 flex h-fit w-84 flex-col gap-4 rounded border-2 border-sky-600 p-8">
+            <div className="w-84 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
               <div className="mb-2 text-3xl">Options</div>
               <div>
                 <label className="mr-4"># Paragraphs: {numOfParagraphs}</label>
                 <input
-                  className='w-16'
+                  className="w-16"
                   type="range"
                   id="paragraph-count"
                   name="paragraph-count"
@@ -168,7 +169,7 @@ const ParagraphGeneratorPage = () => {
                 <label className="mr-4 block"># Sentences per Paragraph</label>
                 <label className="mr-4">Min: {sentencesPerParagraph.min}</label>
                 <input
-                  className='w-16'
+                  className="w-16"
                   type="range"
                   id="min-sentences-paragraph"
                   name="min-sentences-paragraph"
@@ -179,7 +180,7 @@ const ParagraphGeneratorPage = () => {
                 />
                 <label className="ml-4 mr-1">Max: {sentencesPerParagraph.max}</label>
                 <input
-                  className='w-16 mr-3'
+                  className="mr-3 w-16"
                   type="range"
                   id="max-sentences-paragraph"
                   name="max-sentences-paragraph"
@@ -193,7 +194,7 @@ const ParagraphGeneratorPage = () => {
                 <label className="mr-4 block"># Words per Sentence</label>
                 <label className="mr-4">Min: {wordsPerSentence.min}</label>
                 <input
-                  className='w-16'
+                  className="w-16"
                   type="range"
                   id="min-words-sentence"
                   name="min-words-sentence"
@@ -204,7 +205,7 @@ const ParagraphGeneratorPage = () => {
                 />
                 <label className="ml-4 mr-1">Max: {wordsPerSentence.max}</label>
                 <input
-                  className='w-16'
+                  className="w-16"
                   type="range"
                   id="max-words-sentence"
                   name="max-words-sentence"
@@ -215,7 +216,7 @@ const ParagraphGeneratorPage = () => {
                 />
               </div>
             </div>
-            <div className="ml-2 mt-2 flex h-fit w-84 flex-col gap-4 rounded border-2 border-sky-600 p-8">
+            <div className="w-84 ml-2 mt-2 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
               <div className="text-3xl">Font Size</div>
               <div>
                 <input
@@ -226,7 +227,7 @@ const ParagraphGeneratorPage = () => {
                   value="extra-small"
                   checked={fontSize === 'extra-small'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-extra-small'>
+                <label className="ml-2 w-12" htmlFor="font-extra-small">
                   Extra Small
                 </label>
               </div>
@@ -239,7 +240,7 @@ const ParagraphGeneratorPage = () => {
                   value="small"
                   checked={fontSize === 'small'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-small'>
+                <label className="ml-2 w-12" htmlFor="font-small">
                   Small
                 </label>
               </div>
@@ -252,7 +253,7 @@ const ParagraphGeneratorPage = () => {
                   value="base"
                   checked={fontSize === 'base'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-base'>
+                <label className="ml-2 w-12" htmlFor="font-base">
                   Default
                 </label>
               </div>
@@ -265,7 +266,7 @@ const ParagraphGeneratorPage = () => {
                   value="large"
                   checked={fontSize === 'large'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-large'>
+                <label className="ml-2 w-12" htmlFor="font-large">
                   Large
                 </label>
               </div>
@@ -278,7 +279,7 @@ const ParagraphGeneratorPage = () => {
                   value="extra-large"
                   checked={fontSize === 'extra-large'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-extra-large'>
+                <label className="ml-2 w-12" htmlFor="font-extra-large">
                   Extra Large
                 </label>
               </div>
@@ -292,7 +293,7 @@ const ParagraphGeneratorPage = () => {
                   value="mono"
                   checked={fontType === 'mono'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-mono'>
+                <label className="ml-2 w-12" htmlFor="font-mono">
                   Mono
                 </label>
               </div>
@@ -305,7 +306,7 @@ const ParagraphGeneratorPage = () => {
                   value="serif"
                   checked={fontType === 'serif'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-serif'>
+                <label className="ml-2 w-12" htmlFor="font-serif">
                   Serif
                 </label>
               </div>
@@ -318,7 +319,7 @@ const ParagraphGeneratorPage = () => {
                   value="sans"
                   checked={fontType === 'sans'}
                 />
-                <label className="ml-2 w-12" htmlFor='font-sans'>
+                <label className="ml-2 w-12" htmlFor="font-sans">
                   Sans
                 </label>
               </div>
@@ -331,14 +332,16 @@ const ParagraphGeneratorPage = () => {
                   value=""
                   checked={fontType === ''}
                 />
-                <label className="ml-2 w-12" htmlFor='font-default'>
+                <label className="ml-2 w-12" htmlFor="font-default">
                   Default
                 </label>
               </div>
             </div>
           </div>
-          <div className='relative w-1/2 flex flex-col rounded border-2 border-gray-800 p-8'>
-            <button className='absolute shadow-md top-2 right-2' onClick={generateContent}>Regenerate</button>
+          <div className="relative flex w-1/2 flex-col rounded border-2 border-gray-800 p-8">
+            <button className="absolute right-2 top-2 shadow-md" onClick={generateContent}>
+              Regenerate
+            </button>
             {content.map((paragraph, index) => {
               return (
                 <div className={`mb-8 mt-8 h-fit w-fit ${fontClass}`} key={index}>

@@ -45,7 +45,7 @@ const generateBoolean = (booleanWeight: number): boolean => {
 };
 
 const generateRange = (min: number, max: number) => {
-  return getRandomInt(max - min) + min;
+  return getRandomInt(max - min + 1) + min;
 };
 
 const customStringGenerator = (input: string, index: number) => {

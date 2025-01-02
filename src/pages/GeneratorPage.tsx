@@ -12,8 +12,9 @@ import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 import { PageWrapper } from '../layout';
+
 /*
- * TODO:
+ * TODO: Refactor
  * Hi Priority Features
  * - Fix Date Field, Fix Edit Mode
  * - Formula (sequence, compute from other columns/values)

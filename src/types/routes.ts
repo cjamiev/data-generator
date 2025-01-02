@@ -10,6 +10,6 @@ export enum RoutesTitle {
   HOME = 'Home',
   DATA_GENERATOR = 'Data Generator',
   PASSWORD_GENERATOR = 'Password Generator',
-  PARAGRAPH_GENERATOR = 'Paragraph Generator',
+  PARAGRAPH_GENERATOR = 'Lorem Ipsum Generator',
   ENCODE = 'Encode'
 } 
