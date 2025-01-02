@@ -1,14 +1,52 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { IFieldType } from '../../types/randomField';
 
 interface IDisplayRandomFields {
   columns: IFieldType[];
   onHandleRemoveField: (selectedIndex: number) => void;
-  onHandleColumnNameChange: (event: ChangeEvent<HTMLInputElement>, selectedIndex: number) => void;
+  onHandleColumnNameChange: (updatedName: string, selectedIndex: number) => void;
   onHandleColumnOptionsChange: (event: ChangeEvent<HTMLInputElement>, selectedIndex: number) => void;
   onHandleBuiltInOptionsChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
   onHandleDataTypeChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
   onHandleFormTypeChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
+}
+
+interface IFieldInput {
+  name: string,
+  index: number,
+  onHandleColumnNameChange: (updatedName: string, index: number) => void;
+}
+
+const FieldInput = ({ name, index, onHandleColumnNameChange }: IFieldInput) => {
+  const [variableName, setVariableName] = useState<string>('');
+
+  useEffect(() => {
+    if (name) {
+      setVariableName(name)
+    }
+  }, [name]);
+
+  const onHandleVariableNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setVariableName(event.target.value);
+  }
+
+  const submit = () => {
+    if (variableName) {
+      onHandleColumnNameChange(variableName, index);
+    } else {
+      setVariableName(name);
+    }
+  }
+
+  return (<input
+    className="rounded border-2 border-gray-500 pl-4"
+    type="text"
+    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+      onHandleVariableNameChange(event);
+    }}
+    onBlur={submit}
+    value={variableName}
+  />);
 }
 
 export const DisplayRandomFields = ({
@@ -26,13 +64,7 @@ export const DisplayRandomFields = ({
       {columns.map((item: IFieldType, index: number) => {
         return (
           <div key={item.variableName} className="mb-2 flex flex-row gap-2">
-            <input
-              type="text"
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                onHandleColumnNameChange(event, index);
-              }}
-              value={item.variableName}
-            />
+            <FieldInput name={item.variableName} onHandleColumnNameChange={onHandleColumnNameChange} index={index} />
             <span className="w-52 rounded border-2 border-dashed border-sky-500 pl-4 pt-3">{item.randomType}</span>
             <button
               className="w-fit"

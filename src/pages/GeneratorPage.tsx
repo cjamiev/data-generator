@@ -14,7 +14,6 @@ import { PageWrapper } from '../layout';
 /*
  * TODO: Refactor
  * Hi Priority Features
- * - Fix Edit Mode
  * - Formula (sequence, compute from other columns/values)
  * - Money, Geometric/Weighted Distributed Number
  * - Time Field
@@ -97,19 +96,16 @@ export const GeneratorPage = () => {
     setPredifinedSelection(updatedSelection);
   };
 
-  const onHandleColumnNameChange = (event: React.ChangeEvent<HTMLInputElement>, selectedIndex: number) => {
-    const value = event.target.value;
-    if (value) {
-      const updatedColumns = columns.map((item, index) => {
-        if (selectedIndex === index) {
-          return { ...item, variableName: value };
-        } else {
-          return item;
-        }
-      });
+  const onHandleColumnNameChange = (updatedName: string, selectedIndex: number) => {
+    const updatedColumns = columns.map((item, index) => {
+      if (selectedIndex === index) {
+        return { ...item, variableName: updatedName };
+      } else {
+        return item;
+      }
+    });
 
-      setColumns(updatedColumns);
-    }
+    setColumns(updatedColumns);
   };
 
   const onHandleColumnOptionsChange = (event: React.ChangeEvent<HTMLInputElement>, selectedIndex: number) => {
