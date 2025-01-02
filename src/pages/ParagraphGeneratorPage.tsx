@@ -153,7 +153,7 @@ const ParagraphGeneratorPage = () => {
             <div className="w-84 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
               <div className="mb-2 text-3xl">Options</div>
               <div>
-                <label className="mr-4"># Paragraphs: {numOfParagraphs}</label>
+                <label className="mr-4 block"># Paragraphs: {numOfParagraphs}</label>
                 <input
                   className="w-16"
                   type="range"
@@ -165,55 +165,64 @@ const ParagraphGeneratorPage = () => {
                   onChange={(event) => onHandleParagraphCountChange(event)}
                 />
               </div>
-              <div>
+              <div className='flex flex-col'>
                 <label className="mr-4 block"># Sentences per Paragraph</label>
-                <label className="mr-4">Min: {sentencesPerParagraph.min}</label>
-                <input
-                  className="w-16"
-                  type="range"
-                  id="min-sentences-paragraph"
-                  name="min-sentences-paragraph"
-                  min="1"
-                  max="5"
-                  value={sentencesPerParagraph.min}
-                  onChange={(event) => onHandleSentenceCountMinChange(event)}
-                />
-                <label className="ml-4 mr-1">Max: {sentencesPerParagraph.max}</label>
-                <input
-                  className="mr-3 w-16"
-                  type="range"
-                  id="max-sentences-paragraph"
-                  name="max-sentences-paragraph"
-                  min="6"
-                  max="9"
-                  value={sentencesPerParagraph.max}
-                  onChange={(event) => onHandleSentenceCountMaxChange(event)}
-                />
+                <div>
+                  <label className="mr-4">Min: {sentencesPerParagraph.min}</label>
+                  <input
+                    className="w-16"
+                    type="range"
+                    id="min-sentences-paragraph"
+                    name="min-sentences-paragraph"
+                    min="1"
+                    max="5"
+                    value={sentencesPerParagraph.min}
+                    onChange={(event) => onHandleSentenceCountMinChange(event)}
+                  />
+                </div>
+                <div>
+                  <label className="mr-3">Max: {sentencesPerParagraph.max}</label>
+                  <input
+                    className="mr-3 w-16"
+                    type="range"
+                    id="max-sentences-paragraph"
+                    name="max-sentences-paragraph"
+                    min="6"
+                    max="9"
+                    value={sentencesPerParagraph.max}
+                    onChange={(event) => onHandleSentenceCountMaxChange(event)}
+                  />
+                </div>
               </div>
-              <div>
+              <div className='flex flex-col'>
                 <label className="mr-4 block"># Words per Sentence</label>
-                <label className="mr-4">Min: {wordsPerSentence.min}</label>
-                <input
-                  className="w-16"
-                  type="range"
-                  id="min-words-sentence"
-                  name="min-words-sentence"
-                  min="1"
-                  max="5"
-                  value={wordsPerSentence.min}
-                  onChange={(event) => onHandleWordCountMinChange(event)}
-                />
-                <label className="ml-4 mr-1">Max: {wordsPerSentence.max}</label>
-                <input
-                  className="w-16"
-                  type="range"
-                  id="max-words-sentence"
-                  name="max-words-sentence"
-                  min="6"
-                  max="9"
-                  value={wordsPerSentence.max}
-                  onChange={(event) => onHandleWordCountMaxChange(event)}
-                />
+                <div>
+
+                  <label className="mr-4">Min: {wordsPerSentence.min}</label>
+                  <input
+                    className="w-16"
+                    type="range"
+                    id="min-words-sentence"
+                    name="min-words-sentence"
+                    min="1"
+                    max="5"
+                    value={wordsPerSentence.min}
+                    onChange={(event) => onHandleWordCountMinChange(event)}
+                  />
+                </div>
+                <div>
+                  <label className="mr-3">Max: {wordsPerSentence.max}</label>
+                  <input
+                    className="w-16"
+                    type="range"
+                    id="max-words-sentence"
+                    name="max-words-sentence"
+                    min="6"
+                    max="9"
+                    value={wordsPerSentence.max}
+                    onChange={(event) => onHandleWordCountMaxChange(event)}
+                  />
+                </div>
               </div>
             </div>
             <div className="w-84 ml-2 mt-2 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">

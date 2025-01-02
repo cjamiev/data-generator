@@ -1,3 +1,4 @@
+import { IFormulaMap } from '../types/formula';
 const letters = 'abcdefghijklmnopqrstuvwxyz';
 
 const START_ZERO = 0;
@@ -146,6 +147,30 @@ const generateCustomState = (states: string[]) => {
   return states[randomValue];
 };
 
+const formulaMapper = (input: IFormulaMap[], index: number) => {
+  return input.map((item: IFormulaMap) => {
+    if (item.type === 'ALPHA') {
+      return getRandomAlphanumberic();
+    }
+    if (item.type === 'DIGIT') {
+      return getRandomDigit();
+    }
+    if (item.type === 'LETTER') {
+      return getRandomLetter();
+    }
+    if (item.type === 'DATE') {
+      const now = new Date();
+      return now.getMonth() + ADD_ONE + '-' + now.getDate() + '-' + now.getFullYear();
+    }
+    if (item.type === 'INCREMENT') {
+      return index + ADD_ONE;
+    }
+    if (item.type === 'FIXED') {
+      return item.value;
+    }
+  })
+}
+
 export {
   getRandomInt,
   getRandomDigit,
@@ -156,5 +181,6 @@ export {
   generateCustomState,
   generateRange,
   generateWeightedRangeValue,
-  customStringGenerator
+  customStringGenerator,
+  formulaMapper
 };

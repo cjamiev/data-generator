@@ -22,6 +22,7 @@ import { PageWrapper } from '../layout';
  * - Time Field
  * - weighted range of numbers
  * - Download Result, CSV, HTML, JSON, Insert SQL
+ * - Move Fields up and down
  * Lo Priority Features
  * - Improve email generator with the name
  * - Words, Fake Words, Sentence
