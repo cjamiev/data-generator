@@ -141,6 +141,18 @@ const generateDate = (isFuture: boolean, yearDistance: number, format: string) =
   return randomDate;
 };
 
+const generateTime = () => {
+  const leadingHourDigit = getRandomInt(3);
+  const maxSecondDigit = leadingHourDigit === 2 ? 4 : 9;
+  const secondaryHourDigit = getRandomInt(maxSecondDigit);
+  const leadingMinDigit = getRandomInt(7);
+  const secondaryMinDigit = getRandomInt(9);
+  const leadingSecondDigit = getRandomInt(7);
+  const secondarySecondDigit = getRandomInt(9);
+
+  return `${leadingHourDigit}${secondaryHourDigit}:${leadingMinDigit}${secondaryMinDigit}:${leadingSecondDigit}${secondarySecondDigit}`;
+}
+
 const generateCustomState = (states: string[]) => {
   const randomValue = getRandomInt(states.length);
 
@@ -178,6 +190,7 @@ export {
   getRandomAlphanumberic,
   generateBoolean,
   generateDate,
+  generateTime,
   generateCustomState,
   generateRange,
   generateWeightedRangeValue,

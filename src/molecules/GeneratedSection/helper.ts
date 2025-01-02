@@ -10,7 +10,8 @@ import {
   generateDate,
   generateBoolean,
   generateCustomState,
-  customStringGenerator
+  customStringGenerator,
+  generateTime
 } from '../../utils/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../types/randomField';
 
@@ -92,10 +93,11 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const [dateCount, isFuture] = col.userOptions.split(',');
-    const randomDate = generateDate(isFuture === 'true', Number(dateCount), col.selectedBuiltInOptions);
+    const [dateCount, isFuture, format] = col.userOptions.split(',');
+    const randomDate = generateDate(isFuture === 'true', Number(dateCount), format);
+    const randomTime = format.includes('HH:MM:SS') ? generateTime() : '';
 
-    return randomDate;
+    return randomDate + ' ' + randomTime;
   }
 
   if (col.randomType === CustomFieldLabel.BOOLEAN) {

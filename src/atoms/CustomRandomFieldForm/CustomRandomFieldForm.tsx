@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { CustomFieldLabel } from '../../types/randomField';
+import { dateFormats } from '../../types/date';
 
 export interface IRandomField {
   variableName: string;
@@ -18,6 +19,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
   const [isDateInFuture, setIsDateInFuture] = useState<boolean>(false);
   const [dateCount, setDateCount] = useState<number>(3);
+  const [format, setFormat] = useState(dateFormats[0]);
 
   const onHandleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setColumnName(event.target.value);
@@ -31,13 +33,17 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
     setDateCount(Number(event.target.value));
   };
 
+  const onHandleFormatChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setFormat(event.target.value)
+  }
+
   const onHandleOptionsChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOptions(event.target.value);
   };
 
   const submitNewField = () => {
     if (selectedType === CustomFieldLabel.DATE) {
-      onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + String(isDateInFuture) });
+      onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + String(isDateInFuture) + ',' + format });
     } else if (selectedType === CustomFieldLabel.BOOLEAN) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
@@ -61,7 +67,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
   const isConfirmDisabled = getShouldDisableConfirm();
 
   return (
-    <div className="relative left-1/4 top-1/4 h-2/5 w-1/2 rounded border border-gray-500 bg-white p-4">
+    <div className="relative left-1/4 top-1/4 h-2/5 w-fit rounded border border-gray-500 bg-white p-4">
       <h2 className="mb-4 border-b-2 border-dashed border-sky-500 text-3xl">Specify Custom Field</h2>
       <button className="absolute right-0 top-0 h-fit w-fit border-none" onClick={onHandleCancel}>
         X
@@ -126,33 +132,43 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
         />
       </div>
       {selectedType === CustomFieldLabel.DATE && (
-        <div className="pb-4 pt-4">
-          <div className="flex">
-            <span className="mr-2">Is Future Date?</span>
-            <input
-              onChange={() => setIsDateInFuture(!isDateInFuture)}
-              type="checkbox"
-              name="distance"
-              id="year"
-              value="year"
-              checked={isDateInFuture}
-            />
-          </div>
+        <div className="pb-4 pt-4 flex">
           <div>
-            <span className="mr-2">Select Count</span>
-            <input
-              type="range"
-              id="date-count"
-              name="date-count"
-              min="3"
-              max="80"
-              value={dateCount}
-              onChange={(event) => onHandleDateCountChange(event)}
-            />
+            <div className="flex">
+              <span className="mr-2 font-bold">Is Future Date?</span>
+              <input
+                onChange={() => setIsDateInFuture(!isDateInFuture)}
+                type="checkbox"
+                name="distance"
+                id="year"
+                value="year"
+                checked={isDateInFuture}
+              />
+            </div>
+            <div>
+              <span className="mr-2 font-bold">Select Count</span>
+              <input
+                type="range"
+                id="date-count"
+                name="date-count"
+                min="3"
+                max="80"
+                value={dateCount}
+                onChange={(event) => onHandleDateCountChange(event)}
+              />
+            </div>
+            <label className='font-bold'>
+              Distance From Today:<span className='font-medium'> {dateCount} years</span>
+            </label>
           </div>
-          <label>
-            Distance From Today:{dateCount} years
-          </label>
+          <div className='ml-2 flex flex-col'>
+            <span className='font-bold'>Select Date Format</span>
+            <select className='w-64 rounded border-2 border-gray-500' onChange={(event) => { onHandleFormatChange(event) }}>
+              {dateFormats.map(format => {
+                return <option key={format} value={format}>{format}</option>
+              })}
+            </select>
+          </div>
         </div>
       )}
       {selectedType === CustomFieldLabel.BOOLEAN && (
@@ -186,7 +202,6 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
             name="state-options"
             value={options}
           />
-          <span className="ml-2 mt-2 text-gray-400">Add Comma Separated Values</span>
         </div>
       )}
       {selectedType === CustomFieldLabel.CUSTOM_STRING && (
