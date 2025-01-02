@@ -16,7 +16,7 @@ import { PageWrapper } from '../layout';
 /*
  * TODO: Refactor
  * Hi Priority Features
- * - Fix Date Field, Fix Edit Mode
+ * - Fix Edit Mode
  * - Formula (sequence, compute from other columns/values)
  * - Money, Geometric/Weighted Distributed Number
  * - Time Field
@@ -94,6 +94,8 @@ export const GeneratorPage = () => {
     const updatedData = columns.filter((_, i) => i !== selectedIndex);
     const matched = columns.find((_, i) => i === selectedIndex);
     setColumns(updatedData);
+
+    console.log('hit', matched?.randomType, predefinedSelection);
 
     const updatedSelection = predefinedSelection.filter((item) => item !== matched?.randomType);
     setPredifinedSelection(updatedSelection);

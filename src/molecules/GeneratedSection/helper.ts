@@ -14,10 +14,7 @@ import {
 } from '../../utils/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../types/randomField';
 
-const THREE_YEARS_IN_MONTHS = 36;
-// TODO DATE RANGE FOR BIRTHDATE
-const EIGHTEEN_YEARS_AGO = 12 * 18;
-const EIGHTY_YEARS_AGO = 12 * 80;
+const EIGHTY_YEARS_AGO = 80;
 
 const getPIGeneratedValue = (col: IFieldType, index: number) => {
   if (col.randomType === PredefinedRandomLabel.FIRST_NAME) {
@@ -50,7 +47,7 @@ const getPIGeneratedValue = (col: IFieldType, index: number) => {
     return email;
   }
   if (col.randomType === PredefinedRandomLabel.BIRTH_DATE) {
-    const randomDate = generateDate(THREE_YEARS_IN_MONTHS, col.selectedBuiltInOptions);
+    const randomDate = generateDate(false, EIGHTY_YEARS_AGO, col.selectedBuiltInOptions);
 
     return randomDate;
   } else {
@@ -95,8 +92,8 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const [dateCount, dateModifier] = col.userOptions.split(',');
-    const randomDate = generateDate(Number(dateCount), dateModifier, col.selectedBuiltInOptions);
+    const [dateCount, isFuture] = col.userOptions.split(',');
+    const randomDate = generateDate(isFuture === 'true', Number(dateCount), col.selectedBuiltInOptions);
 
     return randomDate;
   }

@@ -16,8 +16,8 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
   const [columnName, setColumnName] = useState<string>('');
   const [options, setOptions] = useState<string>('');
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
-  const [dateModifier, setDateModifier] = useState<string>('year');
-  const [dateCount, setDateCount] = useState<number>(1);
+  const [isDateInFuture, setIsDateInFuture] = useState<boolean>(false);
+  const [dateCount, setDateCount] = useState<number>(3);
 
   const onHandleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setColumnName(event.target.value);
@@ -37,7 +37,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
 
   const submitNewField = () => {
     if (selectedType === CustomFieldValue.DATE) {
-      onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + dateModifier });
+      onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + String(isDateInFuture) });
     } else if (selectedType === CustomFieldValue.BOOLEAN) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
@@ -128,40 +128,15 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
       {selectedType === CustomFieldValue.DATE && (
         <div className="pb-4 pt-4">
           <div className="flex">
-            <span className="mr-2">Select Modifier</span>
+            <span className="mr-2">Is Future Date?</span>
             <input
-              onChange={() => setDateModifier('year')}
-              type="radio"
+              onChange={() => setIsDateInFuture(!isDateInFuture)}
+              type="checkbox"
               name="distance"
               id="year"
               value="year"
-              checked={dateModifier === 'year'}
+              checked={isDateInFuture}
             />
-            <label className="ml-2 mr-2 w-10" htmlFor="year">
-              Year
-            </label>
-            <input
-              onChange={() => setDateModifier('month')}
-              type="radio"
-              name="distance"
-              id="month"
-              value="month"
-              checked={dateModifier === 'month'}
-            />
-            <label className="ml-2 mr-2 w-12" htmlFor="month">
-              Month
-            </label>
-            <input
-              onChange={() => setDateModifier('day')}
-              type="radio"
-              name="distance"
-              id="day"
-              value="day"
-              checked={dateModifier === 'day'}
-            />
-            <label className="ml-2 mr-2 w-12" htmlFor="day">
-              Day
-            </label>
           </div>
           <div>
             <span className="mr-2">Select Count</span>
@@ -169,14 +144,14 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
               type="range"
               id="date-count"
               name="date-count"
-              min="1"
-              max="100"
+              min="3"
+              max="80"
               value={dateCount}
               onChange={(event) => onHandleDateCountChange(event)}
             />
           </div>
           <label>
-            Distance From Today:{dateCount} {dateModifier}{' '}
+            Distance From Today:{dateCount} years
           </label>
         </div>
       )}
@@ -215,7 +190,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
         </div>
       )}
       {selectedType === CustomFieldValue.CUSTOM_STRING && (
-        <div className="relative pb-4 pt-4">
+        <div className="pb-4 pt-4">
           <label className="mr-14">Text </label>
           <input
             className="w-48 rounded border-2 border-gray-500 p-4"
@@ -227,13 +202,6 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
             name="text"
             value={options}
           />
-          <div className="absolute bottom-4 right-32 w-32 text-wrap">
-            <div className="text-gray-400"># - Digit</div>
-            <div className="text-gray-400">@ - Letter</div>
-            <div className="text-gray-400">& - Alphanumeric</div>
-            <div className="text-gray-400">: - time</div>
-            <div className="text-gray-400">^ - count</div>
-          </div>
         </div>
       )}
       <div className="border-t-2 border-dashed border-sky-500 pt-4">

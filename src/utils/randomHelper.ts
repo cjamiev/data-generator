@@ -122,15 +122,15 @@ const getNumberofDays = (numberOfMonth: number) => {
   }
 };
 
-const generateDate = (distance: number, modifier: string, format: string) => {
-  const randomYear = getRandomInt(36) + ADD_ONE;
+const generateDate = (isFuture: boolean, yearDistance: number, format: string) => {
+  const randomYear = getRandomInt(yearDistance) + ADD_ONE;
   const randomMonth = getRandomInt(NUMBER_OF_MONTHS) + ADD_ONE;
   const randomDay = getRandomInt(getNumberofDays(randomMonth)) + ADD_ONE;
 
   const separator = format.includes('-') ? '-' : '/';
   const isMonthFirst = format.slice(START_ZERO, SECOND_INDEX) === 'MM';
 
-  const year = today.getFullYear() - randomYear;
+  const year = isFuture ? today.getFullYear() + randomYear : today.getFullYear() - randomYear;
   const month = randomMonth > SINGLE_DIGIT ? randomMonth : '0' + randomMonth;
   const day = randomDay > SINGLE_DIGIT ? randomDay : '0' + randomDay;
 
