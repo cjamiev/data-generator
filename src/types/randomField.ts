@@ -1,19 +1,3 @@
-export enum PredefinedRandomValue {
-  ID = 'ID',
-  FIRST_NAME = 'FIRST_NAME',
-  LAST_NAME = 'LAST_NAME',
-  EMAIL = 'EMAIL',
-  CITY = 'CITY',
-  STATE = 'STATE',
-  STREET = 'STREET',
-  ZIP_CODE = 'ZIP_CODE',
-  SSN = 'SSN',
-  PHONE_NUMBER = 'PHONE_NUMBER',
-  CREDIT_CARD = 'CREDIT_CARD',
-  UUID = 'UUID',
-  BIRTH_DATE = 'BIRTH_DATE',
-};
-
 export enum PredefinedRandomColumnName {
   FIRST_NAME = 'first_name',
   LAST_NAME = 'last_name',
@@ -45,13 +29,6 @@ export enum PredefinedRandomLabel {
   UUID = 'UUID',
   BIRTH_DATE = 'Birth Date',
 };
-
-export enum CustomFieldValue {
-  CUSTOM_STRING = 'CUSTOM_STRING',
-  CUSTOM_STATE = 'CUSTOM_STATE',
-  DATE = 'DATE',
-  BOOLEAN = 'BOOLEAN',
-}
 
 export enum CustomFieldLabel {
   CUSTOM_STRING = 'Custom String',

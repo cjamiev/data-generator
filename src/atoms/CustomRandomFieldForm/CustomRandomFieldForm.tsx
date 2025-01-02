@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { CustomFieldLabel, CustomFieldValue } from '../../types/randomField';
+import { CustomFieldLabel } from '../../types/randomField';
 
 export interface IRandomField {
   variableName: string;
@@ -12,7 +12,7 @@ interface ICustomRandomFieldForm {
 
 // Todo: Date Future vs Past
 const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRandomFieldForm) => {
-  const [selectedType, setSelectedType] = useState<string>(CustomFieldValue.DATE);
+  const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.DATE);
   const [columnName, setColumnName] = useState<string>('');
   const [options, setOptions] = useState<string>('');
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
@@ -36,9 +36,9 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
   };
 
   const submitNewField = () => {
-    if (selectedType === CustomFieldValue.DATE) {
+    if (selectedType === CustomFieldLabel.DATE) {
       onHandleConfirm(selectedType, { variableName: columnName, options: dateCount + ',' + String(isDateInFuture) });
-    } else if (selectedType === CustomFieldValue.BOOLEAN) {
+    } else if (selectedType === CustomFieldLabel.BOOLEAN) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
         options: String(booleanWeight),
@@ -50,10 +50,10 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
 
   const getShouldDisableConfirm = () => {
     const isValidName = Boolean(columnName);
-    if (selectedType === CustomFieldValue.DATE || selectedType === CustomFieldValue.BOOLEAN) {
+    if (selectedType === CustomFieldLabel.DATE || selectedType === CustomFieldLabel.BOOLEAN) {
       return !isValidName;
     }
-    if (selectedType === CustomFieldValue.CUSTOM_STATE || selectedType === CustomFieldValue.CUSTOM_STRING) {
+    if (selectedType === CustomFieldLabel.CUSTOM_STATE || selectedType === CustomFieldLabel.CUSTOM_STRING) {
       return !isValidName || !options;
     }
   };
@@ -68,45 +68,45 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
       </button>
       <div className="flex">
         <input
-          onChange={() => setSelectedType(CustomFieldValue.DATE)}
+          onChange={() => setSelectedType(CustomFieldLabel.DATE)}
           type="radio"
           name="new_custom_field"
           id={CustomFieldLabel.DATE}
-          value={CustomFieldValue.DATE}
-          checked={selectedType === CustomFieldValue.DATE}
+          value={CustomFieldLabel.DATE}
+          checked={selectedType === CustomFieldLabel.DATE}
         />
         <label className="ml-2 w-12" htmlFor={CustomFieldLabel.DATE}>
           {CustomFieldLabel.DATE}
         </label>
         <input
-          onChange={() => setSelectedType(CustomFieldValue.BOOLEAN)}
+          onChange={() => setSelectedType(CustomFieldLabel.BOOLEAN)}
           type="radio"
           name="new_custom_field"
           id={CustomFieldLabel.BOOLEAN}
-          value={CustomFieldValue.BOOLEAN}
-          checked={selectedType === CustomFieldValue.BOOLEAN}
+          value={CustomFieldLabel.BOOLEAN}
+          checked={selectedType === CustomFieldLabel.BOOLEAN}
         />
         <label className="ml-2 w-20" htmlFor={CustomFieldLabel.BOOLEAN}>
           {CustomFieldLabel.BOOLEAN}
         </label>
         <input
-          onChange={() => setSelectedType(CustomFieldValue.CUSTOM_STATE)}
+          onChange={() => setSelectedType(CustomFieldLabel.CUSTOM_STATE)}
           type="radio"
           name="new_custom_field"
           id={CustomFieldLabel.CUSTOM_STATE}
-          value={CustomFieldValue.CUSTOM_STATE}
-          checked={selectedType === CustomFieldValue.CUSTOM_STATE}
+          value={CustomFieldLabel.CUSTOM_STATE}
+          checked={selectedType === CustomFieldLabel.CUSTOM_STATE}
         />
         <label className="ml-2 w-32" htmlFor={CustomFieldLabel.CUSTOM_STATE}>
           {CustomFieldLabel.CUSTOM_STATE}
         </label>
         <input
-          onChange={() => setSelectedType(CustomFieldValue.CUSTOM_STRING)}
+          onChange={() => setSelectedType(CustomFieldLabel.CUSTOM_STRING)}
           type="radio"
           name="new_custom_field"
           id={CustomFieldLabel.CUSTOM_STRING}
-          value={CustomFieldValue.CUSTOM_STRING}
-          checked={selectedType === CustomFieldValue.CUSTOM_STRING}
+          value={CustomFieldLabel.CUSTOM_STRING}
+          checked={selectedType === CustomFieldLabel.CUSTOM_STRING}
         />
         <label className="ml-2 w-32" htmlFor={CustomFieldLabel.CUSTOM_STRING}>
           {CustomFieldLabel.CUSTOM_STRING}
@@ -125,7 +125,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
           value={columnName}
         />
       </div>
-      {selectedType === CustomFieldValue.DATE && (
+      {selectedType === CustomFieldLabel.DATE && (
         <div className="pb-4 pt-4">
           <div className="flex">
             <span className="mr-2">Is Future Date?</span>
@@ -155,7 +155,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
           </label>
         </div>
       )}
-      {selectedType === CustomFieldValue.BOOLEAN && (
+      {selectedType === CustomFieldLabel.BOOLEAN && (
         <div className="flex flex-row">
           <div className="pb-4 pt-4">
             <label className="mr-4">True Weight: {booleanWeight}%</label>
@@ -173,7 +173,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
           </div>
         </div>
       )}
-      {selectedType === CustomFieldValue.CUSTOM_STATE && (
+      {selectedType === CustomFieldLabel.CUSTOM_STATE && (
         <div className="pb-4 pt-4">
           <label className="mr-11">States</label>
           <input
@@ -189,7 +189,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel }: ICustomRando
           <span className="ml-2 mt-2 text-gray-400">Add Comma Separated Values</span>
         </div>
       )}
-      {selectedType === CustomFieldValue.CUSTOM_STRING && (
+      {selectedType === CustomFieldLabel.CUSTOM_STRING && (
         <div className="pb-4 pt-4">
           <label className="mr-14">Text </label>
           <input

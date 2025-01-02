@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { PredefinedRandomLabel, PredefinedRandomValue } from '../../types/randomField';
+import { PredefinedRandomLabel } from '../../types/randomField';
 
 interface IPredefinedSelection {
   predefinedSelection: string[];
@@ -8,7 +8,6 @@ interface IPredefinedSelection {
   onHandleConfirm: () => void;
 }
 
-// TODO: Un/Select All
 const PredefinedFieldForm = ({
   predefinedSelection,
   onHandleSelection,
@@ -26,55 +25,55 @@ const PredefinedFieldForm = ({
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.FIRST_NAME}
-          value={PredefinedRandomValue.FIRST_NAME}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.FIRST_NAME)}
+          id={PredefinedRandomLabel.FIRST_NAME}
+          value={PredefinedRandomLabel.FIRST_NAME}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.FIRST_NAME)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.FIRST_NAME}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.FIRST_NAME}>
           {PredefinedRandomLabel.FIRST_NAME}
         </label>
         <input
           className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.LAST_NAME}
-          value={PredefinedRandomValue.LAST_NAME}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.LAST_NAME)}
+          id={PredefinedRandomLabel.LAST_NAME}
+          value={PredefinedRandomLabel.LAST_NAME}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.LAST_NAME)}
         />
-        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.LAST_NAME}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomLabel.LAST_NAME}>
           {PredefinedRandomLabel.LAST_NAME}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.EMAIL}
-          value={PredefinedRandomValue.EMAIL}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.EMAIL)}
+          id={PredefinedRandomLabel.EMAIL}
+          value={PredefinedRandomLabel.EMAIL}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.EMAIL)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.EMAIL}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.EMAIL}>
           {PredefinedRandomLabel.EMAIL}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.PHONE_NUMBER}
-          value={PredefinedRandomValue.PHONE_NUMBER}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.PHONE_NUMBER)}
+          id={PredefinedRandomLabel.PHONE_NUMBER}
+          value={PredefinedRandomLabel.PHONE_NUMBER}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.PHONE_NUMBER)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.PHONE_NUMBER}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.PHONE_NUMBER}>
           {PredefinedRandomLabel.PHONE_NUMBER}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.BIRTH_DATE}
-          value={PredefinedRandomValue.BIRTH_DATE}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.BIRTH_DATE)}
+          id={PredefinedRandomLabel.BIRTH_DATE}
+          value={PredefinedRandomLabel.BIRTH_DATE}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.BIRTH_DATE)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.BIRTH_DATE}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.BIRTH_DATE}>
           {PredefinedRandomLabel.BIRTH_DATE}
         </label>
       </div>
@@ -83,44 +82,44 @@ const PredefinedFieldForm = ({
           className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.STREET}
-          value={PredefinedRandomValue.STREET}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.STREET)}
+          id={PredefinedRandomLabel.STREET}
+          value={PredefinedRandomLabel.STREET}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.STREET)}
         />
-        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.STREET}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomLabel.STREET}>
           {PredefinedRandomLabel.STREET}
         </label>
         <input
           className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.CITY}
-          value={PredefinedRandomValue.CITY}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.CITY)}
+          id={PredefinedRandomLabel.CITY}
+          value={PredefinedRandomLabel.CITY}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.CITY)}
         />
-        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.CITY}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomLabel.CITY}>
           {PredefinedRandomLabel.CITY}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.STATE}
-          value={PredefinedRandomValue.STATE}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.STATE)}
+          id={PredefinedRandomLabel.STATE}
+          value={PredefinedRandomLabel.STATE}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.STATE)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.STATE}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.STATE}>
           {PredefinedRandomLabel.STATE}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.ZIP_CODE}
-          value={PredefinedRandomValue.ZIP_CODE}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.ZIP_CODE)}
+          id={PredefinedRandomLabel.ZIP_CODE}
+          value={PredefinedRandomLabel.ZIP_CODE}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.ZIP_CODE)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.ZIP_CODE}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.ZIP_CODE}>
           {PredefinedRandomLabel.ZIP_CODE}
         </label>
       </div>
@@ -129,44 +128,44 @@ const PredefinedFieldForm = ({
           className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.SSN}
-          value={PredefinedRandomValue.SSN}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.SSN)}
+          id={PredefinedRandomLabel.SSN}
+          value={PredefinedRandomLabel.SSN}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.SSN)}
         />
-        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.SSN}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomLabel.SSN}>
           {PredefinedRandomLabel.SSN}
         </label>
         <input
           className="w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.CREDIT_CARD}
-          value={PredefinedRandomValue.CREDIT_CARD}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.CREDIT_CARD)}
+          id={PredefinedRandomLabel.CREDIT_CARD}
+          value={PredefinedRandomLabel.CREDIT_CARD}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.CREDIT_CARD)}
         />
-        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomValue.CREDIT_CARD}>
+        <label className="w-32 pl-2 pt-2" htmlFor={PredefinedRandomLabel.CREDIT_CARD}>
           {PredefinedRandomLabel.CREDIT_CARD}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.ID}
-          value={PredefinedRandomValue.ID}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.ID)}
+          id={PredefinedRandomLabel.ID}
+          value={PredefinedRandomLabel.ID}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.ID)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.ID}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.ID}>
           {PredefinedRandomLabel.ID}
         </label>
         <input
           className="mr-2 w-6"
           onChange={(event) => onHandleSelection(event)}
           type="checkbox"
-          id={PredefinedRandomValue.UUID}
-          value={PredefinedRandomValue.UUID}
-          checked={predefinedSelection.some((item) => item === PredefinedRandomValue.UUID)}
+          id={PredefinedRandomLabel.UUID}
+          value={PredefinedRandomLabel.UUID}
+          checked={predefinedSelection.some((item) => item === PredefinedRandomLabel.UUID)}
         />
-        <label className="w-32 pt-2" htmlFor={PredefinedRandomValue.UUID}>
+        <label className="w-32 pt-2" htmlFor={PredefinedRandomLabel.UUID}>
           {PredefinedRandomLabel.UUID}
         </label>
       </div>

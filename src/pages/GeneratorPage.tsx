@@ -5,8 +5,6 @@ import {
   fieldTypes,
   IFieldType,
   PredefinedRandomLabel,
-  PredefinedRandomValue,
-  CustomFieldLabel,
 } from '../types/randomField';
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
@@ -51,9 +49,9 @@ export const GeneratorPage = () => {
     fieldTypes[INDEX_TWO],
   ]);
   const [predefinedSelection, setPredifinedSelection] = useState<string[]>([
-    PredefinedRandomValue.ID,
-    PredefinedRandomValue.FIRST_NAME,
-    PredefinedRandomValue.LAST_NAME,
+    PredefinedRandomLabel.ID,
+    PredefinedRandomLabel.FIRST_NAME,
+    PredefinedRandomLabel.LAST_NAME,
   ]);
 
   const generateData = () => {
@@ -94,8 +92,6 @@ export const GeneratorPage = () => {
     const updatedData = columns.filter((_, i) => i !== selectedIndex);
     const matched = columns.find((_, i) => i === selectedIndex);
     setColumns(updatedData);
-
-    console.log('hit', matched?.randomType, predefinedSelection);
 
     const updatedSelection = predefinedSelection.filter((item) => item !== matched?.randomType);
     setPredifinedSelection(updatedSelection);
@@ -187,16 +183,14 @@ export const GeneratorPage = () => {
 
   const confirmPredfinedSelection = () => {
     const columnFormedValues = predefinedSelection.map((item) => {
-      const randomType = PredefinedRandomLabel[item as keyof typeof PredefinedRandomLabel];
-      const newField = fieldTypes.find((i) => i.randomType === randomType);
+      const newField = fieldTypes.find((i) => i.randomType === item);
       return newField as IFieldType;
     });
     setColumns(columnFormedValues);
   };
 
   const confirmCustomFieldSelection = (selectedType: string, field: IRandomField) => {
-    const randomType = CustomFieldLabel[selectedType as keyof typeof CustomFieldLabel];
-    const newField = fieldTypes.find((i) => i.randomType === randomType);
+    const newField = fieldTypes.find((i) => i.randomType === selectedType);
     const updatedNewField = {
       ...newField,
       variableName: field.variableName,
@@ -209,7 +203,7 @@ export const GeneratorPage = () => {
     if (predefinedSelection.length === 13) {
       setPredifinedSelection([]);
     } else {
-      setPredifinedSelection(Object.values(PredefinedRandomValue));
+      setPredifinedSelection(Object.values(PredefinedRandomLabel));
     }
   };
 
