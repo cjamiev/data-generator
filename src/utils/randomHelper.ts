@@ -79,6 +79,9 @@ const generateWeightedRangeValue = (min: number, max: number) => {
   if (digitLength === maxDigitLength) {
     return generateRange(range.min, max);
   }
+
+  // should never but resolves typescript
+  return 0;
 }
 
 const customStringGenerator = (input: string, index: number) => {

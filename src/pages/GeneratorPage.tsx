@@ -1,11 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { GeneratedSection } from '../molecules/GeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
-import {
-  fieldTypes,
-  IFieldType,
-  PredefinedRandomLabel,
-} from '../types/randomField';
+import { fieldTypes, IFieldType, PredefinedRandomLabel } from '../types/randomField';
 import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
@@ -17,12 +13,11 @@ import { PageWrapper } from '../layout';
  * - Download Result, CSV, HTML, JSON, Insert SQL
  * - Move Fields up and down
  * Lo Priority Features
- * - Improve email generator with the name
- * - Words, Fake Words, Sentence
- * - Escape Characters in Custom String Fix
+ * - Convert Input File to Fields
  * - Sort Column, Collapse Column
  * - Edit Row, Delete Row
- * - Convert Input File to Fields
+ * - Improve email generator with the name
+ * - Words, Fake Words, Sentence
  * - Frequency: Never, Once, Daily, Weekly, Monthly, Yearly
  * - Height, Bloodtype, weight, shirt size, profession, race, title
  */
@@ -72,7 +67,9 @@ export const GeneratorPage = () => {
   const onHandleCountUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = event.target.value;
     const valueAsNumber = Number(value);
-    if (isNaN(valueAsNumber)) {
+    if (!value) {
+      setRowCount(0);
+    } else if (isNaN(valueAsNumber)) {
       return;
     } else if (valueAsNumber < MIN_ROW_COUNT) {
       setRowCount(MIN_ROW_COUNT);

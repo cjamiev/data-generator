@@ -27,7 +27,8 @@ const getFakeWord = () => {
 };
 
 const getFakeSentence = (wordsPerSentence: INumRange) => {
-  const numOfWords = Math.floor(Math.random() * (wordsPerSentence.max - wordsPerSentence.min + 1)) + wordsPerSentence.min;
+  const numOfWords =
+    Math.floor(Math.random() * (wordsPerSentence.max - wordsPerSentence.min + 1)) + wordsPerSentence.min;
   const genFakeSentence: string[] = [];
   for (let count = 0; count < numOfWords; count++) {
     const newFakeWord = getFakeWord();
@@ -165,7 +166,7 @@ const ParagraphGeneratorPage = () => {
                   onChange={(event) => onHandleParagraphCountChange(event)}
                 />
               </div>
-              <div className='flex flex-col'>
+              <div className="flex flex-col">
                 <label className="mr-4 block"># Sentences per Paragraph</label>
                 <div>
                   <label className="mr-4">Min: {sentencesPerParagraph.min}</label>
@@ -194,10 +195,9 @@ const ParagraphGeneratorPage = () => {
                   />
                 </div>
               </div>
-              <div className='flex flex-col'>
+              <div className="flex flex-col">
                 <label className="mr-4 block"># Words per Sentence</label>
                 <div>
-
                   <label className="mr-4">Min: {wordsPerSentence.min}</label>
                   <input
                     className="w-16"

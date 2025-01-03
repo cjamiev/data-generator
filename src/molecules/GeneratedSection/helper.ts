@@ -11,9 +11,12 @@ import {
   generateBoolean,
   generateCustomState,
   customStringGenerator,
-  generateTime
+  generateTime,
+  generateWeightedRangeValue,
+  generateRange
 } from '../../utils/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../types/randomField';
+import { formatMoney } from '../../utils/stringHelper';
 
 const EIGHTY_YEARS_AGO = 80;
 
@@ -93,13 +96,24 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const [dateCount, isFuture, format] = col.userOptions.split(',');
-    const randomDate = generateDate(isFuture === 'true', Number(dateCount), format);
+    const [dateCount, futureFlag, format] = col.userOptions.split(',');
+    const isFuture = futureFlag === 'true';
+    const randomDate = generateDate(isFuture, Number(dateCount), format);
     const randomTime = format.includes('HH:MM:SS') ? generateTime() : '';
 
     return randomDate + ' ' + randomTime;
   }
+  if (col.randomType === CustomFieldLabel.RANGE) {
+    const [minAmount, maxAmount, weightedFlag, moneyFlag] = col.userOptions.split(',');
+    const isWeightedRange = weightedFlag === 'true';
+    const isMoneyFormat = moneyFlag === 'true';
+    const rangeValue = isWeightedRange
+      ? generateWeightedRangeValue(Number(minAmount), Number(maxAmount))
+      : generateRange(Number(minAmount), Number(maxAmount));
+    const formattedRangeValue = isMoneyFormat ? formatMoney(rangeValue) : String(rangeValue);
 
+    return formattedRangeValue;
+  }
   if (col.randomType === CustomFieldLabel.BOOLEAN) {
     const bool = generateBoolean(Number(col.userOptions));
 

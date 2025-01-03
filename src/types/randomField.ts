@@ -35,6 +35,7 @@ export enum CustomFieldLabel {
   CUSTOM_STATE = 'Custom State',
   DATE = 'Date',
   BOOLEAN = 'Boolean',
+  RANGE = 'Range'
 }
 
 export interface IFieldType {
@@ -202,6 +203,17 @@ export const fieldTypes = [
     dataType: ['date', 'string'],
     selectedDataType: 'date',
     formType: ['text', 'date'],
+    selectedFormType: 'text'
+  },
+  {
+    variableName: CustomFieldLabel.RANGE,
+    randomType: CustomFieldLabel.RANGE,
+    userOptions: '',
+    builtInOptions: [''],
+    selectedBuiltInOptions: '',
+    dataType: ['string'],
+    selectedDataType: 'string',
+    formType: ['text'],
     selectedFormType: 'text'
   },
   {

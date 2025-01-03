@@ -12,8 +12,8 @@ interface IDisplayRandomFields {
 }
 
 interface IFieldInput {
-  name: string,
-  index: number,
+  name: string;
+  index: number;
   onHandleColumnNameChange: (updatedName: string, index: number) => void;
 }
 
@@ -22,13 +22,13 @@ const FieldInput = ({ name, index, onHandleColumnNameChange }: IFieldInput) => {
 
   useEffect(() => {
     if (name) {
-      setVariableName(name)
+      setVariableName(name);
     }
   }, [name]);
 
   const onHandleVariableNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setVariableName(event.target.value);
-  }
+  };
 
   const submit = () => {
     if (variableName) {
@@ -36,18 +36,20 @@ const FieldInput = ({ name, index, onHandleColumnNameChange }: IFieldInput) => {
     } else {
       setVariableName(name);
     }
-  }
+  };
 
-  return (<input
-    className="rounded border-2 border-gray-500 pl-4"
-    type="text"
-    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-      onHandleVariableNameChange(event);
-    }}
-    onBlur={submit}
-    value={variableName}
-  />);
-}
+  return (
+    <input
+      className="rounded border-2 border-gray-500 pl-4"
+      type="text"
+      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        onHandleVariableNameChange(event);
+      }}
+      onBlur={submit}
+      value={variableName}
+    />
+  );
+};
 
 export const DisplayRandomFields = ({
   columns,
