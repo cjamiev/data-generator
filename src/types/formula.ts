@@ -4,7 +4,8 @@ export enum FORMULA_TYPE {
   LETTER = 'LETTER',
   DATE = 'DATE',
   INCREMENT = 'INCREMENT',
-  FIXED = 'FIXED'
+  FIXED = 'FIXED',
+  SPACE = 'SPACE'
 }
 
 export interface IFormulaMap {

@@ -84,6 +84,7 @@ const generateWeightedRangeValue = (min: number, max: number) => {
   return 0;
 }
 
+// Delete this one
 const customStringGenerator = (input: string, index: number) => {
   const content = input.split('');
   const result = content.map((item) => {
