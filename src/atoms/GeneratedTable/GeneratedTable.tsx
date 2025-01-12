@@ -30,7 +30,7 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
   }
 
   return (
-    <table className='mt-2'>
+    <table className="mt-2">
       <thead>
         <tr>
           {headers.map((item: string) => {
@@ -47,12 +47,13 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
               {entry.map((item: string) => {
                 return (
                   <td key={item}>
-                    <div>{item}</div>
+                    <div className="text-nowrap">{item}</div>
                   </td>
                 );
               })}
               <td>
                 <button
+                  className="w-12"
                   onClick={() => {
                     deleteRow(index);
                   }}>
@@ -61,6 +62,7 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
               </td>
               <td>
                 <button
+                  className="w-12"
                   onClick={() => {
                     copyToClipboard(getJSONRow(headers, entry));
                   }}>

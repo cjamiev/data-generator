@@ -11,11 +11,12 @@ import { scrollToTopOfPage, scrollToBottomOfPage } from '../utils/scroll';
 /*
  * TODO: Refactor
  * Hi Priority Features
- * - Download Result, CSV, HTML, JSON, Insert SQL
+ * - Edit Column
+ * Lo Priority Features
  * - Convert Input File to Fields
+ * - Download Result, HTML
  * - Sort Column, Collapse Column
  * - Edit Row, Delete Row
- * Lo Priority Features
  * - Custom String
  *   - input (limit possibilities, unique?)
  *   - Incrementer (increment by)
@@ -106,8 +107,7 @@ export const GeneratorPage = () => {
         }
         if (i === selectedIndex) {
           return itemToMoveUp;
-        }
-        else {
+        } else {
           return col;
         }
       });
@@ -127,8 +127,7 @@ export const GeneratorPage = () => {
         }
         if (i === selectedIndex) {
           return itemToMoveDown;
-        }
-        else {
+        } else {
           return col;
         }
       });
@@ -250,7 +249,7 @@ export const GeneratorPage = () => {
     <PageWrapper hasFooter>
       <>
         <h1 className="mb-4 text-6xl">Data Generator</h1>
-        <div className='flex gap-4'>
+        <div className="flex gap-4">
           <div>
             <DisplayRandomFields
               columns={columns}
@@ -273,16 +272,24 @@ export const GeneratorPage = () => {
             />
           </div>
           <GeneratedSection data={data} deleteRow={deleteRowFromData} />
-          <div className="fixed flex bottom-0 left-0 h-24 w-full border-t-2 border-dashed border-sky-500 bg-white pl-2 pr-2">
-            <div className='h-16 inline-flex flex-col m-2'>
-              <button className="h-2 w-32 pb-6 text-sm" onClick={scrollToTopOfPage} id="scroll-to-top" title="Go to top">
+          <div className="fixed bottom-0 left-0 flex h-24 w-full border-t-2 border-dashed border-sky-500 bg-white pl-2 pr-2">
+            <div className="m-2 inline-flex h-16 flex-col">
+              <button
+                className="h-2 w-32 pb-6 text-sm"
+                onClick={scrollToTopOfPage}
+                id="scroll-to-top"
+                title="Go to top">
                 Scroll Top
               </button>
-              <button className="mt-1 h-2 w-32 pb-6 text-sm" onClick={scrollToBottomOfPage} id="scroll-to-bottom" title="Go to bottom">
+              <button
+                className="mt-1 h-2 w-32 pb-6 text-sm"
+                onClick={scrollToBottomOfPage}
+                id="scroll-to-bottom"
+                title="Go to bottom">
                 Scroll Down
               </button>
             </div>
-            <div className='pt-4'>
+            <div className="pt-4">
               <button
                 className={`w-32 ${isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''}`}
                 disabled={isGenerateDisabled}
@@ -290,9 +297,14 @@ export const GeneratorPage = () => {
                 Generate Data
               </button>
             </div>
-            <div className='pt-8'>
+            <div className="pt-8">
               <span className="ml-2 w-12"># Rows:</span>
-              <input className='w-10 border-b-2 border-sky-500 text-center' type="text" onChange={onHandleCountUpdate} value={rowCount} />
+              <input
+                className="w-10 border-b-2 border-sky-500 text-center"
+                type="text"
+                onChange={onHandleCountUpdate}
+                value={rowCount}
+              />
             </div>
           </div>
         </div>

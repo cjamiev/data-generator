@@ -281,7 +281,10 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
         )}
         {selectedType === CustomFieldLabel.CUSTOM_STRING && (
           <div className="pb-2 pt-2">
-            <CustomStringForm fieldParams={fieldParams} onUpdateFields={(updatedFields) => setFieldParams(updatedFields)} />
+            <CustomStringForm
+              fieldParams={fieldParams}
+              onUpdateFields={(updatedFields) => setFieldParams(updatedFields)}
+            />
           </div>
         )}
         {selectedType === CustomFieldLabel.RANGE && (
