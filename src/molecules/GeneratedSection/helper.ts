@@ -13,10 +13,12 @@ import {
   customStringGenerator,
   generateTime,
   generateWeightedRangeValue,
-  generateRange
+  generateRange,
+  formulaMapper
 } from '../../utils/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../types/randomField';
 import { formatMoney } from '../../utils/stringHelper';
+import { IFormulaMap } from '../../types/formula';
 
 const EIGHTY_YEARS_AGO = 80;
 
@@ -126,7 +128,8 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return customStates;
   }
   if (col.randomType === CustomFieldLabel.CUSTOM_STRING) {
-    const customString = customStringGenerator(col.userOptions, index);
+    const input = JSON.parse(col.userOptions) as IFormulaMap[];
+    const customString = formulaMapper(input, index);
 
     return customString;
   } else {

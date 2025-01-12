@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { CustomFieldLabel } from '../../types/randomField';
 import { dateFormats } from '../../types/date';
+import { CustomStringForm } from '../CustomStringForm';
+import { IFormulaMap } from '../../types/formula';
 
 export interface IRandomField {
   variableName: string;
@@ -12,9 +14,9 @@ interface ICustomRandomFieldForm {
   currentLength: number;
 }
 
-// Todo: Date Future vs Past
 const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength }: ICustomRandomFieldForm) => {
-  const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.DATE);
+  const [fieldParams, setFieldParams] = useState<IFormulaMap[]>([]);
+  const [selectedType, setSelectedType] = useState<string>(CustomFieldLabel.CUSTOM_STRING);
   const [columnName, setColumnName] = useState<string>(`field${currentLength}`);
   const [options, setOptions] = useState<string>('');
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
@@ -72,7 +74,12 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
   };
 
   const submitNewField = () => {
-    if (selectedType === CustomFieldLabel.DATE) {
+    if (selectedType === CustomFieldLabel.CUSTOM_STRING) {
+      onHandleConfirm(selectedType, {
+        variableName: columnName,
+        options: JSON.stringify(fieldParams),
+      });
+    } else if (selectedType === CustomFieldLabel.DATE) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
         options: dateCount + ',' + String(isDateInFuture) + ',' + format,
@@ -94,10 +101,13 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
 
   const getShouldDisableConfirm = () => {
     const isValidName = Boolean(columnName);
+    if (selectedType === CustomFieldLabel.CUSTOM_STRING) {
+      return !fieldParams.length;
+    }
     if (selectedType === CustomFieldLabel.DATE || selectedType === CustomFieldLabel.BOOLEAN) {
       return !isValidName;
     }
-    if (selectedType === CustomFieldLabel.CUSTOM_STATE || selectedType === CustomFieldLabel.CUSTOM_STRING) {
+    if (selectedType === CustomFieldLabel.CUSTOM_STATE) {
       return !isValidName || !options;
     }
     if (selectedType === CustomFieldLabel.RANGE) {
@@ -108,7 +118,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
   const isConfirmDisabled = getShouldDisableConfirm();
 
   return (
-    <div className="relative left-1/4 top-1/4 h-1/2 w-fit rounded border border-gray-500 bg-white">
+    <div className="relative left-10 top-12 h-5/6 w-5/6 rounded border border-gray-500 bg-white">
       <div className="mb-4 border-b-2 border-dashed border-sky-500 p-4">
         <h2 className="text-3xl">Specify Custom Field</h2>
         <button className="absolute right-0 top-0 h-fit w-fit border-none" onClick={onHandleCancel}>
@@ -117,6 +127,17 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
       </div>
       <div className="p-4">
         <div className="flex">
+          <input
+            onChange={() => setSelectedType(CustomFieldLabel.CUSTOM_STRING)}
+            type="radio"
+            name="new_custom_field"
+            id={CustomFieldLabel.CUSTOM_STRING}
+            value={CustomFieldLabel.CUSTOM_STRING}
+            checked={selectedType === CustomFieldLabel.CUSTOM_STRING}
+          />
+          <label className="ml-2 w-32" htmlFor={CustomFieldLabel.CUSTOM_STRING}>
+            {CustomFieldLabel.CUSTOM_STRING}
+          </label>
           <input
             onChange={() => setSelectedType(CustomFieldLabel.DATE)}
             type="radio"
@@ -160,17 +181,6 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
           />
           <label className="ml-2 w-32" htmlFor={CustomFieldLabel.CUSTOM_STATE}>
             {CustomFieldLabel.CUSTOM_STATE}
-          </label>
-          <input
-            onChange={() => setSelectedType(CustomFieldLabel.CUSTOM_STRING)}
-            type="radio"
-            name="new_custom_field"
-            id={CustomFieldLabel.CUSTOM_STRING}
-            value={CustomFieldLabel.CUSTOM_STRING}
-            checked={selectedType === CustomFieldLabel.CUSTOM_STRING}
-          />
-          <label className="ml-2 w-32" htmlFor={CustomFieldLabel.CUSTOM_STRING}>
-            {CustomFieldLabel.CUSTOM_STRING}
           </label>
         </div>
         <div className="pb-2 pt-4">
@@ -270,18 +280,8 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
           </div>
         )}
         {selectedType === CustomFieldLabel.CUSTOM_STRING && (
-          <div className="pb-4 pt-4">
-            <label className="mr-14">Text </label>
-            <input
-              className="w-48 rounded border-2 border-gray-500 p-4"
-              type="text"
-              placeholder="#@&:^"
-              onChange={(event) => {
-                onHandleOptionsChange(event);
-              }}
-              name="text"
-              value={options}
-            />
+          <div className="pb-2 pt-2">
+            <CustomStringForm fieldParams={fieldParams} onUpdateFields={(updatedFields) => setFieldParams(updatedFields)} />
           </div>
         )}
         {selectedType === CustomFieldLabel.RANGE && (

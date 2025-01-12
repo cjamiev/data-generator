@@ -1,4 +1,4 @@
-import { IFormulaMap } from '../types/formula';
+import { FORMULA_TYPE, IFormulaMap } from '../types/formula';
 const letters = 'abcdefghijklmnopqrstuvwxyz';
 
 const START_ZERO = 0;
@@ -163,28 +163,48 @@ const generateCustomState = (states: string[]) => {
   return states[randomValue];
 };
 
+const getCorrectFunction = (type: FORMULA_TYPE) => {
+  if (type === FORMULA_TYPE.LETTER) {
+    return getRandomLetter;
+  }
+  if (type === FORMULA_TYPE.DIGIT) {
+    return getRandomDigit;
+  }
+  else {
+    return getRandomAlphanumberic;
+  }
+}
+
+const getMultipleRandomValues = (type: FORMULA_TYPE, size: number) => {
+  const func = getCorrectFunction(type);
+  const section = [];
+  for (let i = 0; i < size; i++) {
+    section.push(func())
+  }
+
+  return section;
+}
+
 const formulaMapper = (input: IFormulaMap[], index: number) => {
-  return input.map((item: IFormulaMap) => {
-    if (item.type === 'ALPHA') {
-      return getRandomAlphanumberic();
+  return input.map((field) => {
+    if (field.type === FORMULA_TYPE.FIXED) {
+      return field.value;
     }
-    if (item.type === 'DIGIT') {
-      return getRandomDigit();
+    if (field.type === FORMULA_TYPE.INCREMENT) {
+      return index + Number(field.value);
     }
-    if (item.type === 'LETTER') {
-      return getRandomLetter();
+    if (field.type === FORMULA_TYPE.DATE) {
+      return new Date().toISOString().slice(0, 19);
     }
-    if (item.type === 'DATE') {
-      const now = new Date();
-      return now.getMonth() + ADD_ONE + '-' + now.getDate() + '-' + now.getFullYear();
+    if (field.type === FORMULA_TYPE.SPACE) {
+      return ' ';
     }
-    if (item.type === 'INCREMENT') {
-      return index + ADD_ONE;
+    else {
+      const values = getMultipleRandomValues(field.type, Number(field.value));
+
+      return values.join('');
     }
-    if (item.type === 'FIXED') {
-      return item.value;
-    }
-  })
+  }).join('');
 }
 
 export {
