@@ -32,4 +32,5 @@ next-env.d.ts
 
 # personal
 q.js
+q.ts
 /q

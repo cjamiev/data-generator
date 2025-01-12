@@ -11,13 +11,13 @@ import { PageWrapper } from '../layout';
  * TODO: Refactor
  * Hi Priority Features
  * - Download Result, CSV, HTML, JSON, Insert SQL
- * - Move Fields up and down
  * Lo Priority Features
  * - Convert Input File to Fields
  * - Sort Column, Collapse Column
  * - Edit Row, Delete Row
  * - Improve email generator with the name
  * - Words, Fake Words, Sentence
+ * - Draggabled up and down
  * - Frequency: Never, Once, Daily, Weekly, Monthly, Yearly
  * - Height, Bloodtype, weight, shirt size, profession, race, title
  */
@@ -87,6 +87,48 @@ export const GeneratorPage = () => {
 
     const updatedSelection = predefinedSelection.filter((item) => item !== matched?.randomType);
     setPredifinedSelection(updatedSelection);
+  };
+
+  const onMoveDown = (selectedIndex: number) => {
+    const itemToMoveDown = columns.find((_col, i) => i === selectedIndex);
+    const itemToMoveUp = columns.find((_col, i) => i === selectedIndex + 1);
+
+    if (itemToMoveDown && itemToMoveUp) {
+      const updatedData = columns.map((col, i) => {
+        if (i === selectedIndex + 1) {
+          return itemToMoveDown;
+        }
+        if (i === selectedIndex) {
+          return itemToMoveUp;
+        }
+        else {
+          return col;
+        }
+      });
+
+      setColumns(updatedData);
+    }
+  };
+
+  const onMoveUp = (selectedIndex: number) => {
+    const itemToMoveUp = columns.find((_col, i) => i === selectedIndex);
+    const itemToMoveDown = columns.find((_col, i) => i === selectedIndex - 1);
+
+    if (itemToMoveDown && itemToMoveUp) {
+      const updatedData = columns.map((col, i) => {
+        if (i === selectedIndex - 1) {
+          return itemToMoveUp;
+        }
+        if (i === selectedIndex) {
+          return itemToMoveDown;
+        }
+        else {
+          return col;
+        }
+      });
+
+      setColumns(updatedData);
+    }
   };
 
   const onHandleColumnNameChange = (updatedName: string, selectedIndex: number) => {
@@ -215,6 +257,8 @@ export const GeneratorPage = () => {
           onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
           onHandleDataTypeChange={onHandleDataTypeChange}
           onHandleFormTypeChange={onHandleFormTypeChange}
+          onMoveUp={onMoveUp}
+          onMoveDown={onMoveDown}
         />
         <RandomFieldForm
           currentLength={columns.length}

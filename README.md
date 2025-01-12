@@ -23,6 +23,7 @@ Examples of generated content
 - chore: scripts
 
 # Current Features
+- Data Generator
 - Password Generator
 - Base 64 Encode/Decode
 - Paragraph Generator: lorem ipsum
@@ -46,6 +47,7 @@ Hi Priority
     - plants, animals, vegetables, fruits 
     - word { name, definition, type, tags }
   - convert variable name to dashcase, camelcase
+
 Lo Priority
 - Face Generator
   - generate cards with fake people
