@@ -30,7 +30,7 @@ export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
   }
 
   return (
-    <table>
+    <table className='mt-2'>
       <thead>
         <tr>
           {headers.map((item: string) => {

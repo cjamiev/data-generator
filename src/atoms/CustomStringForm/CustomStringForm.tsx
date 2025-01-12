@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { FORMULA_TYPE, IFormulaMap } from '../../types/formula';
 import { getRandomAlphanumberic, getRandomDigit, getRandomLetter } from '../../utils/randomHelper';
 
-// input (limit possibilities, unique?)Incrementer (increment by), Timestamp (toLocaleString format)
 const MOVE_LEFT = '<-';
 const MOVE_RIGHT = '->';
 

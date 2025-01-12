@@ -6,17 +6,23 @@ import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 import { PageWrapper } from '../layout';
+import { scrollToTopOfPage, scrollToBottomOfPage } from '../utils/scroll';
 
 /*
  * TODO: Refactor
  * Hi Priority Features
  * - Download Result, CSV, HTML, JSON, Insert SQL
- * Lo Priority Features
  * - Convert Input File to Fields
  * - Sort Column, Collapse Column
  * - Edit Row, Delete Row
+ * Lo Priority Features
+ * - Custom String
+ *   - input (limit possibilities, unique?)
+ *   - Incrementer (increment by)
+ *   - Timestamp (toLocaleString format)
  * - Improve email generator with the name
  * - Words, Fake Words, Sentence
+ * - Geometric/Weighted Distributed Number
  * - Draggabled up and down
  * - Frequency: Never, Once, Daily, Weekly, Monthly, Yearly
  * - Height, Bloodtype, weight, shirt size, profession, race, title
@@ -238,49 +244,57 @@ export const GeneratorPage = () => {
     }
   };
 
-  const onHandleScroll = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  };
-
   const isGenerateDisabled = columns.length === 0;
 
   return (
-    <PageWrapper>
+    <PageWrapper hasFooter>
       <>
         <h1 className="mb-4 text-6xl">Data Generator</h1>
-        <DisplayRandomFields
-          columns={columns}
-          onHandleRemoveField={onHandleRemoveField}
-          onHandleColumnNameChange={onHandleColumnNameChange}
-          onHandleColumnOptionsChange={onHandleColumnOptionsChange}
-          onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
-          onHandleDataTypeChange={onHandleDataTypeChange}
-          onHandleFormTypeChange={onHandleFormTypeChange}
-          onMoveUp={onMoveUp}
-          onMoveDown={onMoveDown}
-        />
-        <RandomFieldForm
-          currentLength={columns.length}
-          predefinedSelection={predefinedSelection}
-          updatePredefinedSelection={updatePredefinedSelection}
-          confirmPredfinedSelection={confirmPredfinedSelection}
-          onClickSelectAll={onClickSelectAll}
-          confirmCustomFieldSelection={confirmCustomFieldSelection}
-        />
-        <GeneratedSection data={data} deleteRow={deleteRowFromData} />
-        <div className="fixed bottom-0 left-0 h-24 w-full border-t-2 border-dashed border-sky-500 bg-white p-4">
-          <button
-            className={isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''}
-            disabled={isGenerateDisabled}
-            onClick={generateData}>
-            Generate Data
-          </button>
-          <span className="ml-2"># Rows:</span>
-          <input type="text" onChange={onHandleCountUpdate} value={rowCount} />
-          <button className="ml-2" onClick={onHandleScroll} id="myBtn" title="Go to top">
-            Scroll Top
-          </button>
+        <div className='flex gap-4'>
+          <div>
+            <DisplayRandomFields
+              columns={columns}
+              onHandleRemoveField={onHandleRemoveField}
+              onHandleColumnNameChange={onHandleColumnNameChange}
+              onHandleColumnOptionsChange={onHandleColumnOptionsChange}
+              onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
+              onHandleDataTypeChange={onHandleDataTypeChange}
+              onHandleFormTypeChange={onHandleFormTypeChange}
+              onMoveUp={onMoveUp}
+              onMoveDown={onMoveDown}
+            />
+            <RandomFieldForm
+              currentLength={columns.length}
+              predefinedSelection={predefinedSelection}
+              updatePredefinedSelection={updatePredefinedSelection}
+              confirmPredfinedSelection={confirmPredfinedSelection}
+              onClickSelectAll={onClickSelectAll}
+              confirmCustomFieldSelection={confirmCustomFieldSelection}
+            />
+          </div>
+          <GeneratedSection data={data} deleteRow={deleteRowFromData} />
+          <div className="fixed flex bottom-0 left-0 h-24 w-full border-t-2 border-dashed border-sky-500 bg-white pl-2 pr-2">
+            <div className='h-16 inline-flex flex-col m-2'>
+              <button className="h-2 w-32 pb-6 text-sm" onClick={scrollToTopOfPage} id="scroll-to-top" title="Go to top">
+                Scroll Top
+              </button>
+              <button className="mt-1 h-2 w-32 pb-6 text-sm" onClick={scrollToBottomOfPage} id="scroll-to-bottom" title="Go to bottom">
+                Scroll Down
+              </button>
+            </div>
+            <div className='pt-4'>
+              <button
+                className={`w-32 ${isGenerateDisabled ? 'cursor-not-allowed bg-gray-300' : ''}`}
+                disabled={isGenerateDisabled}
+                onClick={generateData}>
+                Generate Data
+              </button>
+            </div>
+            <div className='pt-8'>
+              <span className="ml-2 w-12"># Rows:</span>
+              <input className='w-10 border-b-2 border-sky-500 text-center' type="text" onChange={onHandleCountUpdate} value={rowCount} />
+            </div>
+          </div>
         </div>
       </>
     </PageWrapper>
