@@ -5,10 +5,6 @@ interface IDisplayRandomFields {
   columns: IFieldType[];
   onHandleRemoveField: (selectedIndex: number) => void;
   onHandleColumnNameChange: (updatedName: string, selectedIndex: number) => void;
-  onHandleColumnOptionsChange: (event: ChangeEvent<HTMLInputElement>, selectedIndex: number) => void;
-  onHandleBuiltInOptionsChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
-  onHandleDataTypeChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
-  onHandleFormTypeChange: (event: ChangeEvent<HTMLSelectElement>, selectedIndex: number) => void;
   onMoveUp: (index: number) => void;
   onMoveDown: (index: number) => void;
 }

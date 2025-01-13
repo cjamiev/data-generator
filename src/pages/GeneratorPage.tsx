@@ -36,6 +36,7 @@ const ZERO = 0;
 const DEFAULT_ROW_COUNT = 10;
 const MIN_ROW_COUNT = 1;
 const MAX_ROW_COUNT = 1000;
+const PredefinedRandomValues = Object.values(PredefinedRandomLabel);
 
 export const GeneratorPage = () => {
   const [data, setData] = useState<{ column: string; value: string }[][]>([]);
@@ -50,6 +51,7 @@ export const GeneratorPage = () => {
     PredefinedRandomLabel.FIRST_NAME,
     PredefinedRandomLabel.LAST_NAME,
   ]);
+  const isGenerateDisabled = columns.length === 0;
 
   const generateData = () => {
     const result: { column: string; value: string }[][] = [];
@@ -148,66 +150,6 @@ export const GeneratorPage = () => {
     setColumns(updatedColumns);
   };
 
-  const onHandleColumnOptionsChange = (event: React.ChangeEvent<HTMLInputElement>, selectedIndex: number) => {
-    const value = event.target.value;
-    if (value) {
-      const updatedColumns = columns.map((item, index) => {
-        if (selectedIndex === index) {
-          return { ...item, userOptions: value };
-        } else {
-          return item;
-        }
-      });
-
-      setColumns(updatedColumns);
-    }
-  };
-
-  const onHandleBuiltInOptionsChange = (event: React.ChangeEvent<HTMLSelectElement>, selectedIndex: number) => {
-    const value = event.target.value;
-    if (value) {
-      const updatedColumns = columns.map((item, index) => {
-        if (selectedIndex === index) {
-          return { ...item, selectedBuiltInOptions: value };
-        } else {
-          return item;
-        }
-      });
-
-      setColumns(updatedColumns);
-    }
-  };
-
-  const onHandleDataTypeChange = (event: React.ChangeEvent<HTMLSelectElement>, selectedIndex: number) => {
-    const value = event.target.value;
-    if (value) {
-      const updatedColumns = columns.map((item, index) => {
-        if (selectedIndex === index) {
-          return { ...item, selectedDataType: value };
-        } else {
-          return item;
-        }
-      });
-
-      setColumns(updatedColumns);
-    }
-  };
-
-  const onHandleFormTypeChange = (event: React.ChangeEvent<HTMLSelectElement>, selectedIndex: number) => {
-    const value = event.target.value;
-    if (value) {
-      const updatedColumns = columns.map((item, index) => {
-        if (selectedIndex === index) {
-          return { ...item, selectedFormType: value };
-        } else {
-          return item;
-        }
-      });
-
-      setColumns(updatedColumns);
-    }
-  };
-
   const updatePredefinedSelection = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
     const matched = predefinedSelection.some((item) => item === selectedValue);
@@ -239,11 +181,9 @@ export const GeneratorPage = () => {
     if (predefinedSelection.length === 13) {
       setPredifinedSelection([]);
     } else {
-      setPredifinedSelection(Object.values(PredefinedRandomLabel));
+      setPredifinedSelection(PredefinedRandomValues);
     }
   };
-
-  const isGenerateDisabled = columns.length === 0;
 
   return (
     <PageWrapper hasFooter>
@@ -255,10 +195,6 @@ export const GeneratorPage = () => {
               columns={columns}
               onHandleRemoveField={onHandleRemoveField}
               onHandleColumnNameChange={onHandleColumnNameChange}
-              onHandleColumnOptionsChange={onHandleColumnOptionsChange}
-              onHandleBuiltInOptionsChange={onHandleBuiltInOptionsChange}
-              onHandleDataTypeChange={onHandleDataTypeChange}
-              onHandleFormTypeChange={onHandleFormTypeChange}
               onMoveUp={onMoveUp}
               onMoveDown={onMoveDown}
             />
