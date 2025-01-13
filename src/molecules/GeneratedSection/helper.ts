@@ -34,17 +34,17 @@ const getPIGeneratedValue = (col: IFieldType, index: number) => {
     return lastname;
   }
   if (col.randomType === PredefinedRandomLabel.SSN) {
-    const ssn = customStringGenerator(col.selectedBuiltInOptions, index);
+    const ssn = customStringGenerator(col.options, index);
 
     return ssn;
   }
   if (col.randomType === PredefinedRandomLabel.CREDIT_CARD) {
-    const ccnumber = customStringGenerator(col.selectedBuiltInOptions, index);
+    const ccnumber = customStringGenerator(col.options, index);
 
     return ccnumber;
   }
   if (col.randomType === PredefinedRandomLabel.PHONE_NUMBER) {
-    const phonenumber = customStringGenerator(col.selectedBuiltInOptions, index);
+    const phonenumber = customStringGenerator(col.options, index);
 
     return phonenumber;
   }
@@ -53,7 +53,7 @@ const getPIGeneratedValue = (col: IFieldType, index: number) => {
     return email;
   }
   if (col.randomType === PredefinedRandomLabel.BIRTH_DATE) {
-    const randomDate = generateDate(false, EIGHTY_YEARS_AGO, col.selectedBuiltInOptions);
+    const randomDate = generateDate(false, EIGHTY_YEARS_AGO, col.options);
 
     return randomDate;
   } else {
@@ -78,7 +78,7 @@ const getAddressGeneratedValue = (col: IFieldType, index: number) => {
     return state;
   }
   if (col.randomType === PredefinedRandomLabel.ZIP_CODE) {
-    const zipCode = customStringGenerator(col.selectedBuiltInOptions, index);
+    const zipCode = customStringGenerator(col.options, index);
 
     return zipCode;
   } else {
@@ -93,12 +93,12 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return id;
   }
   if (col.randomType === PredefinedRandomLabel.UUID) {
-    const uuid = customStringGenerator(col.selectedBuiltInOptions, index);
+    const uuid = customStringGenerator(col.options, index);
 
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const [dateCount, futureFlag, format] = col.userOptions.split(',');
+    const [dateCount, futureFlag, format] = col.options.split(',');
     const isFuture = futureFlag === 'true';
     const randomDate = generateDate(isFuture, Number(dateCount), format);
     const randomTime = format.includes('HH:MM:SS') ? generateTime() : '';
@@ -106,7 +106,7 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return randomDate + ' ' + randomTime;
   }
   if (col.randomType === CustomFieldLabel.RANGE) {
-    const [minAmount, maxAmount, weightedFlag, moneyFlag] = col.userOptions.split(',');
+    const [minAmount, maxAmount, weightedFlag, moneyFlag] = col.options.split(',');
     const isWeightedRange = weightedFlag === 'true';
     const isMoneyFormat = moneyFlag === 'true';
     const rangeValue = isWeightedRange
@@ -117,18 +117,18 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return formattedRangeValue;
   }
   if (col.randomType === CustomFieldLabel.BOOLEAN) {
-    const bool = generateBoolean(Number(col.userOptions));
+    const bool = generateBoolean(Number(col.options));
 
     return bool ? 'true' : 'false';
   }
   if (col.randomType === CustomFieldLabel.CUSTOM_STATE) {
-    const states = col.userOptions.includes(',') ? col.userOptions.split(',') : col.userOptions.split('');
+    const states = col.options.includes(',') ? col.options.split(',') : col.options.split('');
     const customStates = generateCustomState(states);
 
     return customStates;
   }
   if (col.randomType === CustomFieldLabel.CUSTOM_STRING) {
-    const input = JSON.parse(col.userOptions) as IFormulaMap[];
+    const input = JSON.parse(col.options) as IFormulaMap[];
     const customString = formulaMapper(input, index);
 
     return customString;

@@ -64,7 +64,7 @@ const EncodePage = () => {
   return (
     <PageWrapper>
       <>
-        <h1 className="pb-4 text-6xl">Encode Page</h1>
+        <h1 className="pb-4 text-6xl">Encode Data</h1>
         <span>Convert content to base 64 or decode from base 64</span>
         <div className="flex flex-row gap-4">
           <div className="flex w-1/2 flex-col">

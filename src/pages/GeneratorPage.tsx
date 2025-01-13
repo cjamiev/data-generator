@@ -230,7 +230,7 @@ export const GeneratorPage = () => {
     const updatedNewField = {
       ...newField,
       variableName: field.variableName,
-      userOptions: field.options,
+      options: field.options,
     } as IFieldType;
     setColumns(columns.concat([updatedNewField]));
   };

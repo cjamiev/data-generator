@@ -8,8 +8,8 @@ export enum RoutesUrl {
 
 export enum RoutesTitle {
   HOME = 'Home',
-  DATA_GENERATOR = 'Data Generator',
-  PASSWORD_GENERATOR = 'Password Generator',
-  PARAGRAPH_GENERATOR = 'Lorem Ipsum Generator',
+  DATA_GENERATOR = 'Data',
+  PASSWORD_GENERATOR = 'Password',
+  PARAGRAPH_GENERATOR = 'Text',
   ENCODE = 'Encode'
 } 
