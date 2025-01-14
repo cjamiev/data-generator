@@ -333,7 +333,7 @@ const PasswordGeneratorPage = () => {
               <span className="text-2xl font-bold">Include</span>
               <div>
                 <input
-                  className="mr-2 w-6"
+                  className="mr-1 w-6"
                   onChange={onHandleIncludeNumbersChange}
                   type="checkbox"
                   id="should-include-numbers"
@@ -345,7 +345,7 @@ const PasswordGeneratorPage = () => {
               </div>
               <div>
                 <input
-                  className="mr-2 w-6"
+                  className="mr-1 w-6"
                   onChange={onHandleIncludeLowercasedLettersChange}
                   type="checkbox"
                   id="should-include-lowercased-letters"
@@ -357,7 +357,7 @@ const PasswordGeneratorPage = () => {
               </div>
               <div>
                 <input
-                  className="mr-2 w-6"
+                  className="mr-1 w-6"
                   onChange={onHandleIncludeUppercasedLettersChange}
                   type="checkbox"
                   id="should-include-uppercased-letters"
@@ -369,7 +369,7 @@ const PasswordGeneratorPage = () => {
               </div>
               <div>
                 <input
-                  className="mr-2 w-6"
+                  className="mr-1 w-6"
                   onChange={onHandleAllowSequenceChange}
                   type="checkbox"
                   id="should-allow-sequence"
@@ -381,7 +381,7 @@ const PasswordGeneratorPage = () => {
               </div>
               <div>
                 <input
-                  className="mr-2 w-6"
+                  className="mr-1 w-6"
                   onChange={onHandleAllowTripleRepeatChange}
                   type="checkbox"
                   id="should-triple-repeat"
@@ -404,7 +404,7 @@ const PasswordGeneratorPage = () => {
             </div>
             <div className="w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4">
               <input
-                className="mr-2 w-6"
+                className="mr-1 w-6"
                 onChange={onHandleRegenOnChange}
                 type="checkbox"
                 id="should-regen-on-change"

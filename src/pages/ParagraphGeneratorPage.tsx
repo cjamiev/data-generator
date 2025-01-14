@@ -236,7 +236,7 @@ const ParagraphGeneratorPage = () => {
                   value="extra-small"
                   checked={fontSize === 'extra-small'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-extra-small">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-extra-small">
                   Extra Small
                 </label>
               </div>
@@ -249,7 +249,7 @@ const ParagraphGeneratorPage = () => {
                   value="small"
                   checked={fontSize === 'small'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-small">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-small">
                   Small
                 </label>
               </div>
@@ -262,7 +262,7 @@ const ParagraphGeneratorPage = () => {
                   value="base"
                   checked={fontSize === 'base'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-base">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-base">
                   Default
                 </label>
               </div>
@@ -275,7 +275,7 @@ const ParagraphGeneratorPage = () => {
                   value="large"
                   checked={fontSize === 'large'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-large">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-large">
                   Large
                 </label>
               </div>
@@ -288,7 +288,7 @@ const ParagraphGeneratorPage = () => {
                   value="extra-large"
                   checked={fontSize === 'extra-large'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-extra-large">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-extra-large">
                   Extra Large
                 </label>
               </div>
@@ -302,7 +302,7 @@ const ParagraphGeneratorPage = () => {
                   value="mono"
                   checked={fontType === 'mono'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-mono">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-mono">
                   Mono
                 </label>
               </div>
@@ -315,7 +315,7 @@ const ParagraphGeneratorPage = () => {
                   value="serif"
                   checked={fontType === 'serif'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-serif">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-serif">
                   Serif
                 </label>
               </div>
@@ -328,7 +328,7 @@ const ParagraphGeneratorPage = () => {
                   value="sans"
                   checked={fontType === 'sans'}
                 />
-                <label className="ml-2 w-12" htmlFor="font-sans">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-sans">
                   Sans
                 </label>
               </div>
@@ -341,7 +341,7 @@ const ParagraphGeneratorPage = () => {
                   value=""
                   checked={fontType === ''}
                 />
-                <label className="ml-2 w-12" htmlFor="font-default">
+                <label className="relative bottom-1 ml-2 w-12" htmlFor="font-default">
                   Default
                 </label>
               </div>

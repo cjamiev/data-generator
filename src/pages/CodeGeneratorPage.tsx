@@ -2,25 +2,34 @@ import React, { useState } from 'react';
 import { PageWrapper } from '../layout';
 import { CodeFieldLabel, ICodeProp, CodeFieldValues } from '../types/codeField';
 import { DisplayCodeFields } from '../molecules/DisplayCodeFields/DIsplayCodeFields';
+import { CodeGeneratedSection } from '../molecules/CodeGeneratedSection';
 
 /*
  * TODO: Refactor
+ * - add ability to extend group for to button, radio, checkbox
+ * - add type: dropdown
+ * - add prefilled label and variable name options
+ * - add react code display
+ * - add copy ability
+ * - add unit tests
  */
 
 export const CodeGeneratorPage = () => {
   const [codeFields, setCodeFields] = useState<ICodeProp[]>([]);
 
   const onHandleCodeField = (selectedValue: CodeFieldLabel) => {
-    const count = codeFields.filter(cf => cf.type === selectedValue).length + 1;
+    const count = codeFields.filter((cf) => cf.type === selectedValue).length + 1;
     const label = `${selectedValue}${count}`;
-    const updatedCodeFields = codeFields.concat([{
-      type: selectedValue,
-      label,
-      variableName: label.toLocaleLowerCase()
-    }]);
+    const updatedCodeFields = codeFields.concat([
+      {
+        type: selectedValue,
+        label,
+        variableName: label.toLocaleLowerCase(),
+      },
+    ]);
 
     setCodeFields(updatedCodeFields);
-  }
+  };
 
   const onHandleColumnUpdateChange = (updatedLabel: string, updatedName: string, selectedIndex: number) => {
     const updatedColumns = codeFields.map((item, index) => {
@@ -85,14 +94,18 @@ export const CodeGeneratorPage = () => {
         <h1 className="mb-4 text-6xl">Code Generator</h1>
         <div className="flex gap-4">
           <div>
-            <div className='mb-4'>
+            <div className="mb-4">
               <div className="mb-4 text-2xl">Select Form Fields</div>
-              {CodeFieldValues.map(cValue => {
-                return <button key={cValue} className='w-24 mr-2' onClick={() => onHandleCodeField(cValue)}>{cValue}</button>
+              {CodeFieldValues.map((cValue) => {
+                return (
+                  <button key={cValue} className="mr-2 w-24" onClick={() => onHandleCodeField(cValue)}>
+                    {cValue}
+                  </button>
+                );
               })}
             </div>
             <DisplayCodeFields
-              columns={codeFields}
+              codeFields={codeFields}
               onHandleRemoveField={onHandleRemoveField}
               onHandleColumnUpdateChange={onHandleColumnUpdateChange}
               onMoveUp={onMoveUp}
@@ -100,7 +113,7 @@ export const CodeGeneratorPage = () => {
             />
           </div>
           <div>
-            Test
+            <CodeGeneratedSection codeFields={codeFields} />
           </div>
         </div>
       </>

@@ -1,11 +1,11 @@
-import { CodeFieldInput } from "../../atoms/CodeFieldInput";
-import { ICodeProp } from "../../types/codeField";
+import { CodeFieldInput } from '../../atoms/CodeFieldInput';
+import { ICodeProp } from '../../types/codeField';
 
 const MOVE_UP = 'U';
 const MOVE_DOWN = 'D';
 
 interface IDisplayCodeFields {
-  columns: ICodeProp[];
+  codeFields: ICodeProp[];
   onHandleRemoveField: (selectedIndex: number) => void;
   onHandleColumnUpdateChange: (updatedLabel: string, updatedName: string, selectedIndex: number) => void;
   onMoveUp: (index: number) => void;
@@ -13,23 +13,27 @@ interface IDisplayCodeFields {
 }
 
 export const DisplayCodeFields = ({
-  columns,
+  codeFields,
   onHandleRemoveField,
   onHandleColumnUpdateChange,
   onMoveUp,
   onMoveDown,
 }: IDisplayCodeFields) => {
+  if (!codeFields.length) {
+    return null;
+  }
+
   return (
     <div>
       <div className="mb-2 flex flex-row gap-x-2">
-        <div className="w-fit mr-2 text-lg">Reorder</div>
-        <div className="w-fit mr-20 text-lg">Type</div>
-        <div className="w-fit ml-2 mr-20 text-lg">Label</div>
-        <div className="w-fit ml-2 text-lg">Variable Name</div>
+        <div className="mr-2 w-fit text-lg">Reorder</div>
+        <div className="mr-20 w-fit text-lg">Type</div>
+        <div className="ml-2 mr-20 w-fit text-lg">Label</div>
+        <div className="ml-2 w-fit text-lg">Variable Name</div>
       </div>
-      {columns.map((item: ICodeProp, index: number) => {
+      {codeFields.map((item: ICodeProp, index: number) => {
         const isFirst = index === 0;
-        const isLast = index === columns.length - 1;
+        const isLast = index === codeFields.length - 1;
 
         return (
           <div key={item.variableName} className="mb-2 flex flex-row gap-2">
@@ -50,7 +54,12 @@ export const DisplayCodeFields = ({
               )}
             </div>
             <span className="w-32 rounded border-2 border-dashed border-sky-500 pl-4 pt-3">{item.type}</span>
-            <CodeFieldInput displayLabel={item.label} name={item.variableName} onHandleColumnUpdateChange={onHandleColumnUpdateChange} index={index} />
+            <CodeFieldInput
+              displayLabel={item.label}
+              name={item.variableName}
+              onHandleColumnUpdateChange={onHandleColumnUpdateChange}
+              index={index}
+            />
             <button
               className="w-fit"
               onClick={() => {
