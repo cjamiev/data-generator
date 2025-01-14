@@ -1,27 +1,34 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { ICodeProp } from '../../types/codeField';
 
-interface ICodeFieldInput {
-  codeField: ICodeProp;
+interface ISubCodeFieldInput {
+  displayLabel: string;
+  name: string;
   index: number;
-  onHandleColumnUpdateChange: (updatedLabel: string, updatedName: string, index: number) => void;
+  subindex: number;
+  onHandleSubColumnUpdateChange: (updatedLabel: string, updatedName: string, index: number, subindex: number) => void;
 }
 
-export const CodeFieldInput = ({ codeField, index, onHandleColumnUpdateChange }: ICodeFieldInput) => {
+export const SubCodeFieldInput = ({
+  displayLabel,
+  name,
+  index,
+  subindex,
+  onHandleSubColumnUpdateChange,
+}: ISubCodeFieldInput) => {
   const [label, setLabel] = useState<string>('');
   const [variableName, setVariableName] = useState<string>('');
 
   useEffect(() => {
-    if (codeField.label) {
-      setLabel(codeField.label);
+    if (displayLabel) {
+      setLabel(displayLabel);
     }
-  }, [codeField.label]);
+  }, [displayLabel]);
 
   useEffect(() => {
-    if (codeField.variableName) {
-      setVariableName(codeField.variableName);
+    if (name) {
+      setVariableName(name);
     }
-  }, [codeField.variableName]);
+  }, [name]);
 
   const onHandleDisplayLabelChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLabel(event.target.value);
@@ -33,17 +40,17 @@ export const CodeFieldInput = ({ codeField, index, onHandleColumnUpdateChange }:
 
   const submitLabel = () => {
     if (label) {
-      onHandleColumnUpdateChange(label, variableName, index);
+      onHandleSubColumnUpdateChange(label, variableName, index, subindex);
     } else {
-      setLabel(codeField.label);
+      setLabel(displayLabel);
     }
   };
 
   const submitName = () => {
     if (variableName) {
-      onHandleColumnUpdateChange(label, variableName, index);
+      onHandleSubColumnUpdateChange(label, variableName, index, subindex);
     } else {
-      setVariableName(codeField.variableName);
+      setVariableName(name);
     }
   };
 

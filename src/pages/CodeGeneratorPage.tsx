@@ -25,14 +25,41 @@ export const CodeGeneratorPage = () => {
         type: selectedValue,
         label,
         variableName: label.toLocaleLowerCase(),
+        subcodefield: [],
       },
     ]);
 
     setCodeFields(updatedCodeFields);
   };
 
+  const onHandleConcatenate = (selectedIndex: number) => {
+    const itemToUpdate = codeFields.find((_col, i) => i === selectedIndex);
+    if (itemToUpdate) {
+      const subindex = itemToUpdate.subcodefield.length + 1;
+      const updatedItem = {
+        ...itemToUpdate,
+        subcodefield: itemToUpdate.subcodefield.concat([
+          {
+            label: itemToUpdate.label + subindex,
+            variableName: itemToUpdate.variableName + subindex,
+          },
+        ]),
+      };
+
+      const updatedCodeFields = codeFields.map((item, index) => {
+        if (selectedIndex === index) {
+          return updatedItem;
+        } else {
+          return item;
+        }
+      });
+
+      setCodeFields(updatedCodeFields);
+    }
+  };
+
   const onHandleColumnUpdateChange = (updatedLabel: string, updatedName: string, selectedIndex: number) => {
-    const updatedColumns = codeFields.map((item, index) => {
+    const updatedCodeFields = codeFields.map((item, index) => {
       if (selectedIndex === index) {
         return { ...item, label: updatedLabel, variableName: updatedName };
       } else {
@@ -40,7 +67,45 @@ export const CodeGeneratorPage = () => {
       }
     });
 
-    setCodeFields(updatedColumns);
+    setCodeFields(updatedCodeFields);
+  };
+
+  const onHandleSubColumnUpdateChange = (
+    updatedLabel: string,
+    updatedName: string,
+    selectedIndex: number,
+    selectedSubIndex: number
+  ) => {
+    const updatedCodeFields = codeFields.map((item, index) => {
+      if (selectedIndex === index) {
+        const updatedConcantenation = item.subcodefield.map((subitem, subindex) => {
+          if (selectedSubIndex === subindex) {
+            return { ...subitem, label: updatedLabel, variableName: updatedName };
+          } else {
+            return subitem;
+          }
+        });
+
+        return { ...item, subcodefield: updatedConcantenation };
+      } else {
+        return item;
+      }
+    });
+
+    setCodeFields(updatedCodeFields);
+  };
+
+  const onHandleRemoveSubfield = (selectedIndex: number, selectedSubIndex: number) => {
+    const updatedCodeFields = codeFields.map((item, index) => {
+      if (selectedIndex === index) {
+        const updatedSubCodeField = item.subcodefield.filter((_, i) => i !== selectedSubIndex);
+        return { ...item, subcodefield: updatedSubCodeField };
+      } else {
+        return item;
+      }
+    });
+
+    setCodeFields(updatedCodeFields);
   };
 
   const onHandleRemoveField = (selectedIndex: number) => {
@@ -53,7 +118,7 @@ export const CodeGeneratorPage = () => {
     const itemToMoveUp = codeFields.find((_col, i) => i === selectedIndex + 1);
 
     if (itemToMoveDown && itemToMoveUp) {
-      const updatedData = codeFields.map((col, i) => {
+      const updatedCodeFields = codeFields.map((col, i) => {
         if (i === selectedIndex + 1) {
           return itemToMoveDown;
         }
@@ -64,7 +129,7 @@ export const CodeGeneratorPage = () => {
         }
       });
 
-      setCodeFields(updatedData);
+      setCodeFields(updatedCodeFields);
     }
   };
 
@@ -73,7 +138,7 @@ export const CodeGeneratorPage = () => {
     const itemToMoveDown = codeFields.find((_col, i) => i === selectedIndex - 1);
 
     if (itemToMoveDown && itemToMoveUp) {
-      const updatedData = codeFields.map((col, i) => {
+      const updatedCodeFields = codeFields.map((col, i) => {
         if (i === selectedIndex - 1) {
           return itemToMoveUp;
         }
@@ -84,7 +149,7 @@ export const CodeGeneratorPage = () => {
         }
       });
 
-      setCodeFields(updatedData);
+      setCodeFields(updatedCodeFields);
     }
   };
 
@@ -108,6 +173,9 @@ export const CodeGeneratorPage = () => {
               codeFields={codeFields}
               onHandleRemoveField={onHandleRemoveField}
               onHandleColumnUpdateChange={onHandleColumnUpdateChange}
+              onHandleSubColumnUpdateChange={onHandleSubColumnUpdateChange}
+              onHandleConcatenate={onHandleConcatenate}
+              onHandleRemoveSubfield={onHandleRemoveSubfield}
               onMoveUp={onMoveUp}
               onMoveDown={onMoveDown}
             />
