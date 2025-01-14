@@ -157,7 +157,7 @@ export const CodeGeneratorPage = () => {
     <PageWrapper>
       <>
         <h1 className="mb-4 text-6xl">Code Generator</h1>
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <div>
             <div className="mb-4">
               <div className="mb-4 text-2xl">Select Form Fields</div>
@@ -180,7 +180,7 @@ export const CodeGeneratorPage = () => {
               onMoveDown={onMoveDown}
             />
           </div>
-          <div>
+          <div className="flex-auto">
             <CodeGeneratedSection codeFields={codeFields} />
           </div>
         </div>

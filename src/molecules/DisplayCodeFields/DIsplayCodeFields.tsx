@@ -1,6 +1,6 @@
 import { CodeFieldInput } from '../../atoms/CodeFieldInput';
 import { SubCodeFieldInput } from '../../atoms/CodeFieldInput/SubCodeFieldInput';
-import { ICodeProp } from '../../types/codeField';
+import { CodeFieldLabel, ICodeProp } from '../../types/codeField';
 
 const MOVE_UP = 'U';
 const MOVE_DOWN = 'D';
@@ -68,13 +68,16 @@ export const DisplayCodeFields = ({
               </div>
               <span className="w-32 rounded border-2 border-dashed border-sky-500 pl-4 pt-3">{item.type}</span>
               <CodeFieldInput codeField={item} index={index} onHandleColumnUpdateChange={onHandleColumnUpdateChange} />
-              <button
-                className="w-fit"
-                onClick={() => {
-                  onHandleConcatenate(index);
-                }}>
-                +
-              </button>
+              {(item.type === CodeFieldLabel.CHECKBOX ||
+                item.type === CodeFieldLabel.RADIO) && (item.subcodefield.length < 4) && (
+                  <button
+                    className="w-fit"
+                    onClick={() => {
+                      onHandleConcatenate(index);
+                    }}>
+                    +
+                  </button>
+                )}
               <button
                 className="w-fit"
                 onClick={() => {
