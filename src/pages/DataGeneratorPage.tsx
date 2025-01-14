@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
-import { GeneratedSection } from '../molecules/GeneratedSection';
+import { RandomGeneratedSection } from '../molecules/RandomGeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
 import { fieldTypes, IFieldType, PredefinedRandomLabel } from '../types/randomField';
-import { getCorrectGeneratedValue } from '../molecules/GeneratedSection/helper';
+import { getCorrectGeneratedValue } from '../molecules/RandomGeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/RandomFieldForm';
 import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
 import { PageWrapper } from '../layout';
@@ -207,7 +207,7 @@ export const DataGeneratorPage = () => {
               confirmCustomFieldSelection={confirmCustomFieldSelection}
             />
           </div>
-          <GeneratedSection data={data} deleteRow={deleteRowFromData} />
+          <RandomGeneratedSection data={data} deleteRow={deleteRowFromData} />
           <div className="fixed bottom-0 left-0 flex h-24 w-full border-t-2 border-dashed border-sky-500 bg-white pl-2 pr-2">
             <div className="m-2 inline-flex h-16 flex-col">
               <button

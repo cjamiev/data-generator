@@ -1,6 +1,6 @@
 import React from 'react';
 import { copyToClipboard } from '../../utils/copy';
-import { getJSONRow } from '../../molecules/GeneratedSection/exportHelper';
+import { getJSONRow } from '../../molecules/RandomGeneratedSection/exportHelper';
 
 const ZERO = 0;
 
@@ -22,7 +22,7 @@ interface IGenerateTable {
   deleteRow: (selectedIndex: number) => void;
 }
 
-export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
+export const RandomGeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
   const { headers, rows } = getTableData(data);
 
   if (!data.length) {

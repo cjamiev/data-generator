@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { copyToClipboard } from '../../utils/copy';
 import { getJSONData, getCSVData, getSQLInsertData } from './exportHelper';
-import { GeneratedTable } from '../../atoms/GeneratedTable';
+import { RandomGeneratedTable } from '../../atoms/RandomGeneratedTable';
 
 const ZERO = 0;
 
@@ -25,7 +25,7 @@ interface IGenerateTable {
 
 const ActiveTabClass = 'border-t-2 border-l-2 border-r-2 rounded-t-xl border-gray-500';
 
-export const GeneratedSection = ({ data, deleteRow }: IGenerateTable) => {
+export const RandomGeneratedSection = ({ data, deleteRow }: IGenerateTable) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const { headers, rows } = getTableData(data);
 
@@ -88,7 +88,7 @@ export const GeneratedSection = ({ data, deleteRow }: IGenerateTable) => {
             </button>
           </div>
         </div>
-        {selectedTab === 0 ? <GeneratedTable data={data} deleteRow={deleteRow} /> : null}
+        {selectedTab === 0 ? <RandomGeneratedTable data={data} deleteRow={deleteRow} /> : null}
         {selectedTab === 1 ? (
           <div>
             {JSON.parse(getJSONData(data)).map((section: unknown, index: number) => {
