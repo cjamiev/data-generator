@@ -38,7 +38,7 @@ const MIN_ROW_COUNT = 1;
 const MAX_ROW_COUNT = 1000;
 const PredefinedRandomValues = Object.values(PredefinedRandomLabel);
 
-export const GeneratorPage = () => {
+export const DataGeneratorPage = () => {
   const [data, setData] = useState<{ column: string; value: string }[][]>([]);
   const [rowCount, setRowCount] = useState<number>(DEFAULT_ROW_COUNT);
   const [columns, setColumns] = useState<IFieldType[]>([
