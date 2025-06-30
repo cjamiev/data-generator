@@ -6,12 +6,12 @@ import { CodeGeneratedSection } from '../molecules/CodeGeneratedSection';
 
 /*
  * TODO: Refactor
- * - add ability to extend group for to button, radio, checkbox
- * - add type: dropdown
- * - add prefilled label and variable name options
  * - add react code display
  * - add copy ability
  * - add unit tests
+ * - add ability to extend group for to dropdown, radio, checkbox
+ * - add type: dropdown
+ * - add prefilled label and variable name options
  */
 
 export const CodeGeneratorPage = () => {

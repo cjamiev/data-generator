@@ -40,6 +40,7 @@ Hi Priority
   - Wave/shape maker
   - Color Picker (hex, rgb)
   - SVG shapes and animation
+  - Snippets
 - Other
   - Database 
     - articles, nouns, adjectives, verbs
