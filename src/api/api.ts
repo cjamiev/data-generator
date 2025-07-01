@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const api = {
-  get: (url) => {
+  get: (url: string) => {
     return axios.get(url);
   },
-  post: (url, payload) => {
+  post: (url: string, payload: unknown) => {
     return axios.post(url, payload);
   }
 };
