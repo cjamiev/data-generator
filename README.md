@@ -30,12 +30,6 @@ Examples of generated content
 
 ## Future Features
 Hi Priority
-- Form Generator
-  - Specify Button, input
-  - general html or react code
-  - useReducer vs useState
-  - useContext, useCustomHook
-  - unit test generation
 - CSS Generator
   - Wave/shape maker
   - Color Picker (hex, rgb)

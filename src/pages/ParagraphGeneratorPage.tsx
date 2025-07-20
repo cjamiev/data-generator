@@ -153,6 +153,7 @@ const ParagraphGeneratorPage = () => {
           <div>
             <div className="w-84 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
               <div className="mb-2 text-3xl">Options</div>
+              <span>(Must hit Regenerate)</span>
               <div>
                 <label className="mr-4 block"># Paragraphs: {numOfParagraphs}</label>
                 <input
@@ -225,7 +226,7 @@ const ParagraphGeneratorPage = () => {
                 </div>
               </div>
             </div>
-            <div className="w-84 ml-2 mt-2 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
+            <div className="w-84 mt-2 flex h-fit flex-col gap-4 rounded border-2 border-sky-600 p-8">
               <div className="text-3xl">Font Size</div>
               <div>
                 <input
