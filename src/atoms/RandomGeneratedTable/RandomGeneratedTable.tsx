@@ -1,4 +1,3 @@
-import React from 'react';
 import { copyToClipboard } from '../../utils/copy';
 import { getJSONRow } from '../../molecules/RandomGeneratedSection/exportHelper';
 

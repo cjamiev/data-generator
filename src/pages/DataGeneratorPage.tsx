@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { RandomGeneratedSection } from '../molecules/RandomGeneratedSection';
 import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
 import { fieldTypes, IFieldType, PredefinedRandomLabel } from '../types/randomField';

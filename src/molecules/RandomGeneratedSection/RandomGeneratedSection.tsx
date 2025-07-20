@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { copyToClipboard } from '../../utils/copy';
 import { getJSONData, getCSVData, getSQLInsertData } from './exportHelper';
 import { RandomGeneratedTable } from '../../atoms/RandomGeneratedTable';
