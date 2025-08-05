@@ -6,6 +6,7 @@ import { DataGeneratorPage } from './pages/DataGeneratorPage';
 import { PasswordGeneratorPage } from './pages/PasswordGeneratorPage';
 import { ParagraphGeneratorPage } from './pages/ParagraphGeneratorPage';
 import { EncodePage } from './pages/EncodePage';
+import { CounterPage } from './pages/CounterPage';
 
 export default function AppRouter() {
   return (
@@ -17,6 +18,7 @@ export default function AppRouter() {
           <Route path="password-generator" element={<PasswordGeneratorPage />} />
           <Route path="paragraph-generator" element={<ParagraphGeneratorPage />} />
           <Route path="encode" element={<EncodePage />} />
+          <Route path="counter" element={<CounterPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>

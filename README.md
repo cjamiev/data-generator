@@ -36,12 +36,11 @@ Hi Priority
   - SVG shapes and animation
   - Snippets
 - Other
-  - Database 
-    - articles, nouns, adjectives, verbs
-    - colors
-    - plants, animals, vegetables, fruits 
-    - word { name, definition, type, tags }
   - convert variable name to dashcase, camelcase
+  - add lerp function
+- DB
+  - View random table
+  - Insert into random table
 
 Lo Priority
 - Face Generator

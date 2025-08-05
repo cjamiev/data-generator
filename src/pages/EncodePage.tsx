@@ -98,7 +98,7 @@ const EncodePage = () => {
             <textarea
               className="h-96 w-full rounded border-2 border-sky-700 p-4"
               placeholder="output"
-              onChange={() => {}}
+              onChange={() => { }}
               value={translatedOutput}
             />
             <div>
