@@ -1,25 +1,51 @@
-import type { PayloadAction } from "@reduxjs/toolkit"
 import { createAppSlice } from "./createAppSlice"
-import { fetchEmails } from "./emailAPI"
+import { addToEmails, deleteEmailById, fetchEmails } from "./emailAPI"
 import { Email } from "../models/random";
 
 export type EmailSliceState = {
   emaillist: Email[];
-  status: "idle" | "loading" | "failed"
+  isLoadingEmails: boolean;
+  hasError: boolean;
 }
 
 const initialState: EmailSliceState = {
   emaillist: [],
-  status: "idle",
+  isLoadingEmails: true,
+  hasError: false
 }
 
 export const emailSlice = createAppSlice({
   name: "email",
   initialState,
   reducers: create => ({
-    addEmail: create.reducer(
-      (state, action: PayloadAction<Email>) => {
-        state.emaillist.concat([action.payload])
+    addEmail: create.asyncThunk(
+      async (email: Email) => {
+        const response = await addToEmails(email);
+        return response.data
+      },
+      {
+        pending: () => { },
+        fulfilled: (state, action) => {
+          state.emaillist.concat([action.payload]);
+        },
+        rejected: state => {
+          state.hasError = true;
+        },
+      },
+    ),
+    deleteEmail: create.asyncThunk(
+      async (emailId: string) => {
+        const response = await deleteEmailById(emailId);
+        return response.data
+      },
+      {
+        pending: () => { },
+        fulfilled: (state, action) => {
+          state.emaillist.filter(item => item.id !== action.payload);
+        },
+        rejected: state => {
+          state.hasError = true;
+        },
       },
     ),
     loadEmails: create.asyncThunk(
@@ -29,23 +55,24 @@ export const emailSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.status = "loading"
+          state.isLoadingEmails = true;
         },
         fulfilled: (state, action) => {
-          state.status = "idle"
+          state.isLoadingEmails = false;
           state.emaillist = action.payload
         },
         rejected: state => {
-          state.status = "failed"
+          state.isLoadingEmails = false;
+          state.hasError = true;
         },
       },
     ),
   }),
   selectors: {
     selectEmails: email => email.emaillist,
-    selectStatus: email => email.status,
+    selectIsLoading: email => email.isLoadingEmails,
   },
 })
 
-export const { addEmail, loadEmails } = emailSlice.actions
-export const { selectEmails, selectStatus } = emailSlice.selectors
+export const { addEmail, deleteEmail, loadEmails } = emailSlice.actions
+export const { selectEmails, selectIsLoading } = emailSlice.selectors

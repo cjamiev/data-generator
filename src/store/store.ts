@@ -2,10 +2,9 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { counterSlice } from "./counterSlice"
 import { emailSlice } from "./emailSlice"
 
-const rootReducer = combineSlices(counterSlice, emailSlice)
+const rootReducer = combineSlices(emailSlice)
 export type RootState = ReturnType<typeof rootReducer>
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {

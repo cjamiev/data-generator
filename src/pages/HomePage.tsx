@@ -1,20 +1,21 @@
-import { useEffect } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { PageWrapper } from '../layout';
 import { useAppDispatch, useAppSelector } from '../store';
-import { loadEmails, selectEmails, selectStatus } from '../store/emailSlice';
+import { loadEmails, addEmail, deleteEmail, selectEmails, selectIsLoading } from '../store/emailSlice';
+import { Email } from '../models/random';
 
 const HomePage = () => {
+  const [newEmailId, setNewEmailId] = useState('');
   const dispatch = useAppDispatch()
   const emails = useAppSelector(selectEmails)
-  const status = useAppSelector(selectStatus)
-
-
+  const isLoadingEmails = useAppSelector(selectIsLoading)
 
   useEffect(() => {
-    dispatch(loadEmails());
-  }, []);
+    if (isLoadingEmails) {
+      dispatch(loadEmails());
+    }
+  }, [isLoadingEmails, dispatch]);
 
-  console.log(emails, status);
   // useEffect(() => {
   //   api
   //     .get('/storage/health/ping')
@@ -55,13 +56,36 @@ const HomePage = () => {
   //     })
   // }, []);
 
+  const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setNewEmailId(e.target.value);
+  }
+
+  const handleSubmit = () => {
+    if (!newEmailId) {
+      return;
+    }
+    const email: Email = { id: newEmailId };
+    dispatch(addEmail(email));
+  }
+
+  const handleDelete = (emailId: string) => {
+    dispatch(deleteEmail(emailId));
+  }
+
   return (
     <PageWrapper>
       <>
         <h1 className="mb-4 text-6xl">Home Page</h1>
         <div>
+          <label>
+            New Email: <input id={'new-email'} type="text" name="email" onChange={onChange} />
+          </label>
+          <button onClick={handleSubmit}>Submit</button>
           {emails.map(e => {
-            return <div key={e.id}>{e.id}</div>
+            return <div key={e.id}>
+              <span></span>{e.id}
+              <button onClick={() => handleDelete(e.id)}>Delete</button>
+            </div>
           })}
         </div>
       </>
