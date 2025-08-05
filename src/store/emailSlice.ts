@@ -1,6 +1,31 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createAppSlice } from "./createAppSlice"
-import { addToEmails, deleteEmailById, fetchEmails } from "./emailAPI"
+import { emailAPI } from "./emailAPI"
 import { Email } from "../models/random";
+
+export const addEmail = createAsyncThunk(
+  'emails/add',
+  async (email: Email) => {
+    const response = await emailAPI.addEmail(email);
+    return response.data
+  },
+);
+
+export const deleteEmail = createAsyncThunk(
+  'emails/delete',
+  async (emailId: string) => {
+    const response = await emailAPI.deleteEmail(emailId);
+    return response.data
+  },
+);
+
+export const loadEmails = createAsyncThunk(
+  'emails/fetchAll',
+  async () => {
+    const response = await emailAPI.fetchEmails();
+    return response.data
+  }
+);
 
 export type EmailSliceState = {
   emaillist: Email[];
@@ -17,62 +42,22 @@ const initialState: EmailSliceState = {
 export const emailSlice = createAppSlice({
   name: "email",
   initialState,
-  reducers: create => ({
-    addEmail: create.asyncThunk(
-      async (email: Email) => {
-        const response = await addToEmails(email);
-        return response.data
-      },
-      {
-        pending: () => { },
-        fulfilled: (state, action) => {
-          state.emaillist.concat([action.payload]);
-        },
-        rejected: state => {
-          state.hasError = true;
-        },
-      },
-    ),
-    deleteEmail: create.asyncThunk(
-      async (emailId: string) => {
-        const response = await deleteEmailById(emailId);
-        return response.data
-      },
-      {
-        pending: () => { },
-        fulfilled: (state, action) => {
-          state.emaillist.filter(item => item.id !== action.payload);
-        },
-        rejected: state => {
-          state.hasError = true;
-        },
-      },
-    ),
-    loadEmails: create.asyncThunk(
-      async () => {
-        const response = await fetchEmails();
-        return response.data
-      },
-      {
-        pending: state => {
-          state.isLoadingEmails = true;
-        },
-        fulfilled: (state, action) => {
-          state.isLoadingEmails = false;
-          state.emaillist = action.payload
-        },
-        rejected: state => {
-          state.isLoadingEmails = false;
-          state.hasError = true;
-        },
-      },
-    ),
+  reducers: () => ({
   }),
+  extraReducers: (builder) => {
+    builder.addCase(addEmail.fulfilled, (state, action) => {
+      state.emaillist.push(action.payload);
+    }).addCase(deleteEmail.fulfilled, (state, action) => {
+      state.emaillist = state.emaillist.filter(item => item.id !== (action.payload))
+    }).addCase(loadEmails.fulfilled, (state, action) => {
+      state.emaillist = action.payload
+      state.isLoadingEmails = false;
+    })
+  },
   selectors: {
     selectEmails: email => email.emaillist,
     selectIsLoading: email => email.isLoadingEmails,
   },
 })
 
-export const { addEmail, deleteEmail, loadEmails } = emailSlice.actions
 export const { selectEmails, selectIsLoading } = emailSlice.selectors
