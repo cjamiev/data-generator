@@ -19,7 +19,8 @@ const StreetEntity = () => {
     setNewStreetId(e.target.value);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     if (!newStreetId) {
       return;
     }
@@ -33,18 +34,44 @@ const StreetEntity = () => {
 
   return (
     <div>
-      <h1 className="mb-4 text-6xl">Streets</h1>
-      <div>
-        <label>
-          New Street: <input id={'new-street'} type="text" name="street" onChange={onChange} />
-        </label>
-        <button onClick={handleSubmit}>Submit</button>
-        {streets.map(e => {
-          return <div key={e.id}>
-            <span></span>{e.id}
-            <button onClick={() => handleDelete(e.id)}>Delete</button>
-          </div>
-        })}
+      <h2 className="mb-4 text-4xl">Street Addresses</h2>
+      <div className='flex'>
+        <div className="relative overflow-x-auto">
+          <table className="w-full text-sm text-left rtl:text-right">
+            <thead className="text-xs uppercase bg-white text-black">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Address
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Delete
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {streets.map(e => {
+                return <tr key={e.id} className="bg-white border-b border-gray-700">
+                  <td scope="row" className="px-6 py-4">
+                    {e.id}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <button className='w-fit h-fit border-none' onClick={() => handleDelete(e.id)}>X</button>
+                  </td>
+                </tr>
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+            <div className='flex mb-2'>
+              <label htmlFor="streetid" className="block mr-2 text-sm font-medium text-black place-content-center">Address:</label>
+              <input type="text" id='streetid' name="streetid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
+            </div>
+            <button className='m-auto' onClick={handleSubmit}>Add Street Address</button>
+          </form>
+        </div>
       </div>
     </div>
   );
