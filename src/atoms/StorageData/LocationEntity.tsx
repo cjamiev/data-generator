@@ -1,8 +1,9 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { loadLocations, addLocation, deleteLocation, selectLocations, selectIsLoading } from '../../store/location/locationSlice';
+import { SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { addLocation, deleteLocation } from '../../store/location/locationSlice';
 import { Location } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
+import useStorageContent from '../../hooks/useStorageContent';
 
 const LocationEntity = () => {
   const [newLocationCode, setNewLocationCode] = useState('');
@@ -10,14 +11,7 @@ const LocationEntity = () => {
   const [newLocationCities, setNewLocationCities] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
-  const locations = useAppSelector(selectLocations);
-  const isLoadingLocations = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (isLoadingLocations) {
-      dispatch(loadLocations());
-    }
-  }, [isLoadingLocations, dispatch]);
+  const { locations } = useStorageContent();
 
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'locationcode') {

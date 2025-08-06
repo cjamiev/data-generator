@@ -1,21 +1,15 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { loadStreets, addStreet, deleteStreet, selectStreets, selectIsLoading } from '../../store/street/streetSlice';
+import { SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { addStreet, deleteStreet } from '../../store/street/streetSlice';
 import { Street } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
+import useStorageContent from '../../hooks/useStorageContent';
 
 const StreetEntity = () => {
   const [newStreetId, setNewStreetId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
-  const streets = useAppSelector(selectStreets);
-  const isLoadingStreets = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (isLoadingStreets) {
-      dispatch(loadStreets());
-    }
-  }, [isLoadingStreets, dispatch]);
+  const { streets } = useStorageContent();
 
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setNewStreetId(e.target.value);

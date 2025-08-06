@@ -1,8 +1,9 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { loadNames, addName, deleteName, selectNames, selectIsLoading } from '../../store/name/nameSlice';
+import { SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { addName, deleteName } from '../../store/name/nameSlice';
 import { Name } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
+import useStorageContent from '../../hooks/useStorageContent';
 
 const genderTypes = [
   {
@@ -26,16 +27,9 @@ const NameEntity = () => {
   const [newNameGender, setNewNameGender] = useState('m');
   const [showDropdown, setShowDrowndowp] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-
   const dispatch = useAppDispatch();
-  const names = useAppSelector(selectNames);
-  const isLoadingNames = useAppSelector(selectIsLoading);
+  const { names } = useStorageContent();
 
-  useEffect(() => {
-    if (isLoadingNames) {
-      dispatch(loadNames());
-    }
-  }, [isLoadingNames, dispatch]);
 
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'nameid') {

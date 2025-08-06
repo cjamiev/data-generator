@@ -1,22 +1,16 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { loadWords, addWord, deleteWord, selectWords, selectIsLoading } from '../../store/word/wordSlice';
+import { SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { addWord, deleteWord } from '../../store/word/wordSlice';
 import { Word } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
+import useStorageContent from '../../hooks/useStorageContent';
 
 const WordEntity = () => {
   const [newWordId, setNewWordId] = useState('');
   const [newWordType, setNewWordType] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
-  const words = useAppSelector(selectWords);
-  const isLoadingWords = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (isLoadingWords) {
-      dispatch(loadWords());
-    }
-  }, [isLoadingWords, dispatch]);
+  const { words } = useStorageContent();
 
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'wordid') {

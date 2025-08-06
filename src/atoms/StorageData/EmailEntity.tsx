@@ -1,21 +1,15 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { loadEmails, addEmail, deleteEmail, selectEmails, selectIsLoading } from '../../store/email/emailSlice';
+import { SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { addEmail, deleteEmail } from '../../store/email/emailSlice';
 import { Email } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
+import useStorageContent from '../../hooks/useStorageContent';
 
 const EmailEntity = () => {
   const [newEmailId, setNewEmailId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
-  const emails = useAppSelector(selectEmails);
-  const isLoadingEmails = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (isLoadingEmails) {
-      dispatch(loadEmails());
-    }
-  }, [isLoadingEmails, dispatch]);
+  const { emails } = useStorageContent();
 
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setNewEmailId(e.target.value);
