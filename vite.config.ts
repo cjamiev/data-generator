@@ -11,5 +11,13 @@ export default defineConfig({
         changeOrigin: true,
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/data-generator.js',
+        assetFileNames: 'assets/data-generator.[ext]'
+      }
+    }
   }
 })

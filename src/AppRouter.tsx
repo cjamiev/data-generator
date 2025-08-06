@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import Layout from './layout/Layout';
 import { ErrorPage } from './pages/ErrorPage';
 import { HomePage } from './pages/HomePage';
@@ -10,7 +10,7 @@ import { EncodePage } from './pages/EncodePage';
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -22,6 +22,6 @@ export default function AppRouter() {
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
