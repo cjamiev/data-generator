@@ -10,6 +10,7 @@ const LocationEntity = () => {
   const [newLocationState, setNewLocationState] = useState('');
   const [newLocationCities, setNewLocationCities] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
   const { locations } = useStorageContent();
 
@@ -32,7 +33,12 @@ const LocationEntity = () => {
     const hasDuplicate = locations.some(l => l.code === newLocation.code);
     if (!hasDuplicate) {
       dispatch(addLocation(newLocation));
+      setNewLocationCode('')
+      setNewLocationState('')
+      setNewLocationCities('')
       setErrorMsg('');
+      setAlertMsg('Successfully Added ' + newLocation.code);
+      setTimeout(() => { setAlertMsg('') }, 5000);
     } else {
       setErrorMsg('Error: Duplicate record found');
     }
@@ -40,6 +46,8 @@ const LocationEntity = () => {
 
   const handleDelete = (locationCode: string) => {
     dispatch(deleteLocation(locationCode));
+    setAlertMsg('Successfully Deleted ' + locationCode);
+    setTimeout(() => { setAlertMsg('') }, 5000);
   }
 
   return (
@@ -86,21 +94,22 @@ const LocationEntity = () => {
         </div>
 
         <div>
-          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+          <form className='relative rounded border border-gray-500 flex flex-col p-4 ml-4'>
             <div className='flex mb-2'>
               <label htmlFor="locationcode" className="block mr-2 text-sm font-medium text-black place-content-center">Code:</label>
-              <input type="text" id='locationcode' name="locationcode" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="IL" required />
+              <input type="text" id='locationcode' name="locationcode" value={newLocationCode} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="IL" required />
             </div>
             <div className='flex mb-2'>
               <label htmlFor="locationstate" className="block mr-2 text-sm font-medium text-black place-content-center">State:</label>
-              <input type="text" id='locationstate' name="locationstate" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Illinois" required />
+              <input type="text" id='locationstate' name="locationstate" value={newLocationState} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Illinois" required />
             </div>
             <div className='flex mb-2'>
               <label htmlFor="locationcities" className="block mr-2 text-sm font-medium text-black place-content-center">Cities:</label>
-              <input type="text" id='locationcities' name="locationcities" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicago, Springfield, Urbana" required />
+              <input type="text" id='locationcities' name="locationcities" value={newLocationCities} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicago, Springfield, Urbana" required />
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Location</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
+            {alertMsg ? <span className='absolute top-32 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>

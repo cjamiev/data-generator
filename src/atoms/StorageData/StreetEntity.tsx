@@ -8,6 +8,7 @@ import useStorageContent from '../../hooks/useStorageContent';
 const StreetEntity = () => {
   const [newStreetId, setNewStreetId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
   const { streets } = useStorageContent();
 
@@ -25,7 +26,10 @@ const StreetEntity = () => {
     const hasDuplicate = streets.some(s => s.id === newStreet.id);
     if (!hasDuplicate) {
       dispatch(addStreet(newStreet));
+      setNewStreetId('');
       setErrorMsg('');
+      setAlertMsg('Successfully Added ' + newStreet.id);
+      setTimeout(() => { setAlertMsg('') }, 5000);
     } else {
       setErrorMsg('Error: Duplicate record found');
     }
@@ -33,6 +37,8 @@ const StreetEntity = () => {
 
   const handleDelete = (streetId: string) => {
     dispatch(deleteStreet(streetId));
+    setAlertMsg('Successfully Deleted ' + streetId);
+    setTimeout(() => { setAlertMsg('') }, 5000);
   }
 
   return (
@@ -67,13 +73,14 @@ const StreetEntity = () => {
         </div>
 
         <div>
-          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+          <form className='relative rounded border border-gray-500 flex flex-col p-4 ml-4'>
             <div className='flex mb-2'>
               <label htmlFor="streetid" className="block mr-2 text-sm font-medium text-black place-content-center">Address:</label>
-              <input type="text" id='streetid' name="streetid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
+              <input type="text" id='streetid' name="streetid" value={newStreetId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Street Address</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
+            {alertMsg ? <span className='absolute top-32 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>

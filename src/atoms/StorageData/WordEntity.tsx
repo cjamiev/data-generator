@@ -9,6 +9,7 @@ const WordEntity = () => {
   const [newWordId, setNewWordId] = useState('');
   const [newWordType, setNewWordType] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
   const { words } = useStorageContent();
 
@@ -29,7 +30,10 @@ const WordEntity = () => {
     const hasDuplicate = words.some(w => w.id === newWord.id && w.type === newWord.type);
     if (!hasDuplicate) {
       dispatch(addWord(newWord));
+      setNewWordId('');
       setErrorMsg('');
+      setAlertMsg('Successfully Added ' + newWord.id);
+      setTimeout(() => { setAlertMsg('') }, 5000);
     } else {
       setErrorMsg('Error: Duplicate record found');
     }
@@ -37,6 +41,8 @@ const WordEntity = () => {
 
   const handleDelete = (wordId: string) => {
     dispatch(deleteWord(wordId));
+    setAlertMsg('Successfully Deleted ' + wordId);
+    setTimeout(() => { setAlertMsg('') }, 5000);
   }
 
   return (
@@ -77,10 +83,10 @@ const WordEntity = () => {
         </div>
 
         <div>
-          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+          <form className='relative rounded border border-gray-500 flex flex-col p-4 ml-4'>
             <div className='flex'>
               <label htmlFor="wordid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-              <input type="text" id='wordid' name="wordid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
+              <input type="text" id='wordid' name="wordid" value={newWordId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
             </div>
             <div className='flex mt-2 mb-2'>
               <label htmlFor="wordtype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
@@ -88,6 +94,7 @@ const WordEntity = () => {
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Word</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
+            {alertMsg ? <span className='absolute top-32 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>

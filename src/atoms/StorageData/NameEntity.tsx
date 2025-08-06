@@ -27,6 +27,7 @@ const NameEntity = () => {
   const [newNameGender, setNewNameGender] = useState('m');
   const [showDropdown, setShowDrowndowp] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
   const { names } = useStorageContent();
 
@@ -49,7 +50,10 @@ const NameEntity = () => {
     const hasDuplicate = names.some(n => n.id === newName.id);
     if (!hasDuplicate) {
       dispatch(addName(newName));
+      setNewNameId('');
       setErrorMsg('');
+      setAlertMsg('Successfully Added ' + newName.id);
+      setTimeout(() => { setAlertMsg('') }, 5000);
     } else {
       setErrorMsg('Error: Duplicate record found');
     }
@@ -57,6 +61,8 @@ const NameEntity = () => {
 
   const handleDelete = (nameId: string) => {
     dispatch(deleteName(nameId));
+    setAlertMsg('Successfully Deleted ' + nameId);
+    setTimeout(() => { setAlertMsg('') }, 5000);
   }
 
   const toggleDropdown = () => setShowDrowndowp(!showDropdown)
@@ -115,10 +121,10 @@ const NameEntity = () => {
         </div>
 
         <div>
-          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+          <form className='relative rounded border border-gray-500 flex flex-col p-4 ml-4'>
             <div className='flex'>
               <label htmlFor="nameid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-              <input type="text" id='nameid' name="nameid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
+              <input type="text" id='nameid' name="nameid" value={newNameId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
             </div>
             <div className="flex items-center mt-4 mb-4">
               <input id="is-first-name" type="checkbox" value="" checked={isFirstName} onClick={() => { setIsFirstName(!isFirstName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -145,6 +151,7 @@ const NameEntity = () => {
             </div> : null}
             <button className='m-auto' onClick={handleSubmit}>Add Name</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
+            {alertMsg ? <span className='absolute top-32 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>
