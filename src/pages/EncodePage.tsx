@@ -1,17 +1,37 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { copyToClipboard } from '../utils/copy';
 import { PageWrapper } from '../layout';
 import { downloadFile } from '../utils/download';
 
-/*
- * TODO: Refactor code: Split into smaller components
- * Hi Priority Missing features
- * - Delimiter by newline, comma, or input symbol
- */
+
+const getDecodedText = (encodedText: string) => {
+  try {
+    const decoded = window.atob(encodedText);
+
+    return decoded;
+  } catch (e) {
+    console.error(e);
+
+    return 'Error: Content is not properly encoded';
+  }
+}
 
 const EncodePage = () => {
   const [originalInput, setOriginalInput] = useState<string>('');
   const [translatedOutput, setTranslatedOutput] = useState<string>('');
+  const [isEncoding, setIsEncoding] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (isEncoding) {
+      const encoded = window.btoa(originalInput);
+
+      setTranslatedOutput(encoded);
+    } else {
+      const decoded = getDecodedText(originalInput);
+
+      setTranslatedOutput(decoded);
+    }
+  }, [originalInput, isEncoding]);
 
   const onHandleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setOriginalInput(event.target.value);
@@ -41,17 +61,9 @@ const EncodePage = () => {
     }
   };
 
-  const onEncode = () => {
-    const encoded = window.btoa(originalInput);
-
-    setTranslatedOutput(encoded);
-  };
-
-  const onDecode = () => {
-    const decoded = window.atob(originalInput);
-
-    setTranslatedOutput(decoded);
-  };
+  const toggleMode = () => {
+    setIsEncoding(!isEncoding);
+  }
 
   const onCopy = () => {
     copyToClipboard(translatedOutput);
@@ -67,7 +79,7 @@ const EncodePage = () => {
         <h1 className="pb-4 text-6xl">Encode Data</h1>
         <span>Convert content to base 64 or decode from base 64</span>
         <div className="flex flex-row gap-4">
-          <div className="flex w-1/2 flex-col">
+          <div className="flex w-1/3 flex-col">
             <textarea
               className="h-96 w-full rounded border-2 border-sky-700 p-4"
               onChange={(event) => {
@@ -77,12 +89,13 @@ const EncodePage = () => {
               value={originalInput}
             />
             <div>
-              <button className="mr-4 mt-4 shadow-md" onClick={onEncode}>
-                Encode
-              </button>
-              <button className="mt-4 shadow-md" onClick={onDecode}>
-                Decode
-              </button>
+              <div className='mt-4'>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" value="" className="sr-only peer" onClick={toggleMode} />
+                  <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-sky-500"></div>
+                  <span className="ml-3 text-sm font-medium text-gray-900">{isEncoding ? 'Encode' : 'Decode'}</span>
+                </label>
+              </div>
               <div className="mt-4">
                 <label htmlFor="input-file">Add A file: </label>
                 <input
@@ -94,7 +107,7 @@ const EncodePage = () => {
               </div>
             </div>
           </div>
-          <div className="flex w-1/2 flex-col">
+          <div className="flex w-1/3 flex-col">
             <textarea
               className="h-96 w-full rounded border-2 border-sky-700 p-4"
               placeholder="output"
