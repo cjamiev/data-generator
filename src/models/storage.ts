@@ -19,7 +19,7 @@ export interface Name {
   gender: string;
 }
 
-export interface Random {
+export interface Word {
   id: string;
   type: string;
 }

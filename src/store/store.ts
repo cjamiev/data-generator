@@ -5,10 +5,10 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { emailSlice } from "./email/emailSlice";
 import { locationSlice } from "./location/locationSlice";
 import { nameSlice } from "./name/nameSlice";
-import { randomSlice } from "./random/randomSlice";
+import { wordSlice } from "./word/wordSlice";
 import { streetSlice } from "./street/streetSlice";
 
-const rootReducer = combineSlices(emailSlice, locationSlice, nameSlice, randomSlice, streetSlice)
+const rootReducer = combineSlices(emailSlice, locationSlice, nameSlice, wordSlice, streetSlice)
 export type RootState = ReturnType<typeof rootReducer>
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {

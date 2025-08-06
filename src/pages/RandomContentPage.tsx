@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { EmailEntity } from '../atoms/StorageData/EmailEntity';
 import { LocationEntity } from '../atoms/StorageData/LocationEntity';
 import { NameEntity } from '../atoms/StorageData/NameEntity';
-import { RandomEntity } from '../atoms/StorageData/RandomEntity';
+import { WordEntity } from '../atoms/StorageData/WordEntity';
 import { StreetEntity } from '../atoms/StorageData/StreetEntity';
 import { PageWrapper } from '../layout';
 
 const ALL_TABS = ['Words', 'Names', 'Emails', 'Locations', 'Streets'];
 const ContentTab = ({ selectedTab }: { selectedTab: string }) => {
   if (selectedTab === 'Words') {
-    return <RandomEntity />;
+    return <WordEntity />;
   }
   else if (selectedTab === 'Names') {
     return <NameEntity />
