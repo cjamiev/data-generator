@@ -9,7 +9,7 @@ export interface Street {
 export interface Location {
   code: string;
   state: string;
-  cities: string[];
+  cities: string;
 }
 
 export interface Name {

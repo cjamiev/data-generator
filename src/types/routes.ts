@@ -3,7 +3,8 @@ export enum RoutesUrl {
   DATA_GENERATOR = '/data-generator',
   PASSWORD_GENERATOR = '/password-generator',
   PARAGRAPH_GENERATOR = '/paragraph-generator',
-  ENCODE = '/encode'
+  ENCODE = '/encode',
+  RANDOM_CONTENT = '/random-content',
 }
 
 export enum RoutesTitle {
@@ -11,5 +12,6 @@ export enum RoutesTitle {
   DATA_GENERATOR = 'Data',
   PASSWORD_GENERATOR = 'Password',
   PARAGRAPH_GENERATOR = 'Text',
-  ENCODE = 'Encode'
+  ENCODE = 'Encode',
+  RANDOM_CONTENT = 'Random Content'
 } 
