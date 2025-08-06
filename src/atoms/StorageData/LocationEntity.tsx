@@ -28,7 +28,7 @@ const LocationEntity = () => {
     if (!newLocationCode) {
       return;
     }
-    const newLocation: Location = { code: capitalizeEachWord(newLocationCode), state: newLocationState, cities: newLocationCities };
+    const newLocation: Location = { code: newLocationCode.toLocaleUpperCase(), state: capitalizeEachWord(newLocationState), cities: capitalizeEachWord(newLocationCities) };
     const hasDuplicate = locations.some(l => l.code === newLocation.code);
     if (!hasDuplicate) {
       dispatch(addLocation(newLocation));

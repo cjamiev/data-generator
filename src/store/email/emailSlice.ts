@@ -2,28 +2,46 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createAppSlice } from "../createAppSlice";
 import { emailAPI } from "./emailAPI";
 import { Email } from "../../models/storage";
+import { getIsDemoMode } from "../../utils/config";
+import { addMockData, loadMockData, removeMockData } from "../../utils/demoUtils";
 
 export const addEmail = createAsyncThunk(
   'emails/add',
   async (email: Email) => {
-    const response = await emailAPI.addEmail(email);
-    return response.data
+    if (getIsDemoMode()) {
+      addMockData<Email>('emails', email);
+
+      return email;
+    } else {
+      const response = await emailAPI.addEmail(email);
+      return response.data;
+    }
   },
 );
 
 export const deleteEmail = createAsyncThunk(
   'emails/delete',
   async (emailId: string) => {
-    const response = await emailAPI.deleteEmail(emailId);
-    return response.data
+    if (getIsDemoMode()) {
+      removeMockData<Email>('emails', (e: Email) => { return e.id !== emailId });
+
+      return emailId;
+    } else {
+      const response = await emailAPI.deleteEmail(emailId);
+      return response.data;
+    }
   },
 );
 
 export const loadEmails = createAsyncThunk(
   'emails/fetchAll',
   async () => {
-    const response = await emailAPI.fetchEmails();
-    return response.data
+    if (getIsDemoMode()) {
+      return loadMockData<Email>('emails');
+    } else {
+      const response = await emailAPI.fetchEmails();
+      return response.data;
+    }
   }
 );
 

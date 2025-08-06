@@ -2,28 +2,46 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createAppSlice } from "../createAppSlice";
 import { wordAPI } from "./wordAPI";
 import { Word } from "../../models/storage";
+import { getIsDemoMode } from "../../utils/config";
+import { addMockData, loadMockData, removeMockData } from "../../utils/demoUtils";
 
 export const addWord = createAsyncThunk(
   'words/add',
   async (word: Word) => {
-    const response = await wordAPI.addWord(word);
-    return response.data
+    if (getIsDemoMode()) {
+      addMockData<Word>('words', word);
+
+      return word;
+    } else {
+      const response = await wordAPI.addWord(word);
+      return response.data;
+    }
   },
 );
 
 export const deleteWord = createAsyncThunk(
   'words/delete',
   async (wordId: string) => {
-    const response = await wordAPI.deleteWord(wordId);
-    return response.data
+    if (getIsDemoMode()) {
+      removeMockData<Word>('words', (w: Word) => { return w.id !== wordId });
+
+      return wordId;
+    } else {
+      const response = await wordAPI.deleteWord(wordId);
+      return response.data;
+    }
   },
 );
 
 export const loadWords = createAsyncThunk(
   'words/fetchAll',
   async () => {
-    const response = await wordAPI.fetchWords();
-    return response.data
+    if (getIsDemoMode()) {
+      return loadMockData<Word>('words');
+    } else {
+      const response = await wordAPI.fetchWords();
+      return response.data;
+    }
   }
 );
 

@@ -76,18 +76,20 @@ const WordEntity = () => {
           </table>
         </div>
 
-        <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
-          <div className='flex'>
-            <label htmlFor="wordid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-            <input type="text" id='wordid' name="wordid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
-          </div>
-          <div className='flex mt-2 mb-2'>
-            <label htmlFor="wordtype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
-            <input type="text" id='wordtype' name="wordtype" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Animal" required />
-          </div>
-          <button className='m-auto' onClick={handleSubmit}>Add Word</button>
-          {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
-        </form>
+        <div>
+          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+            <div className='flex'>
+              <label htmlFor="wordid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
+              <input type="text" id='wordid' name="wordid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
+            </div>
+            <div className='flex mt-2 mb-2'>
+              <label htmlFor="wordtype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
+              <input type="text" id='wordtype' name="wordtype" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Animal" required />
+            </div>
+            <button className='m-auto' onClick={handleSubmit}>Add Word</button>
+            {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
+          </form>
+        </div>
       </div>
     </div>
   );

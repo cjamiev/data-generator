@@ -2,28 +2,46 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createAppSlice } from "../createAppSlice";
 import { locationAPI } from "./locationAPI";
 import { Location } from "../../models/storage";
+import { getIsDemoMode } from "../../utils/config";
+import { addMockData, loadMockData, removeMockData } from "../../utils/demoUtils";
 
 export const addLocation = createAsyncThunk(
   'locations/add',
   async (location: Location) => {
-    const response = await locationAPI.addLocation(location);
-    return response.data
+    if (getIsDemoMode()) {
+      addMockData<Location>('locations', location);
+
+      return location;
+    } else {
+      const response = await locationAPI.addLocation(location);
+      return response.data
+    }
   },
 );
 
 export const deleteLocation = createAsyncThunk(
   'locations/delete',
   async (locationCode: string) => {
-    const response = await locationAPI.deleteLocation(locationCode);
-    return response.data
+    if (getIsDemoMode()) {
+      removeMockData<Location>('locations', (l: Location) => { return l.code !== locationCode });
+
+      return locationCode;
+    } else {
+      const response = await locationAPI.deleteLocation(locationCode);
+      return response.data
+    }
   },
 );
 
 export const loadLocations = createAsyncThunk(
   'locations/fetchAll',
   async () => {
-    const response = await locationAPI.fetchLocations();
-    return response.data
+    if (getIsDemoMode()) {
+      return loadMockData<Location>('locations');
+    } else {
+      const response = await locationAPI.fetchLocations();
+      return response.data
+    }
   }
 );
 
