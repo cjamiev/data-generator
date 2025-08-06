@@ -2,9 +2,11 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { loadStreets, addStreet, deleteStreet, selectStreets, selectIsLoading } from '../../store/street/streetSlice';
 import { Street } from '../../models/storage';
+import { capitalizeEachWord } from '../../utils/contentMapper';
 
 const StreetEntity = () => {
   const [newStreetId, setNewStreetId] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
   const streets = useAppSelector(selectStreets);
   const isLoadingStreets = useAppSelector(selectIsLoading);
@@ -24,8 +26,15 @@ const StreetEntity = () => {
     if (!newStreetId) {
       return;
     }
-    const street: Street = { id: newStreetId };
-    dispatch(addStreet(street));
+
+    const newStreet: Street = { id: capitalizeEachWord(newStreetId) };
+    const hasDuplicate = streets.some(s => s.id === newStreet.id);
+    if (!hasDuplicate) {
+      dispatch(addStreet(newStreet));
+      setErrorMsg('');
+    } else {
+      setErrorMsg('Error: Duplicate record found');
+    }
   }
 
   const handleDelete = (streetId: string) => {
@@ -70,6 +79,7 @@ const StreetEntity = () => {
               <input type="text" id='streetid' name="streetid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Street Address</button>
+            {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
           </form>
         </div>
       </div>

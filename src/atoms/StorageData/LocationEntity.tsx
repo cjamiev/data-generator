@@ -2,11 +2,13 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { loadLocations, addLocation, deleteLocation, selectLocations, selectIsLoading } from '../../store/location/locationSlice';
 import { Location } from '../../models/storage';
+import { capitalizeEachWord } from '../../utils/contentMapper';
 
 const LocationEntity = () => {
   const [newLocationCode, setNewLocationCode] = useState('');
   const [newLocationState, setNewLocationState] = useState('');
   const [newLocationCities, setNewLocationCities] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
   const locations = useAppSelector(selectLocations);
   const isLoadingLocations = useAppSelector(selectIsLoading);
@@ -32,8 +34,14 @@ const LocationEntity = () => {
     if (!newLocationCode) {
       return;
     }
-    const location: Location = { code: newLocationCode, state: newLocationState, cities: newLocationCities };
-    dispatch(addLocation(location));
+    const newLocation: Location = { code: capitalizeEachWord(newLocationCode), state: newLocationState, cities: newLocationCities };
+    const hasDuplicate = locations.some(l => l.code === newLocation.code);
+    if (!hasDuplicate) {
+      dispatch(addLocation(newLocation));
+      setErrorMsg('');
+    } else {
+      setErrorMsg('Error: Duplicate record found');
+    }
   }
 
   const handleDelete = (locationCode: string) => {
@@ -98,6 +106,7 @@ const LocationEntity = () => {
               <input type="text" id='locationcities' name="locationcities" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicago, Springfield, Urbana" required />
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Location</button>
+            {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
           </form>
         </div>
       </div>

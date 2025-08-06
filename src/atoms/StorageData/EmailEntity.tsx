@@ -2,9 +2,11 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { loadEmails, addEmail, deleteEmail, selectEmails, selectIsLoading } from '../../store/email/emailSlice';
 import { Email } from '../../models/storage';
+import { capitalizeEachWord } from '../../utils/contentMapper';
 
 const EmailEntity = () => {
   const [newEmailId, setNewEmailId] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useAppDispatch();
   const emails = useAppSelector(selectEmails);
   const isLoadingEmails = useAppSelector(selectIsLoading);
@@ -24,8 +26,15 @@ const EmailEntity = () => {
     if (!newEmailId) {
       return;
     }
-    const email: Email = { id: newEmailId };
-    dispatch(addEmail(email));
+
+    const newEmail: Email = { id: capitalizeEachWord(newEmailId) };
+    const hasDuplicate = emails.some(e => e.id === newEmail.id);
+    if (!hasDuplicate) {
+      dispatch(addEmail(newEmail));
+      setErrorMsg('');
+    } else {
+      setErrorMsg('Error: Duplicate record found');
+    }
   }
 
   const handleDelete = (emailId: string) => {
@@ -70,6 +79,7 @@ const EmailEntity = () => {
               <input type="text" id='emailid' name="emailid" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="gmail.com" required />
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Email Host</button>
+            {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
           </form>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { loadNames, addName, deleteName, selectNames, selectIsLoading } from '../../store/name/nameSlice';
 import { Name } from '../../models/storage';
+import { capitalizeEachWord } from '../../utils/contentMapper';
 
 const genderTypes = [
   {
@@ -24,6 +25,8 @@ const NameEntity = () => {
   const [isLastName, setIsLastName] = useState(false);
   const [newNameGender, setNewNameGender] = useState('m');
   const [showDropdown, setShowDrowndowp] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
   const dispatch = useAppDispatch();
   const names = useAppSelector(selectNames);
   const isLoadingNames = useAppSelector(selectIsLoading);
@@ -47,8 +50,15 @@ const NameEntity = () => {
     if (!newNameId) {
       return;
     }
-    const name: Name = { id: newNameId, is_first_name: isFirstName, is_last_name: isLastName, gender: newNameGender };
-    dispatch(addName(name));
+
+    const newName: Name = { id: capitalizeEachWord(newNameId), is_first_name: isFirstName, is_last_name: isLastName, gender: newNameGender };
+    const hasDuplicate = names.some(n => n.id === newName.id);
+    if (!hasDuplicate) {
+      dispatch(addName(newName));
+      setErrorMsg('');
+    } else {
+      setErrorMsg('Error: Duplicate record found');
+    }
   }
 
   const handleDelete = (nameId: string) => {
@@ -139,6 +149,7 @@ const NameEntity = () => {
             </ul>
           </div> : null}
           <button className='m-auto' onClick={handleSubmit}>Add Name</button>
+          {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
         </form>
       </div>
     </div>
