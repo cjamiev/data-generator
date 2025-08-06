@@ -1,60 +1,20 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { PageWrapper } from '../layout';
 import { useAppDispatch, useAppSelector } from '../store';
-import { loadEmails, addEmail, deleteEmail, selectEmails, selectIsLoading } from '../store/emailSlice';
-import { Email } from '../models/random';
+import { loadEmails, addEmail, deleteEmail, selectEmails, selectIsLoading } from '../store/email/emailSlice';
+import { Email } from '../models/storage';
 
 const HomePage = () => {
   const [newEmailId, setNewEmailId] = useState('');
-  const dispatch = useAppDispatch()
-  const emails = useAppSelector(selectEmails)
-  const isLoadingEmails = useAppSelector(selectIsLoading)
+  const dispatch = useAppDispatch();
+  const emails = useAppSelector(selectEmails);
+  const isLoadingEmails = useAppSelector(selectIsLoading);
 
   useEffect(() => {
     if (isLoadingEmails) {
       dispatch(loadEmails());
     }
   }, [isLoadingEmails, dispatch]);
-
-  // useEffect(() => {
-  //   api
-  //     .get('/storage/health/ping')
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }, []);
-
-  // useEffect(() => {
-  //   api
-  //     .get('/storage/location/')
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }, []);
-
-  // useEffect(() => {
-  //   api
-  //     .get('/storage/email/')
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }, []);
-
-  // useEffect(() => {
-  //   api
-  //     .get('/storage/street/')
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }, []);
-
-  // useEffect(() => {
-  //   api
-  //     .get('/storage/name/')
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }, []);
 
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setNewEmailId(e.target.value);

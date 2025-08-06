@@ -1,10 +1,11 @@
-import type { Action, ThunkAction } from "@reduxjs/toolkit"
-import { useDispatch, useSelector } from "react-redux"
-import { combineSlices, configureStore } from "@reduxjs/toolkit"
-import { setupListeners } from "@reduxjs/toolkit/query"
-import { emailSlice } from "./emailSlice"
+import { useDispatch, useSelector } from "react-redux";
+import type { Action, ThunkAction } from "@reduxjs/toolkit";
+import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { emailSlice } from "./email/emailSlice";
+import { streetSlice } from "./street/streetSlice";
 
-const rootReducer = combineSlices(emailSlice)
+const rootReducer = combineSlices(emailSlice, streetSlice)
 export type RootState = ReturnType<typeof rootReducer>
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {
@@ -21,9 +22,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
 
 export const store = makeStore()
 
-// Infer the type of `store`
 export type AppStore = typeof store
-// Infer the `AppDispatch` type from the store itself
 export type AppDispatch = AppStore["dispatch"]
 export type AppThunk<ThunkReturnType = void> = ThunkAction<
   ThunkReturnType,

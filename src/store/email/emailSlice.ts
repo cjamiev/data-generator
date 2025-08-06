@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createAppSlice } from "./createAppSlice"
-import { emailAPI } from "./emailAPI"
-import { Email } from "../models/random";
+import { createAppSlice } from "../createAppSlice";
+import { emailAPI } from "./emailAPI";
+import { Email } from "../../models/storage";
 
 export const addEmail = createAsyncThunk(
   'emails/add',

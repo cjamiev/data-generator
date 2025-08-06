@@ -1,5 +1,5 @@
-import api from "../api";
-import { Email } from "../models/random"
+import api from "../../api";
+import { Email } from "../../models/storage";
 
 export const emailAPI = {
   fetchEmails: (): Promise<{ data: Email[] }> =>
@@ -10,7 +10,6 @@ export const emailAPI = {
           resolve({ data: response.data })
         })
     ),
-
   addEmail: (email: Email): Promise<{ data: Email }> =>
     new Promise<{ data: Email }>(resolve =>
       api
