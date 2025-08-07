@@ -5,6 +5,11 @@ import { Location } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
 import useStorageContent from '../../hooks/useStorageContent';
 
+// Making sure no extra spaces and each word gets capitilzed correctly
+const formatCities = (cities: string) => {
+  return cities.split(',').map(i => capitalizeEachWord(i.trim())).join(',');
+}
+
 const LocationEntity = () => {
   const [newLocationCode, setNewLocationCode] = useState('');
   const [newLocationState, setNewLocationState] = useState('');
@@ -29,7 +34,7 @@ const LocationEntity = () => {
     if (!newLocationCode) {
       return;
     }
-    const newLocation: Location = { code: newLocationCode.toLocaleUpperCase(), state: capitalizeEachWord(newLocationState), cities: capitalizeEachWord(newLocationCities) };
+    const newLocation: Location = { code: newLocationCode.toLocaleUpperCase(), state: capitalizeEachWord(newLocationState), cities: formatCities(newLocationCities) };
     const hasDuplicate = locations.some(l => l.code === newLocation.code);
     if (!hasDuplicate) {
       dispatch(addLocation(newLocation));
