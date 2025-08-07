@@ -81,7 +81,7 @@ const LocationEntity = () => {
                   <td scope="row" className="px-6 py-4">
                     {e.state}
                   </td>
-                  <td scope="row" className="px-6 py-4">
+                  <td scope="row" className="px-6 py-4 max-w-xl overflow-auto">
                     {e.cities}
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -109,7 +109,7 @@ const LocationEntity = () => {
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Location</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
-            {alertMsg ? <span className='absolute top-32 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+            {alertMsg ? <span className='absolute bottom-36 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>
