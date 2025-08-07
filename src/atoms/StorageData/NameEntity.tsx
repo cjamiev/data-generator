@@ -154,7 +154,7 @@ const NameEntity = () => {
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Name</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
-            {alertMsg ? <span className='absolute bottom-36 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+            {alertMsg ? <span className='absolute bottom-74 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>

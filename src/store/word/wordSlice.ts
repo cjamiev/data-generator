@@ -47,12 +47,14 @@ export const loadWords = createAsyncThunk(
 
 export type WordSliceState = {
   wordlist: Word[];
+  wordtypes: string[];
   isLoadingWords: boolean;
   hasError: boolean;
 }
 
 const initialState: WordSliceState = {
   wordlist: [],
+  wordtypes: [],
   isLoadingWords: true,
   hasError: false
 }
@@ -65,17 +67,20 @@ export const wordSlice = createAppSlice({
   extraReducers: (builder) => {
     builder.addCase(addWord.fulfilled, (state, action) => {
       state.wordlist.push(action.payload);
+      state.wordtypes = [...new Set(state.wordtypes.concat(action.payload.type))]
     }).addCase(deleteWord.fulfilled, (state, action) => {
       state.wordlist = state.wordlist.filter(item => item.id !== (action.payload))
     }).addCase(loadWords.fulfilled, (state, action) => {
       state.wordlist = action.payload
+      state.wordtypes = [...new Set(action.payload.map(w => w.type))]
       state.isLoadingWords = false;
     })
   },
   selectors: {
     selectWords: word => word.wordlist,
+    selectWordTypes: word => word.wordtypes,
     selectIsLoading: word => word.isLoadingWords,
   },
 })
 
-export const { selectWords, selectIsLoading } = wordSlice.selectors
+export const { selectWords, selectWordTypes, selectIsLoading } = wordSlice.selectors

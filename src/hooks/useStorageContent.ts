@@ -4,7 +4,7 @@ import { loadEmails, selectEmails, selectIsLoading } from '../store/email/emailS
 import { loadLocations, selectLocations } from '../store/location/locationSlice';
 import { loadNames, selectNames } from '../store/name/nameSlice';
 import { loadStreets, selectStreets } from '../store/street/streetSlice';
-import { loadWords, selectWords } from '../store/word/wordSlice';
+import { loadWords, selectWords, selectWordTypes } from '../store/word/wordSlice';
 
 function useStorageContent() {
   const dispatch = useAppDispatch();
@@ -17,6 +17,7 @@ function useStorageContent() {
   const streets = useAppSelector(selectStreets);
   const isLoadingStreets = useAppSelector(selectIsLoading);
   const words = useAppSelector(selectWords);
+  const wordTypes = useAppSelector(selectWordTypes);
   const isLoadingWords = useAppSelector(selectIsLoading);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function useStorageContent() {
     }
   }, [isLoadingWords, dispatch]);
 
-  return { emails, locations, names, streets, words };
+  return { emails, locations, names, streets, words, wordTypes };
 }
 
 export default useStorageContent;

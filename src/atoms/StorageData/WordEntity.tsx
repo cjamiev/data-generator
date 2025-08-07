@@ -11,8 +11,10 @@ const WordEntity = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
-  const { words } = useStorageContent();
+  const { words, wordTypes } = useStorageContent();
 
+
+  console.log(wordTypes);
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'wordid') {
       setNewWordId(e.target.value);
@@ -94,7 +96,7 @@ const WordEntity = () => {
             </div>
             <button className='m-auto' onClick={handleSubmit}>Add Word</button>
             {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
-            {alertMsg ? <span className='absolute bottom-36 mt-2 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+            {alertMsg ? <span className='absolute bottom-48 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>
