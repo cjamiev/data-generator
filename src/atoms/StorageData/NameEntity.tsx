@@ -5,6 +5,7 @@ import { Name } from '../../models/storage';
 import { capitalizeEachWord } from '../../utils/contentMapper';
 import useStorageContent from '../../hooks/useStorageContent';
 
+const placeHolderBatchContent = 'name;y;n;m\nname2;n;y;o\nname3;y;n;f';
 const genderTypes = [
   {
     label: 'Male',
@@ -21,6 +22,10 @@ const genderTypes = [
 ]
 
 const NameEntity = () => {
+  const { names } = useStorageContent();
+  const dispatch = useAppDispatch();
+  const [isBatchMode, setIsBatchMode] = useState(true);
+  const [batchContent, setBatchContent] = useState('');
   const [newNameId, setNewNameId] = useState('');
   const [isFirstName, setIsFirstName] = useState(true);
   const [isLastName, setIsLastName] = useState(false);
@@ -28,8 +33,6 @@ const NameEntity = () => {
   const [showDropdown, setShowDrowndowp] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
-  const dispatch = useAppDispatch();
-  const { names } = useStorageContent();
 
 
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
@@ -42,20 +45,50 @@ const NameEntity = () => {
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    if (!newNameId) {
-      return;
-    }
+    if (!isBatchMode) {
+      if (!newNameId) {
+        return;
+      }
 
-    const newName: Name = { id: capitalizeEachWord(newNameId), is_first_name: isFirstName, is_last_name: isLastName, gender: newNameGender };
-    const hasDuplicate = names.some(n => n.id === newName.id);
-    if (!hasDuplicate) {
-      dispatch(addName(newName));
-      setNewNameId('');
-      setErrorMsg('');
-      setAlertMsg('Successfully Added ' + newName.id);
-      setTimeout(() => { setAlertMsg('') }, 5000);
-    } else {
-      setErrorMsg('Error: Duplicate record found');
+      const newName: Name = { id: capitalizeEachWord(newNameId), is_first_name: isFirstName, is_last_name: isLastName, gender: newNameGender };
+      const hasDuplicate = names.some(n => n.id === newName.id);
+      if (!hasDuplicate) {
+        dispatch(addName(newName));
+        setNewNameId('');
+        setErrorMsg('');
+        setAlertMsg('Successfully Added ' + newName.id);
+        setTimeout(() => { setAlertMsg('') }, 5000);
+      } else {
+        setErrorMsg('Error: Duplicate record found');
+      }
+    }
+    else {
+      let hasDuplicateError = false;
+      let hasMissingDataError = false;
+      const batchLines = batchContent.split('\n');
+      batchLines.forEach(line => {
+        const [newNameId = '', isFirstName = 'y', isLastName = 'n', newNameGender = 'm'] = line.split(';');
+        const newName: Name = { id: capitalizeEachWord(newNameId), is_first_name: isFirstName === 'y', is_last_name: isLastName === 'y', gender: newNameGender };
+        const hasDuplicate = names.some(e => e.id === newName.id);
+        if (!newNameId) {
+          hasMissingDataError = true;
+        }
+        else if (hasDuplicate) {
+          hasDuplicateError = true;
+        } else {
+          dispatch(addName(newName));
+        }
+      });
+      if (hasDuplicateError) {
+        setErrorMsg('Error: Duplicate record found');
+      }
+      else if (hasMissingDataError) {
+        setErrorMsg('Error: Missing id');
+      } else {
+        setAlertMsg('Successfully Added in batch');
+        setTimeout(() => { setAlertMsg('') }, 5000);
+      }
+      setBatchContent('');
     }
   }
 
@@ -71,9 +104,19 @@ const NameEntity = () => {
     setShowDrowndowp(false)
   }
 
+  const handleBatchModeChange = () => { setIsBatchMode(!isBatchMode); }
+
+  const handleBatchContentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setBatchContent(e.target.value);
+  }
+
   return (
     <div>
-      <h2 className="mb-4 text-4xl">Names</h2>
+      <div className='relative '>
+        <h2 className="mb-4 text-4xl">Names</h2>
+        {errorMsg ? <span className='absolute top-0 left-36 p-2 bg-red-500 text-white border rounded border-red-600'>{errorMsg}</span> : null}
+        {alertMsg ? <span className='absolute top-0 left-36 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+      </div>
       <div className='flex'>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right">
@@ -122,39 +165,53 @@ const NameEntity = () => {
 
         <div>
           <form className='relative rounded border border-gray-500 flex flex-col p-4 ml-4'>
-            <div className='flex'>
-              <label htmlFor="nameid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-              <input type="text" id='nameid' name="nameid" value={newNameId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
+            <div>
+              <label>Is String Batch Format? <input className='ml-2' type='checkbox' checked={isBatchMode} onClick={handleBatchModeChange} /></label>
             </div>
-            <div className="flex items-center m-auto mt-4 mb-4">
-              <input id="is-first-name" type="checkbox" value="" checked={isFirstName} onClick={() => { setIsFirstName(!isFirstName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-              <label htmlFor="is-first-name" className="ms-2 text-sm font-medium text-black">Is First Name?</label>
-            </div>
-            <div className="flex items-center m-auto mt-4 mb-4">
-              <input id="is-last-name" type="checkbox" value="" checked={isLastName} onClick={() => { setIsLastName(!isLastName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-              <label htmlFor="is-last-name" className="ms-2 text-sm font-medium text-black">Is Last Name?</label>
-            </div>
-            <div className='m-auto mb-2 relative'>
-              <button id="dropdownDefaultButton" onClick={toggleDropdown} className="relative w-32 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">{genderTypes.find(g => g.value === newNameGender)?.label}
-                <svg className="absolute right-4 w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                </svg>
-              </button>
-              {showDropdown ? <div id="dropdown" className="z-1 w-32 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                  {genderTypes.map(g => {
-                    return (
-                      <li key={g.value} onClick={() => handleGenderChange(g.value)}>
-                        <span className="block px-4 py-2 hover:bg-sky-500 hover:text-white cursor-pointer">{g.label}</span>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div> : null}
-            </div>
+            {isBatchMode
+              ? <div className='mt-2 mb-2'>
+                <textarea
+                  className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="batch-content"
+                  value={batchContent}
+                  onChange={handleBatchContentChange}
+                  rows={12}
+                  cols={28}
+                  placeholder={placeHolderBatchContent}
+                />
+              </div>
+              : <>
+                <div className='flex'>
+                  <label htmlFor="nameid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
+                  <input type="text" id='nameid' name="nameid" value={newNameId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
+                </div>
+                <div className="flex items-center m-auto mt-4 mb-4">
+                  <input id="is-first-name" type="checkbox" value="" checked={isFirstName} onClick={() => { setIsFirstName(!isFirstName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="is-first-name" className="ms-2 text-sm font-medium text-black">Is First Name?</label>
+                </div>
+                <div className="flex items-center m-auto mt-4 mb-4">
+                  <input id="is-last-name" type="checkbox" value="" checked={isLastName} onClick={() => { setIsLastName(!isLastName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="is-last-name" className="ms-2 text-sm font-medium text-black">Is Last Name?</label>
+                </div>
+                <div className='m-auto mb-2 relative'>
+                  <button id="dropdownDefaultButton" onClick={toggleDropdown} className="relative w-32 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">{genderTypes.find(g => g.value === newNameGender)?.label}
+                    <svg className="absolute right-4 w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                  </button>
+                  {showDropdown ? <div id="dropdown" className="z-1 w-32 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                      {genderTypes.map(g => {
+                        return (
+                          <li key={g.value} onClick={() => handleGenderChange(g.value)}>
+                            <span className="block px-4 py-2 hover:bg-sky-500 hover:text-white cursor-pointer">{g.label}</span>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div> : null}
+                </div></>}
             <button className='m-auto' onClick={handleSubmit}>Add Name</button>
-            {errorMsg ? <span className='text-red-500'>{errorMsg}</span> : null}
-            {alertMsg ? <span className='absolute bottom-74 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
           </form>
         </div>
       </div>

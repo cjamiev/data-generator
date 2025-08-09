@@ -6,21 +6,21 @@ import { capitalizeEachWord } from '../../utils/contentMapper';
 import useStorageContent from '../../hooks/useStorageContent';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 
-const placeHolderBatchContent = 'word,type\nword2,type\nword3,type';
+const placeHolderBatchContent = 'word;type\nword2;type\nword3;type';
 
 const WordEntity = () => {
   const { words, wordTypes } = useStorageContent();
+  const dispatch = useAppDispatch();
   const [isBatchMode, setIsBatchMode] = useState(true);
+  const [batchContent, setBatchContent] = useState('');
   const [selectedType, setSelectedType] = useState(wordTypes[0]);
   const [showTypeList, setShowTypeList] = useState(false);
   const [newWordId, setNewWordId] = useState('');
   const [newWordType, setNewWordType] = useState('');
-  const [batchContent, setBatchContent] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
   const typeDropdownRef = useRef(null);
   useOnClickOutside(typeDropdownRef, () => setShowTypeList(false));
-  const dispatch = useAppDispatch();
 
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'wordid') {
@@ -52,23 +52,26 @@ const WordEntity = () => {
       let hasMissingDataError = false;
       const batchLines = batchContent.split('\n');
       batchLines.forEach(line => {
-        const [newWordId = '', newWordType = ''] = line.split(',');
+        const [newWordId = '', newWordType = ''] = line.split(';');
         const newWord: Word = { id: capitalizeEachWord(newWordId), type: capitalizeEachWord(newWordType) };
         const hasDuplicate = words.some(w => w.id === newWord.id && w.type === newWord.type);
-        if (!hasDuplicate && newWordId && newWordId) {
-          dispatch(addWord(newWord));
+        if (!newWordId || !newWordId) {
+          hasMissingDataError = true;
         }
-        if (hasDuplicate) {
+        else if (hasDuplicate) {
           hasDuplicateError = true;
         } else {
-          hasMissingDataError = true;
+          dispatch(addWord(newWord));
         }
       });
       if (hasDuplicateError) {
         setErrorMsg('Error: Duplicate record found');
       }
-      if (hasMissingDataError) {
-        setErrorMsg('Error: Missing id or type');
+      else if (hasMissingDataError) {
+        setErrorMsg('Error: Missing id');
+      } else {
+        setAlertMsg('Successfully Added in batch');
+        setTimeout(() => { setAlertMsg('') }, 5000);
       }
       setBatchContent('');
     }
@@ -159,10 +162,7 @@ const WordEntity = () => {
         <div>
           <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
             <div>
-              <label>
-                Is String Format?
-                <input type='checkbox' checked={isBatchMode} onClick={handleBatchModeChange} />
-              </label>
+              <label>Is String Batch Format? <input className='ml-2' type='checkbox' checked={isBatchMode} onClick={handleBatchModeChange} /></label>
             </div>
             {isBatchMode
               ? <div className='mt-2 mb-2'>
@@ -185,8 +185,7 @@ const WordEntity = () => {
                   <label htmlFor="wordtype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
                   <input type="text" id='wordtype' name="wordtype" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Animal" required />
                 </div>
-              </>
-            }
+              </>}
             <button className='m-auto' onClick={handleSubmit}>Add Word</button>
           </form>
         </div>
