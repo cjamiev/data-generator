@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useState, useCallback } from 'react';
 import { copyToClipboard } from '../utils/copy';
 import { PageWrapper } from '../layout';
+import useStorageContent from '../hooks/useStorageContent';
+import { generateRandomContent } from '../utils/randomContentHelper';
 
 /*
  * TODO: Refactor code: Split into smaller components
  * Hi Priority Missing features
  * - Readable password made of real words
- * - Add confirmation message on copy password(s)
  * Lo Priority Missing features
  * - No duplicate character
  * - Limit number of occurance of a particular character
@@ -169,9 +170,18 @@ const generatePassword = ({
   return generated.join('');
 };
 
+const generateReadablePassword = (words: string[], numberOfWords: number) => {
+  const password: string[] = [];
+  for (let wCount = 0; wCount < numberOfWords; wCount++) {
+    password.push(generateRandomContent(words.filter(w => !password.some(i => i === w))));
+  }
+
+  return password.join('').replace(/\s+/g, '');
+}
+
 const PasswordGeneratorPage = () => {
+  const { words, isLoadingWords } = useStorageContent();
   const [shouldGeneratePasswords, setShouldGeneratePasswords] = useState<boolean>(true);
-  const [shouldRegenOnChange, setShouldRegenOnChange] = useState<boolean>(true);
   const [generatedPasswords, setGeneratedPasswords] = useState<string[]>(['a', 'b', 'c', 'd', 'e']);
   const [passwordLength, setPasswordLength] = useState<number>(16);
   const [specialCharacters, setSpecialCharacters] = useState<string>(SPECIAL_CHARACTERS);
@@ -180,12 +190,15 @@ const PasswordGeneratorPage = () => {
   const [shouldIncludeUppercasedLetters, setShouldIncludeUppercasedLetters] = useState<boolean>(true);
   const [shouldAllowSequence, setShouldAllowSequence] = useState<boolean>(false);
   const [shouldAllowTripleRepeat, setShouldAllowTripleRepeat] = useState<boolean>(false);
+  const [isTrueRandomMode, setIsTrueRandomMode] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState('');
+  const [numberOfWords, setNumberOfWords] = useState<number>(2);
 
   useEffect(() => {
-    if (shouldGeneratePasswords) {
+    if (shouldGeneratePasswords && !isLoadingWords) {
       const passwords = [];
       for (let pCount = 0; pCount < 5; pCount++) {
-        const content = generatePassword({
+        const content = isTrueRandomMode ? generatePassword({
           shouldIncludeNumbers,
           shouldIncludeLowercasedLetters,
           shouldIncludeUppercasedLetters,
@@ -193,7 +206,7 @@ const PasswordGeneratorPage = () => {
           shouldAllowTripleRepeat,
           specialCharacters: specialCharacters.split(''),
           passwordLength,
-        });
+        }) : generateReadablePassword(words.map(i => i.id), numberOfWords);
 
         passwords.push(content);
       }
@@ -201,21 +214,11 @@ const PasswordGeneratorPage = () => {
       setGeneratedPasswords(passwords);
       setShouldGeneratePasswords(false);
     }
-  }, [
-    shouldGeneratePasswords,
-    generatedPasswords,
-    shouldIncludeNumbers,
-    shouldIncludeLowercasedLetters,
-    shouldIncludeUppercasedLetters,
-    shouldAllowSequence,
-    shouldAllowTripleRepeat,
-    specialCharacters,
-    passwordLength,
-  ]);
+  }, [shouldGeneratePasswords, generatedPasswords, shouldIncludeNumbers, shouldIncludeLowercasedLetters, shouldIncludeUppercasedLetters, shouldAllowSequence, shouldAllowTripleRepeat, specialCharacters, passwordLength, isTrueRandomMode, words, numberOfWords, isLoadingWords]);
 
   const regeneratePassword = useCallback(
     (index: number) => {
-      const content = generatePassword({
+      const content = isTrueRandomMode ? generatePassword({
         shouldIncludeNumbers,
         shouldIncludeLowercasedLetters,
         shouldIncludeUppercasedLetters,
@@ -223,7 +226,7 @@ const PasswordGeneratorPage = () => {
         shouldAllowTripleRepeat,
         specialCharacters: specialCharacters.split(''),
         passwordLength,
-      });
+      }) : generateReadablePassword(words.map(i => i.id), numberOfWords);
 
       const updatedPasswords = generatedPasswords.map((p, i) => {
         if (i === index) {
@@ -234,73 +237,50 @@ const PasswordGeneratorPage = () => {
       });
       setGeneratedPasswords(updatedPasswords);
     },
-    [
-      generatedPasswords,
-      shouldIncludeNumbers,
-      shouldIncludeLowercasedLetters,
-      shouldIncludeUppercasedLetters,
-      shouldAllowSequence,
-      shouldAllowTripleRepeat,
-      specialCharacters,
-      passwordLength,
-    ]
+    [isTrueRandomMode, shouldIncludeNumbers, shouldIncludeLowercasedLetters, shouldIncludeUppercasedLetters, shouldAllowSequence, shouldAllowTripleRepeat, specialCharacters, passwordLength, words, numberOfWords, generatedPasswords]
   );
 
   const onHandlePasswordLengthChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPasswordLength(Number(event.target.value));
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
+  };
+
+  const onHandleNumberOfWordsChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNumberOfWords(Number(event.target.value));
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleIncludeNumbersChange = () => {
     setShouldIncludeNumbers(!shouldIncludeNumbers);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleIncludeLowercasedLettersChange = () => {
     setShouldIncludeLowercasedLetters(!shouldIncludeLowercasedLetters);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleIncludeUppercasedLettersChange = () => {
     setShouldIncludeUppercasedLetters(!shouldIncludeUppercasedLetters);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleAllowSequenceChange = () => {
     setShouldAllowSequence(!shouldAllowSequence);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleAllowTripleRepeatChange = () => {
     setShouldAllowTripleRepeat(!shouldAllowTripleRepeat);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
+    setShouldGeneratePasswords(true);
   };
 
   const onHandleSymbolsChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSpecialCharacters(event.target.value);
-    if (shouldRegenOnChange) {
-      setShouldGeneratePasswords(true);
-    }
-  };
-
-  const onHandleRegenOnChange = () => {
-    setShouldRegenOnChange(!shouldRegenOnChange);
+    setShouldGeneratePasswords(true);
   };
 
   const reset = () => {
-    setShouldRegenOnChange(true);
     setPasswordLength(16);
     setSpecialCharacters(SPECIAL_CHARACTERS);
     setShouldIncludeNumbers(true);
@@ -309,15 +289,37 @@ const PasswordGeneratorPage = () => {
     setShouldAllowSequence(false);
   };
 
+  const handleCopyPassword = (password: string, isMultiple: boolean) => {
+    const messageEnding = isMultiple ? 's' : '';
+    copyToClipboard(password);
+    setAlertMsg('Successfully Copied Password' + messageEnding);
+    setTimeout(() => { setAlertMsg('') }, 5000);
+  }
+
+  const toggleMode = () => {
+    setIsTrueRandomMode(!isTrueRandomMode);
+    setShouldGeneratePasswords(true);
+  }
+
   const hasError = generatedPasswords[0] !== ERROR_MESSAGE;
 
   return (
     <PageWrapper>
       <>
-        <h1 className="mb-4 text-6xl">Password Generator</h1>
+        <div className='relative'>
+          <h1 className="mb-4 text-6xl">Password Generator</h1>
+          {alertMsg ? <span className='absolute top-6 left-150 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+        </div>
         <div className="flex">
           <div>
             <div className="w-80 rounded-t-lg border-l-2 border-r-2 border-t-2 border-sky-600 p-4">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" className="sr-only peer" onClick={toggleMode} />
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-sky-500"></div>
+                <span className="ml-3 text-sm font-medium text-gray-900">{isTrueRandomMode ? 'True Random' : 'Readable'}</span>
+              </label>
+            </div>
+            {isTrueRandomMode ? <><div className="w-80 border-l-2 border-r-2 border-t-2 border-sky-600 p-4">
               <label className="mr-4">Length: {passwordLength}</label>
               <input
                 type="range"
@@ -326,110 +328,113 @@ const PasswordGeneratorPage = () => {
                 min="8"
                 max="50"
                 value={passwordLength}
-                onChange={(event) => onHandlePasswordLengthChange(event)}
+                onChange={onHandlePasswordLengthChange}
               />
             </div>
-            <div className="flex w-80 flex-col border-2 border-sky-600 p-4">
-              <span className="text-2xl font-bold">Include</span>
-              <div>
-                <input
-                  className="mr-1 w-6"
-                  onChange={onHandleIncludeNumbersChange}
-                  type="checkbox"
-                  id="should-include-numbers"
-                  checked={shouldIncludeNumbers}
-                />
-                <label className="w-32 pt-2" htmlFor="should-include-numbers">
-                  Numbers
-                </label>
+              <div className="w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4">
+                <span className="text-2xl font-bold">Include</span>
+                <div>
+                  <input
+                    className="mr-1 w-6"
+                    onChange={onHandleIncludeNumbersChange}
+                    type="checkbox"
+                    id="should-include-numbers"
+                    checked={shouldIncludeNumbers}
+                  />
+                  <label className="w-32 pt-2" htmlFor="should-include-numbers">
+                    Numbers
+                  </label>
+                </div>
+                <div>
+                  <input
+                    className="mr-1 w-6"
+                    onChange={onHandleIncludeLowercasedLettersChange}
+                    type="checkbox"
+                    id="should-include-lowercased-letters"
+                    checked={shouldIncludeLowercasedLetters}
+                  />
+                  <label className="w-32 pt-2" htmlFor="should-include-lowercased-letters">
+                    Lowercased Letters
+                  </label>
+                </div>
+                <div>
+                  <input
+                    className="mr-1 w-6"
+                    onChange={onHandleIncludeUppercasedLettersChange}
+                    type="checkbox"
+                    id="should-include-uppercased-letters"
+                    checked={shouldIncludeUppercasedLetters}
+                  />
+                  <label className="w-32 pt-2" htmlFor="should-include-uppercased-letters">
+                    Uppercased Letters
+                  </label>
+                </div>
+                <div>
+                  <input
+                    className="mr-1 w-6"
+                    onChange={onHandleAllowSequenceChange}
+                    type="checkbox"
+                    id="should-allow-sequence"
+                    checked={shouldAllowSequence}
+                  />
+                  <label className="w-32 pt-2" htmlFor="should-allow-sequence">
+                    Allow Sequence (e.g. 123 or abc)
+                  </label>
+                </div>
+                <div>
+                  <input
+                    className="mr-1 w-6"
+                    onChange={onHandleAllowTripleRepeatChange}
+                    type="checkbox"
+                    id="should-triple-repeat"
+                    checked={shouldAllowTripleRepeat}
+                  />
+                  <label className="w-32 pt-2" htmlFor="should-triple-repeat">
+                    Allow Triple Repeat (e.g. 111 or aaa)
+                  </label>
+                </div>
+                <div>
+                  <input
+                    className="h-8 w-64 rounded border-2 border-sky-700 p-4"
+                    type="text"
+                    onChange={(event) => {
+                      onHandleSymbolsChange(event);
+                    }}
+                    value={specialCharacters}
+                  />
+                </div>
+                <button className="ml-16 mt-4 w-32 shadow-md" onClick={reset}>
+                  Reset Options
+                </button>
               </div>
-              <div>
+            </> : <>
+              <div className="w-80 rounded-b-lg border-2 border-sky-600 p-4">
+                <label className="mr-4"># Of Words: {numberOfWords}</label>
                 <input
-                  className="mr-1 w-6"
-                  onChange={onHandleIncludeLowercasedLettersChange}
-                  type="checkbox"
-                  id="should-include-lowercased-letters"
-                  checked={shouldIncludeLowercasedLetters}
-                />
-                <label className="w-32 pt-2" htmlFor="should-include-lowercased-letters">
-                  Lowercased Letters
-                </label>
-              </div>
-              <div>
-                <input
-                  className="mr-1 w-6"
-                  onChange={onHandleIncludeUppercasedLettersChange}
-                  type="checkbox"
-                  id="should-include-uppercased-letters"
-                  checked={shouldIncludeUppercasedLetters}
-                />
-                <label className="w-32 pt-2" htmlFor="should-include-uppercased-letters">
-                  Uppercased Letters
-                </label>
-              </div>
-              <div>
-                <input
-                  className="mr-1 w-6"
-                  onChange={onHandleAllowSequenceChange}
-                  type="checkbox"
-                  id="should-allow-sequence"
-                  checked={shouldAllowSequence}
-                />
-                <label className="w-32 pt-2" htmlFor="should-allow-sequence">
-                  Allow Sequence (e.g. 123 or abc)
-                </label>
-              </div>
-              <div>
-                <input
-                  className="mr-1 w-6"
-                  onChange={onHandleAllowTripleRepeatChange}
-                  type="checkbox"
-                  id="should-triple-repeat"
-                  checked={shouldAllowTripleRepeat}
-                />
-                <label className="w-32 pt-2" htmlFor="should-triple-repeat">
-                  Allow Triple Repeat (e.g. 111 or aaa)
-                </label>
-              </div>
-              <div>
-                <input
-                  className="h-8 w-64 rounded border-2 border-sky-700 p-4"
-                  type="text"
-                  onChange={(event) => {
-                    onHandleSymbolsChange(event);
-                  }}
-                  value={specialCharacters}
+                  type="range"
+                  id="number-of-words"
+                  name="numberof-words"
+                  min="1"
+                  max="5"
+                  value={numberOfWords}
+                  onChange={onHandleNumberOfWordsChange}
                 />
               </div>
-            </div>
-            <div className="w-80 rounded-b-lg border-b-2 border-l-2 border-r-2 border-sky-600 p-4">
-              <input
-                className="mr-1 w-6"
-                onChange={onHandleRegenOnChange}
-                type="checkbox"
-                id="should-regen-on-change"
-                checked={shouldRegenOnChange}
-              />
-              <label className="w-32 pt-2" htmlFor="should-regen-on-change">
-                Regenerate Password On Change
-              </label>
-              <button className="ml-16 mt-4 w-32 shadow-md" onClick={reset}>
-                Reset Options
-              </button>
-            </div>
+            </>
+            }
           </div>
           <div className="ml-2 w-fit rounded border-2 border-sky-600 p-8">
             {generatedPasswords[0] !== ERROR_MESSAGE ? (
               generatedPasswords.map((password, index) => {
                 return (
-                  <div key={password} className="mt-2 flex gap-4">
-                    <span className="mt-3 w-fit min-w-60 font-mono text-2xl">{password}</span>
-                    <button className="w-32 shadow-md" onClick={() => copyToClipboard(password)}>
+                  <div key={password + index} className="mt-2 flex gap-4">
+                    <button className="w-24 shadow-md" onClick={() => handleCopyPassword(password, false)}>
                       Copy
                     </button>
-                    <button className="w-32 shadow-md" onClick={() => regeneratePassword(index)}>
-                      Regenerate
+                    <button className="w-24 shadow-md" onClick={() => regeneratePassword(index)}>
+                      Regen
                     </button>
+                    <span className="mt-3 w-fit min-w-60 font-mono text-2xl">{password}</span>
                   </div>
                 );
               })
@@ -438,7 +443,7 @@ const PasswordGeneratorPage = () => {
             )}
             {hasError ? (
               <div className="flex items-center justify-center pt-4">
-                <button className="mr-4 w-32 shadow-md" onClick={() => copyToClipboard(generatedPasswords.join('\n'))}>
+                <button className="mr-4 w-32 shadow-md" onClick={() => handleCopyPassword(generatedPasswords.join('\n'), true)}>
                   Copy All
                 </button>
                 <button className="w-32 shadow-md" onClick={() => setShouldGeneratePasswords(true)}>

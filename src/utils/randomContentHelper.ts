@@ -12,6 +12,11 @@ const RANDOM_MAX_FOUR = 4;
 const RANDOM_NONZERO_MAX = 9;
 const RANDOM_MAX_TEN = 10;
 
+const generateRandomContent = (content: string[]) => {
+  const randomContentIndex = getRandomInt(content.length);
+  return content[randomContentIndex];
+};
+
 const generateFirstName = () => {
   const randomNameIndex = getRandomInt(firstNames.length);
   return firstNames[randomNameIndex];
@@ -61,6 +66,7 @@ const generateState = () => {
 };
 
 export {
+  generateRandomContent,
   generateFirstName,
   generateLastName,
   generateEmailAddress,
