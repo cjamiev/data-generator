@@ -1,5 +1,5 @@
-import { copyToClipboard } from '../../utils/copy';
-import { getJSONRow } from '../../molecules/RandomGeneratedSection/exportHelper';
+import { copyToClipboard } from '../../../utils/copy';
+import { getJSONRow } from '../../../molecules/DataGenerator/RandomGeneratedSection/exportHelper';
 
 const ZERO = 0;
 

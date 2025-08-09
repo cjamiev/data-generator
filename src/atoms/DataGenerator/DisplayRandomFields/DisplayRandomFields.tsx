@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { IFieldType } from '../../types/randomField';
+import { IFieldType } from '../../../types/randomField';
 
 interface IDisplayRandomFields {
   columns: IFieldType[];

@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from 'react';
-import { CustomFieldLabel } from '../../types/randomField';
-import { dateFormats } from '../../types/date';
+import { CustomFieldLabel } from '../../../types/randomField';
+import { dateFormats } from '../../../types/date';
 import { CustomStringForm } from '../CustomStringForm';
-import { IFormulaMap } from '../../types/formula';
+import { IFormulaMap } from '../../../types/formula';
 
 export interface IRandomField {
   variableName: string;

@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
-import { PredefinedFieldForm } from '../../atoms/PredefinedFieldForm/PredefinedFieldForm';
-import { IRandomField, CustomRandomFieldForm } from '../../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
+import { PredefinedFieldForm } from '../../../atoms/DataGenerator/PredefinedFieldForm/PredefinedFieldForm';
+import { IRandomField, CustomRandomFieldForm } from '../../../atoms/DataGenerator/CustomRandomFieldForm/CustomRandomFieldForm';
 
 interface IRandomFieldForm {
   predefinedSelection: string[];

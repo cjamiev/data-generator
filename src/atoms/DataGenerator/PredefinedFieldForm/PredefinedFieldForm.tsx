@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { PredefinedRandomLabel } from '../../types/randomField';
+import { PredefinedRandomLabel } from '../../../types/randomField';
 
 interface IPredefinedSelection {
   predefinedSelection: string[];

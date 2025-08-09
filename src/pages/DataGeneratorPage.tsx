@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from 'react';
-import { RandomGeneratedSection } from '../molecules/RandomGeneratedSection';
-import { DisplayRandomFields } from '../atoms/DisplayRandomFields';
+import { RandomGeneratedSection } from '../molecules/DataGenerator/RandomGeneratedSection';
+import { DisplayRandomFields } from '../atoms/DataGenerator/DisplayRandomFields';
 import { fieldTypes, IFieldType, PredefinedRandomLabel } from '../types/randomField';
-import { getCorrectGeneratedValue } from '../molecules/RandomGeneratedSection/helper';
-import { RandomFieldForm } from '../molecules/RandomFieldForm';
-import { IRandomField } from '../atoms/CustomRandomFieldForm/CustomRandomFieldForm';
+import { getCorrectGeneratedValue } from '../molecules/DataGenerator/RandomGeneratedSection/helper';
+import { RandomFieldForm } from '../molecules/DataGenerator/RandomFieldForm';
+import { IRandomField } from '../atoms/DataGenerator/CustomRandomFieldForm/CustomRandomFieldForm';
 import { PageWrapper } from '../layout';
 import { scrollToTopOfPage, scrollToBottomOfPage } from '../utils/scroll';
 

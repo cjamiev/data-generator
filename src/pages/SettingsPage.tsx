@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { EmailEntity } from '../atoms/StorageData/EmailEntity';
-import { LocationEntity } from '../atoms/StorageData/LocationEntity';
-import { NameEntity } from '../atoms/StorageData/NameEntity';
-import { WordEntity } from '../atoms/StorageData/WordEntity';
-import { StreetEntity } from '../atoms/StorageData/StreetEntity';
+import { EmailEntity } from '../atoms/Storage/EmailEntity';
+import { LocationEntity } from '../atoms/Storage/LocationEntity';
+import { NameEntity } from '../atoms/Storage/NameEntity';
+import { WordEntity } from '../atoms/Storage/WordEntity';
+import { StreetEntity } from '../atoms/Storage/StreetEntity';
 import { PageWrapper } from '../layout';
 
 const ALL_TABS = ['Words', 'Names', 'Emails', 'Locations', 'Streets'];
@@ -32,12 +32,12 @@ const getClass = (isCurrentTab: boolean) => {
   }
 }
 
-const RandomContentPage = () => {
+const SettingsPage = () => {
   const [currentTab, setCurrentTab] = useState(ALL_TABS[0]);
 
   return (
     <PageWrapper>
-      <h1 className="mb-4 text-6xl">Random Content Page</h1>
+      <h1 className="mb-4 text-6xl">Settings</h1>
       <div className="flex">
         <div className="md:flex">
           <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
@@ -57,4 +57,4 @@ const RandomContentPage = () => {
   );
 };
 
-export { RandomContentPage };
+export { SettingsPage };
