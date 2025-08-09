@@ -126,21 +126,21 @@ const NameEntity = () => {
               <label htmlFor="nameid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
               <input type="text" id='nameid' name="nameid" value={newNameId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
             </div>
-            <div className="flex items-center mt-4 mb-4">
+            <div className="flex items-center m-auto mt-4 mb-4">
               <input id="is-first-name" type="checkbox" value="" checked={isFirstName} onClick={() => { setIsFirstName(!isFirstName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
               <label htmlFor="is-first-name" className="ms-2 text-sm font-medium text-black">Is First Name?</label>
             </div>
-            <div className="flex items-center mt-4 mb-4">
+            <div className="flex items-center m-auto mt-4 mb-4">
               <input id="is-last-name" type="checkbox" value="" checked={isLastName} onClick={() => { setIsLastName(!isLastName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
               <label htmlFor="is-last-name" className="ms-2 text-sm font-medium text-black">Is Last Name?</label>
             </div>
-            <div className='mb-2 relative'>
-              <button id="dropdownDefaultButton" onClick={toggleDropdown} className="w-full text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">{genderTypes.find(g => g.value === newNameGender)?.label}
-                <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <div className='m-auto mb-2 relative'>
+              <button id="dropdownDefaultButton" onClick={toggleDropdown} className="relative w-32 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">{genderTypes.find(g => g.value === newNameGender)?.label}
+                <svg className="absolute right-4 w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                 </svg>
               </button>
-              {showDropdown ? <div id="dropdown" className="z-1 w-full absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
+              {showDropdown ? <div id="dropdown" className="z-1 w-32 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                   {genderTypes.map(g => {
                     return (

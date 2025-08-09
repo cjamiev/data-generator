@@ -6,15 +6,15 @@ import { capitalizeEachWord } from '../../utils/contentMapper';
 import useStorageContent from '../../hooks/useStorageContent';
 
 const WordEntity = () => {
+  const { words, wordTypes } = useStorageContent();
+  const [selectedType, setSelectedType] = useState(wordTypes[0]);
+  const [showTypeList, setShowTypeList] = useState(false);
   const [newWordId, setNewWordId] = useState('');
   const [newWordType, setNewWordType] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
   const dispatch = useAppDispatch();
-  const { words, wordTypes } = useStorageContent();
 
-
-  console.log(wordTypes);
   const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
     if (e.target.name === 'wordid') {
       setNewWordId(e.target.value);
@@ -47,9 +47,38 @@ const WordEntity = () => {
     setTimeout(() => { setAlertMsg('') }, 5000);
   }
 
+  const handleTypeSelectionChange = (type: string) => {
+    setSelectedType(type);
+  }
+
+  const toggleDropdown = () => {
+    setShowTypeList(!showTypeList);
+  }
+
   return (
     <div>
-      <h2 className="mb-4 text-4xl">Words</h2>
+      <div>
+        <h2 className="mb-4 text-4xl">Words</h2>
+        <div className='mb-2 relative'>
+          <button id="dropdownDefaultButton" onClick={toggleDropdown} className="relative w-32 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">
+            {selectedType}
+            <svg className="absolute right-4 w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+          {showTypeList ? <div id="dropdown" className="z-1 w-32 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              {wordTypes.map(type => {
+                return (
+                  <li key={type} onClick={() => handleTypeSelectionChange(type)}>
+                    <span className="block px-4 py-2 hover:bg-sky-500 hover:text-white cursor-pointer">{type}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div> : null}
+        </div>
+      </div>
       <div className='flex'>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right">
@@ -67,7 +96,7 @@ const WordEntity = () => {
               </tr>
             </thead>
             <tbody>
-              {words.map(e => {
+              {words.filter(w => w.type === selectedType).map(e => {
                 return <tr key={e.id} className="bg-white border-b border-gray-700">
                   <td scope="row" className="px-6 py-4">
                     {e.id}
