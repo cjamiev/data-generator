@@ -74,8 +74,8 @@ export const locationSlice = createAppSlice({
   },
   selectors: {
     selectLocations: location => location.locationlist,
-    selectIsLoading: location => location.isLoadingLocations,
+    selectIsLoadingLocations: location => location.isLoadingLocations,
   },
 })
 
-export const { selectLocations, selectIsLoading } = locationSlice.selectors
+export const { selectLocations, selectIsLoadingLocations } = locationSlice.selectors

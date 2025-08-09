@@ -75,8 +75,8 @@ export const streetSlice = createAppSlice({
   },
   selectors: {
     selectStreets: street => street.streetlist,
-    selectIsLoading: street => street.isLoadingStreets,
+    selectIsLoadingStreets: street => street.isLoadingStreets,
   },
 })
 
-export const { selectStreets, selectIsLoading } = streetSlice.selectors
+export const { selectStreets, selectIsLoadingStreets } = streetSlice.selectors

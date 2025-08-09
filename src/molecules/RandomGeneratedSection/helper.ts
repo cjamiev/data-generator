@@ -152,7 +152,7 @@ const getCorrectGeneratedValue = (col: IFieldType, index: number) => {
   if (otherValue) {
     return otherValue;
   } else {
-    return 'UNKOWN TYPE';
+    return 'UNKNOWN TYPE';
   }
 };
 

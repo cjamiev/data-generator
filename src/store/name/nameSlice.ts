@@ -74,8 +74,8 @@ export const nameSlice = createAppSlice({
   },
   selectors: {
     selectNames: name => name.namelist,
-    selectIsLoading: name => name.isLoadingNames,
+    selectIsLoadingNames: name => name.isLoadingNames,
   },
 })
 
-export const { selectNames, selectIsLoading } = nameSlice.selectors
+export const { selectNames, selectIsLoadingNames } = nameSlice.selectors

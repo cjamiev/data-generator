@@ -79,8 +79,8 @@ export const wordSlice = createAppSlice({
   selectors: {
     selectWords: word => word.wordlist,
     selectWordTypes: word => word.wordtypes,
-    selectIsLoading: word => word.isLoadingWords,
+    selectIsLoadingWords: word => word.isLoadingWords,
   },
 })
 
-export const { selectWords, selectWordTypes, selectIsLoading } = wordSlice.selectors
+export const { selectWords, selectWordTypes, selectIsLoadingWords } = wordSlice.selectors

@@ -74,8 +74,8 @@ export const emailSlice = createAppSlice({
   },
   selectors: {
     selectEmails: email => email.emaillist,
-    selectIsLoading: email => email.isLoadingEmails,
+    selectIsLoadingEmails: email => email.isLoadingEmails,
   },
 })
 
-export const { selectEmails, selectIsLoading } = emailSlice.selectors
+export const { selectEmails, selectIsLoadingEmails } = emailSlice.selectors
