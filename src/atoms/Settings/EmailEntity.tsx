@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch } from '../../store';
 import { addEmail, deleteEmail } from '../../store/email/emailSlice';
 import { Email } from '../../models/storage';
@@ -15,7 +15,7 @@ const EmailEntity = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
 
-  const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewEmailId(e.target.value);
   }
 
@@ -75,7 +75,7 @@ const EmailEntity = () => {
 
   const handleBatchModeChange = () => { setIsBatchMode(!isBatchMode); }
 
-  const handleBatchContentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleBatchContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBatchContent(e.target.value);
   }
 
@@ -134,7 +134,7 @@ const EmailEntity = () => {
               : <>
                 <div className='flex mb-2'>
                   <label htmlFor="emailid" className="block mr-2 text-sm font-medium text-black place-content-center">Host:</label>
-                  <input type="text" id='emailid' name="emailid" value={newEmailId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="gmail.com" required />
+                  <input type="text" id='emailid' name="emailid" value={newEmailId} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="gmail.com" required />
                 </div></>}
             <button className='m-auto' onClick={handleSubmit}>Add Email Host</button>
           </form>

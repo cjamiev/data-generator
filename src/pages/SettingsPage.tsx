@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { EmailEntity } from '../atoms/Storage/EmailEntity';
-import { LocationEntity } from '../atoms/Storage/LocationEntity';
-import { NameEntity } from '../atoms/Storage/NameEntity';
-import { WordEntity } from '../atoms/Storage/WordEntity';
-import { StreetEntity } from '../atoms/Storage/StreetEntity';
+import { EmailEntity } from '../atoms/Settings/EmailEntity';
+import { LocationEntity } from '../atoms/Settings/LocationEntity';
+import { NameEntity } from '../atoms/Settings/NameEntity';
+import { WordEntity } from '../atoms/Settings/WordEntity';
+import { StreetEntity } from '../atoms/Settings/StreetEntity';
 import { PageWrapper } from '../layout';
 
 const ALL_TABS = ['Words', 'Names', 'Emails', 'Locations', 'Streets'];
-const ContentTab = ({ selectedTab }: { selectedTab: string }) => {
+const SettingTab = ({ selectedTab }: { selectedTab: string }) => {
   if (selectedTab === 'Words') {
     return <WordEntity />;
   }
@@ -24,7 +24,7 @@ const ContentTab = ({ selectedTab }: { selectedTab: string }) => {
   }
 }
 
-const getClass = (isCurrentTab: boolean) => {
+const getTabClass = (isCurrentTab: boolean) => {
   if (isCurrentTab) {
     return "bg-sky-500 active dark:bg-sky-500";
   } else {
@@ -43,7 +43,7 @@ const SettingsPage = () => {
           <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
             {ALL_TABS.map(tab => {
               return (<li key={tab} className="me-2 cursor-pointer" onClick={() => setCurrentTab(tab)}>
-                <span className={"inline-flex items-center px-4 py-3 w-full rounded-lg text-white " + getClass(currentTab === tab)}>
+                <span className={"inline-flex items-center px-4 py-3 w-full rounded-lg text-white " + getTabClass(currentTab === tab)}>
                   {tab}
                 </span>
               </li>)
@@ -51,7 +51,7 @@ const SettingsPage = () => {
             }
           </ul>
         </div>
-        <ContentTab selectedTab={currentTab} />
+        <SettingTab selectedTab={currentTab} />
       </div>
     </PageWrapper>
   );
