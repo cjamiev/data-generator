@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from 'react';
+import useStorageContent from '../../hooks/useStorageContent';
 import { useAppDispatch } from '../../store';
 import { addStreet, deleteStreet } from '../../store/street/streetSlice';
 import { Street } from '../../models/storage';
-import { capitalizeEachWord } from '../../utils/contentMapper';
-import useStorageContent from '../../hooks/useStorageContent';
+import { capitalizeEachWord } from '../../utils/stringHelper';
 
 const placeHolderBatchContent = 'street\nstreet2\nstreet3';
 

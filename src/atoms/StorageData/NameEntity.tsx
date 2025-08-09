@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from 'react';
+import useStorageContent from '../../hooks/useStorageContent';
 import { useAppDispatch } from '../../store';
 import { addName, deleteName } from '../../store/name/nameSlice';
 import { Name } from '../../models/storage';
-import { capitalizeEachWord } from '../../utils/contentMapper';
-import useStorageContent from '../../hooks/useStorageContent';
+import { capitalizeEachWord } from '../../utils/stringHelper';
 
 const placeHolderBatchContent = 'name;y;n;m\nname2;n;y;o\nname3;y;n;f';
 const genderTypes = [

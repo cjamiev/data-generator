@@ -9,7 +9,7 @@ export const addStreet = createAsyncThunk(
   'streets/add',
   async (street: Street) => {
     if (getIsDemoMode()) {
-      addMockData<Street>('streets', street);
+      addMockData<Street>('dg-streets', street);
 
       return street;
     } else {
@@ -23,7 +23,7 @@ export const deleteStreet = createAsyncThunk(
   'streets/delete',
   async (streetId: string) => {
     if (getIsDemoMode()) {
-      removeMockData<Street>('streets', (s: Street) => { return s.id !== streetId });
+      removeMockData<Street>('dg-streets', (s: Street) => { return s.id !== streetId });
 
       return streetId;
     } else {
@@ -37,7 +37,7 @@ export const loadStreets = createAsyncThunk(
   'streets/fetchAll',
   async () => {
     if (getIsDemoMode()) {
-      return loadMockData<Street>('streets');
+      return loadMockData<Street>('dg-streets');
 
     } else {
       const response = await streetAPI.fetchStreets();

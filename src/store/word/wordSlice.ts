@@ -9,7 +9,7 @@ export const addWord = createAsyncThunk(
   'words/add',
   async (word: Word) => {
     if (getIsDemoMode()) {
-      addMockData<Word>('words', word);
+      addMockData<Word>('dg-words', word);
 
       return word;
     } else {
@@ -23,7 +23,7 @@ export const deleteWord = createAsyncThunk(
   'words/delete',
   async (wordId: string) => {
     if (getIsDemoMode()) {
-      removeMockData<Word>('words', (w: Word) => { return w.id !== wordId });
+      removeMockData<Word>('dg-words', (w: Word) => { return w.id !== wordId });
 
       return wordId;
     } else {
@@ -37,7 +37,7 @@ export const loadWords = createAsyncThunk(
   'words/fetchAll',
   async () => {
     if (getIsDemoMode()) {
-      return loadMockData<Word>('words');
+      return loadMockData<Word>('dg-words');
     } else {
       const response = await wordAPI.fetchWords();
       return response.data;

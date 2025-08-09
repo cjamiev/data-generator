@@ -9,7 +9,7 @@ export const addName = createAsyncThunk(
   'names/add',
   async (name: Name) => {
     if (getIsDemoMode()) {
-      addMockData<Name>('names', name);
+      addMockData<Name>('dg-names', name);
 
       return name;
     } else {
@@ -23,7 +23,7 @@ export const deleteName = createAsyncThunk(
   'names/delete',
   async (nameId: string) => {
     if (getIsDemoMode()) {
-      removeMockData<Name>('names', (n: Name) => { return n.id !== nameId });
+      removeMockData<Name>('dg-names', (n: Name) => { return n.id !== nameId });
 
       return nameId;
     } else {
@@ -37,7 +37,7 @@ export const loadNames = createAsyncThunk(
   'names/fetchAll',
   async () => {
     if (getIsDemoMode()) {
-      return loadMockData<Name>('names');
+      return loadMockData<Name>('dg-names');
     } else {
       const response = await nameAPI.fetchNames();
       return response.data;

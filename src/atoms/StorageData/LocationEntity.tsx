@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from 'react';
+import useStorageContent from '../../hooks/useStorageContent';
 import { useAppDispatch } from '../../store';
 import { addLocation, deleteLocation } from '../../store/location/locationSlice';
 import { Location } from '../../models/storage';
-import { capitalizeEachWord } from '../../utils/contentMapper';
-import useStorageContent from '../../hooks/useStorageContent';
+import { capitalizeEachWord } from '../../utils/stringHelper';
 
 const placeHolderBatchContent = 'code;state;city1,city2,city3\ncode2;state2;city1,city2,city3\ncode3;state3;city1,city2,city3';
 // Making sure no extra spaces and each word gets capitilzed correctly

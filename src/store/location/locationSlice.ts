@@ -9,7 +9,7 @@ export const addLocation = createAsyncThunk(
   'locations/add',
   async (location: Location) => {
     if (getIsDemoMode()) {
-      addMockData<Location>('locations', location);
+      addMockData<Location>('dg-locations', location);
 
       return location;
     } else {
@@ -23,7 +23,7 @@ export const deleteLocation = createAsyncThunk(
   'locations/delete',
   async (locationCode: string) => {
     if (getIsDemoMode()) {
-      removeMockData<Location>('locations', (l: Location) => { return l.code !== locationCode });
+      removeMockData<Location>('dg-locations', (l: Location) => { return l.code !== locationCode });
 
       return locationCode;
     } else {
@@ -37,7 +37,7 @@ export const loadLocations = createAsyncThunk(
   'locations/fetchAll',
   async () => {
     if (getIsDemoMode()) {
-      return loadMockData<Location>('locations');
+      return loadMockData<Location>('dg-locations');
     } else {
       const response = await locationAPI.fetchLocations();
       return response.data

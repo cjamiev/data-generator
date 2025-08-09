@@ -1,8 +1,7 @@
-export const copyToClipboard = (text: string): void => {
-  const copyText = document.createElement('textarea');
-  copyText.value = text;
-  document.body.appendChild(copyText);
-  copyText.select();
-  document.execCommand('copy');
-  document.body.removeChild(copyText);
+export const copyToClipboard = async (contents: string): Promise<void> => {
+  try {
+    await navigator.clipboard.writeText(contents);
+  } catch (err) {
+    console.error('Failed to copy contents:', err);
+  }
 };

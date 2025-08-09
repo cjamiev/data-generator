@@ -22,18 +22,18 @@ export const removeMockData = <T>(type: string, filterFnc: (data: T) => boolean)
 }
 
 export const loadAllMockData = () => {
-  localStorage.setItem('words', JSON.stringify(words));
-  localStorage.setItem('emails', JSON.stringify(emails));
-  localStorage.setItem('names', JSON.stringify(names));
-  localStorage.setItem('streets', JSON.stringify(streets));
-  localStorage.setItem('locations', JSON.stringify(locations));
+  localStorage.setItem('dg-words', JSON.stringify(words));
+  localStorage.setItem('dg-emails', JSON.stringify(emails));
+  localStorage.setItem('dg-names', JSON.stringify(names));
+  localStorage.setItem('dg-streets', JSON.stringify(streets));
+  localStorage.setItem('dg-locations', JSON.stringify(locations));
 }
 
 export const initializeApp = () => {
-  const isInitialized = localStorage.getItem('app-initialized');
+  const isInitialized = localStorage.getItem('dg-initialized');
 
   if (isInitialized != 'y') {
     loadAllMockData();
-    localStorage.setItem('app-initialized', 'y');
+    localStorage.setItem('dg-initialized', 'y');
   }
 }

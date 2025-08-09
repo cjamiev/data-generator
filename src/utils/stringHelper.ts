@@ -9,6 +9,12 @@ const capitalizeFirstLetter = (text: string) => {
   return text.charAt(ZERO).toUpperCase() + text.slice(ONE);
 };
 
+const capitalizeEachWord = (text: string) => {
+  return text.toLocaleLowerCase().split(' ').map(word => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}
+
 const formatMoney = (amount: number) => {
   const amountAsString = String(amount).split('')
   const length = amountAsString.length;
@@ -33,5 +39,6 @@ const formatMoney = (amount: number) => {
 export {
   lowerCaseFirstLetter,
   capitalizeFirstLetter,
+  capitalizeEachWord,
   formatMoney
 };

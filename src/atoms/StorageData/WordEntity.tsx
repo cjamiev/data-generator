@@ -1,10 +1,10 @@
 import { SetStateAction, useRef, useState } from 'react';
+import useStorageContent from '../../hooks/useStorageContent';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useAppDispatch } from '../../store';
 import { addWord, deleteWord } from '../../store/word/wordSlice';
 import { Word } from '../../models/storage';
-import { capitalizeEachWord } from '../../utils/contentMapper';
-import useStorageContent from '../../hooks/useStorageContent';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
+import { capitalizeEachWord } from '../../utils/stringHelper';
 
 const placeHolderBatchContent = 'word;type\nword2;type\nword3;type';
 

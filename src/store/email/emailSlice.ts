@@ -9,7 +9,7 @@ export const addEmail = createAsyncThunk(
   'emails/add',
   async (email: Email) => {
     if (getIsDemoMode()) {
-      addMockData<Email>('emails', email);
+      addMockData<Email>('dg-emails', email);
 
       return email;
     } else {
@@ -23,7 +23,7 @@ export const deleteEmail = createAsyncThunk(
   'emails/delete',
   async (emailId: string) => {
     if (getIsDemoMode()) {
-      removeMockData<Email>('emails', (e: Email) => { return e.id !== emailId });
+      removeMockData<Email>('dg-emails', (e: Email) => { return e.id !== emailId });
 
       return emailId;
     } else {
@@ -37,7 +37,7 @@ export const loadEmails = createAsyncThunk(
   'emails/fetchAll',
   async () => {
     if (getIsDemoMode()) {
-      return loadMockData<Email>('emails');
+      return loadMockData<Email>('dg-emails');
     } else {
       const response = await emailAPI.fetchEmails();
       return response.data;
