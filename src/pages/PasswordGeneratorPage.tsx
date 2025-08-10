@@ -1,35 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ChangeEvent, useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { PageWrapper } from '../layout';
 import useStorageContent from '../hooks/useStorageContent';
 import { PasswordsDisplay } from '../atoms/Password/PasswordsDisplay';
 import { PasswordOptionsForm } from '../atoms/Password/PasswordOptionsForm';
-import { defaultPasswordOptions, IPasswordOptions } from '../types/password';
+import { PasswordReadableOptionsForm } from '../atoms/Password/PasswordReadableOptionsForm';
+import { defaultPasswordOptions, defaultPasswordReadableOptions, IPasswordOptions, IPasswordReadableOptions } from '../types/password';
 import { generatePassword, generateReadablePassword } from '../utils/passwordGeneratorHelper';
 
-/*
- * TODO: Refactor code: Split into smaller components
- * Hi Priority Missing features
- * - Readable password made of real words
- * Lo Priority Missing features
- * - No duplicate character
- * - Limit number of occurance of a particular character
- */
-
 const PasswordGeneratorPage = () => {
-  const { words, isLoadingWords } = useStorageContent();
-  const [passwordOptions, setPasswordOptions] = useState<IPasswordOptions>(defaultPasswordOptions)
+  const { words, wordTypes, isLoadingWords } = useStorageContent();
+  const [passwordOptions, setPasswordOptions] = useState<IPasswordOptions>(defaultPasswordOptions);
+  const [passwordReadableOptions, setPasswordReadableOptions] = useState<IPasswordReadableOptions>(defaultPasswordReadableOptions);
   const [shouldGeneratePasswords, setShouldGeneratePasswords] = useState<boolean>(true);
   const [generatedPasswords, setGeneratedPasswords] = useState<string[]>(['a', 'b', 'c', 'd', 'e']);
   const [isTrueRandomMode, setIsTrueRandomMode] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState('');
-  const [numberOfWords, setNumberOfWords] = useState<number>(2);
 
   useEffect(() => {
     if (shouldGeneratePasswords && !isLoadingWords) {
       const passwords = [];
       for (let pCount = 0; pCount < 5; pCount++) {
-        const newGeneratedPassword = isTrueRandomMode ? generatePassword(passwordOptions) : generateReadablePassword(words.map(i => i.id), numberOfWords);
+        const newGeneratedPassword = isTrueRandomMode
+          ? generatePassword(passwordOptions)
+          : generateReadablePassword(words, wordTypes, passwordReadableOptions);
         passwords.push(newGeneratedPassword);
       }
 
@@ -47,13 +41,37 @@ const PasswordGeneratorPage = () => {
     shouldGeneratePasswords,
     isTrueRandomMode,
     words.length,
-    numberOfWords,
+    passwordReadableOptions.numberOfWords,
+    passwordReadableOptions.shouldIncludeSymbol,
+    passwordReadableOptions.shouldIncludeDate,
     isLoadingWords
   ]);
 
+  const toggleMode = () => {
+    setIsTrueRandomMode(!isTrueRandomMode);
+    setShouldGeneratePasswords(true);
+  }
+
+  const onHandlePasswordReadableOptionsChange = (updatedPasswordReadableOptions: IPasswordReadableOptions) => {
+    setPasswordReadableOptions(updatedPasswordReadableOptions);
+    setShouldGeneratePasswords(true);
+  };
+
+  const onHandlePasswordOptionsChange = (updatedPasswordOptions: IPasswordOptions) => {
+    setPasswordOptions(updatedPasswordOptions);
+    setShouldGeneratePasswords(true);
+  }
+
+  const handleAlertMsg = (msg: string) => {
+    setAlertMsg(msg);
+    setTimeout(() => { setAlertMsg('') }, 5000);
+  }
+
   const regeneratePassword = useCallback(
     (index: number) => {
-      const content = isTrueRandomMode ? generatePassword(passwordOptions) : generateReadablePassword(words.map(i => i.id), numberOfWords);
+      const content = isTrueRandomMode
+        ? generatePassword(passwordOptions)
+        : generateReadablePassword(words, wordTypes, passwordReadableOptions);
       const updatedPasswords = generatedPasswords.map((p, i) => {
         if (i === index) {
           return content;
@@ -73,29 +91,11 @@ const PasswordGeneratorPage = () => {
       passwordOptions.passwordLength,
       isTrueRandomMode,
       words.length,
-      numberOfWords
+      passwordReadableOptions.numberOfWords,
+      passwordReadableOptions.shouldIncludeSymbol,
+      passwordReadableOptions.shouldIncludeDate,
     ]
   );
-
-  const onHandleNumberOfWordsChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNumberOfWords(Number(event.target.value));
-    setShouldGeneratePasswords(true);
-  };
-
-  const onHandlePasswordOptionsChange = (updatedPasswordOptions: IPasswordOptions) => {
-    setPasswordOptions(updatedPasswordOptions);
-    setShouldGeneratePasswords(true);
-  }
-
-  const toggleMode = () => {
-    setIsTrueRandomMode(!isTrueRandomMode);
-    setShouldGeneratePasswords(true);
-  }
-
-  const handleAlertMsg = (msg: string) => {
-    setAlertMsg(msg);
-    setTimeout(() => { setAlertMsg('') }, 5000);
-  }
 
   const regenerateAll = () => { setShouldGeneratePasswords(true) }
 
@@ -120,20 +120,11 @@ const PasswordGeneratorPage = () => {
                 passwordOptions={passwordOptions}
                 onHandlePasswordOptionsChange={onHandlePasswordOptionsChange}
               />
-              : <>
-                <div className="w-80 rounded-b-lg border-2 border-sky-600 p-4">
-                  <label className="mr-4"># Of Words: {numberOfWords}</label>
-                  <input
-                    type="range"
-                    id="number-of-words"
-                    name="numberof-words"
-                    min="1"
-                    max="5"
-                    value={numberOfWords}
-                    onChange={onHandleNumberOfWordsChange}
-                  />
-                </div>
-              </>
+              :
+              <PasswordReadableOptionsForm
+                passwordReadableOptions={passwordReadableOptions}
+                onHandlePasswordReadableOptionsChange={onHandlePasswordReadableOptionsChange}
+              />
             }
           </div>
           <PasswordsDisplay generatedPasswords={generatedPasswords} regenerateAll={regenerateAll} regeneratePassword={regeneratePassword} handleAlertMsg={handleAlertMsg} />

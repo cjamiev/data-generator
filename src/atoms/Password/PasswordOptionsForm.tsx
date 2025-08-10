@@ -89,11 +89,11 @@ const PasswordOptionsForm = ({
         <span className="text-2xl font-bold">Include</span>
         <div>
           <input
-            className="mr-1 w-6"
-            onChange={onHandleIncludeNumbersChange}
-            type="checkbox"
             id="should-include-numbers"
+            className="mr-1 w-6"
+            type="checkbox"
             checked={shouldIncludeNumbers}
+            onChange={onHandleIncludeNumbersChange}
           />
           <label className="w-32 pt-2" htmlFor="should-include-numbers">
             Numbers

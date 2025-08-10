@@ -1,5 +1,5 @@
 import { copyToClipboard } from '../../utils/copy';
-import { ERROR_MESSAGE } from '../../utils/passwordGeneratorHelper';
+import { ERROR_MESSAGE, ERROR_MESSAGE2 } from '../../utils/passwordGeneratorHelper';
 
 interface IPasswordsDisplay {
   generatedPasswords: string[],
@@ -9,7 +9,7 @@ interface IPasswordsDisplay {
 }
 
 const PasswordsDisplay = ({ generatedPasswords, regenerateAll, regeneratePassword, handleAlertMsg }: IPasswordsDisplay) => {
-  const hasError = generatedPasswords[0] === ERROR_MESSAGE;
+  const hasError = generatedPasswords[0] === ERROR_MESSAGE || generatedPasswords[0] === ERROR_MESSAGE2;
 
   const handleCopyPassword = (password: string, isMultiple: boolean) => {
     const messageEnding = isMultiple ? 's' : '';
@@ -34,7 +34,7 @@ const PasswordsDisplay = ({ generatedPasswords, regenerateAll, regeneratePasswor
           );
         })
       ) : (
-        <div>{ERROR_MESSAGE}</div>
+        <div>{generatedPasswords[0]}</div>
       )}
       {!hasError ? (
         <div className="flex items-center justify-center pt-4">

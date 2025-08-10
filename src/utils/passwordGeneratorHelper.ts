@@ -1,10 +1,12 @@
-import { IPasswordOptions } from "../types/password";
+import { Word } from "../models/storage";
+import { IPasswordOptions, IPasswordReadableOptions } from "../types/password";
 import { generateRandomContent } from "./randomContentHelper";
 
 const LOWERCASED_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
 const UPPERCASED_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const NUMBERS = '0123456789';
 export const ERROR_MESSAGE = 'NOT ENOUGH CHARACTERS TO WORK WITH!';
+export const ERROR_MESSAGE2 = 'NOT ENOUGH WORD TYPES FOR THE SELECTED NUMBER OF WORDS';
 
 interface IGetCharactersProp {
   shouldIncludeNumbers: boolean;
@@ -151,11 +153,37 @@ export const generatePassword = (passwordOptions: IPasswordOptions) => {
   return generated.join('');
 };
 
-export const generateReadablePassword = (words: string[], numberOfWords: number) => {
-  const password: string[] = [];
+const getWordSegment = (words: Word[], wordTypes: string[], numberOfWords: number) => {
+  const passwordsegments: string[] = [];
   for (let wCount = 0; wCount < numberOfWords; wCount++) {
-    password.push(generateRandomContent(words.filter(w => !password.some(i => i === w))));
+    const wordsegments = generateRandomContent(words.map(i => i.id).filter(w => !passwordsegments.some(i => i === w)));
+    passwordsegments.push(wordsegments);
+  }
+  return passwordsegments.join('').replace(/\s+/g, '');
+}
+
+const getDateSegment = (shouldIncludeDate: boolean) => {
+  if (!shouldIncludeDate) {
+    return '';
+  }
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const fullyear = now.getFullYear().toString();
+  const monthsegment = month < 10 ? '0' + month : month.toString();
+  const yearsegment = fullyear.substring(2, 4);
+
+  return monthsegment + yearsegment;
+}
+
+export const generateReadablePassword = (words: Word[], wordTypes: string[], passwordReadableOptions: IPasswordReadableOptions) => {
+  if (passwordReadableOptions.numberOfWords > wordTypes.length) {
+    return ERROR_MESSAGE2;
   }
 
-  return password.join('').replace(/\s+/g, '');
+  const symbolsegment = passwordReadableOptions.shouldIncludeSymbol ? '!' : '';
+  const password = getWordSegment(words, wordTypes, passwordReadableOptions.numberOfWords)
+    + symbolsegment
+    + getDateSegment(passwordReadableOptions.shouldIncludeDate);
+
+  return password;
 }
