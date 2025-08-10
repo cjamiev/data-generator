@@ -1,6 +1,7 @@
 import { Word } from "../models/storage";
 import { IPasswordOptions, IPasswordReadableOptions } from "../types/password";
 import { generateRandomContent } from "./randomContentHelper";
+import { getRandomInt } from "./randomHelper";
 
 const LOWERCASED_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
 const UPPERCASED_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -153,10 +154,30 @@ export const generatePassword = (passwordOptions: IPasswordOptions) => {
   return generated.join('');
 };
 
+const getDistinctIndicies = (typeSize: number, wordSize: number) => {
+  const foundIndicies: number[] = [];
+  let loopCounter = 0;
+  while (foundIndicies.length < wordSize && loopCounter < 100) {
+    const newIndex = getRandomInt(typeSize);
+    if (!foundIndicies.some(i => i === newIndex)) {
+      foundIndicies.push(newIndex);
+    }
+    loopCounter++;
+  }
+
+  if (loopCounter > 99) {
+    console.error('Max Loop Counter Hit');
+  }
+
+  return foundIndicies;
+}
+
 const getWordSegment = (words: Word[], wordTypes: string[], numberOfWords: number) => {
+  const indicies = getDistinctIndicies(wordTypes.length, numberOfWords);
   const passwordsegments: string[] = [];
   for (let wCount = 0; wCount < numberOfWords; wCount++) {
-    const wordsegments = generateRandomContent(words.map(i => i.id).filter(w => !passwordsegments.some(i => i === w)));
+    const currentType = wordTypes[indicies[wCount]];
+    const wordsegments = generateRandomContent(words.filter(w => w.type === currentType).map(w => w.id));
     passwordsegments.push(wordsegments);
   }
   return passwordsegments.join('').replace(/\s+/g, '');

@@ -75,10 +75,10 @@ const PasswordReadableOptionsForm = ({
             Add Date
           </label>
         </div>
+        <button className="ml-16 mt-4 w-32 shadow-md" onClick={reset}>
+          Reset Options
+        </button>
       </div>
-      <button className="ml-16 mt-4 w-32 shadow-md" onClick={reset}>
-        Reset Options
-      </button>
     </>
   );
 };
