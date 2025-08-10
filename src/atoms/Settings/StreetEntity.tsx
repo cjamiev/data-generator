@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import useStorageContent from '../../hooks/useStorageContent';
 import { useAppDispatch } from '../../store';
 import { addStreet, deleteStreet } from '../../store/street/streetSlice';

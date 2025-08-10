@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useStorageContent from '../../hooks/useStorageContent';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useAppDispatch } from '../../store';
