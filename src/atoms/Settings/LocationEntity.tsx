@@ -22,7 +22,7 @@ const LocationEntity = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
 
-  const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'locationcode') {
       setNewLocationCode(e.target.value);
     } else if (e.target.name === 'locationstate') {
@@ -162,15 +162,15 @@ const LocationEntity = () => {
               : <>
                 <div className='flex mb-2'>
                   <label htmlFor="locationcode" className="block mr-2 text-sm font-medium text-black place-content-center">Code:</label>
-                  <input type="text" id='locationcode' name="locationcode" value={newLocationCode} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="IL" required />
+                  <input type="text" id='locationcode' name="locationcode" value={newLocationCode} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="IL" required />
                 </div>
                 <div className='flex mb-2'>
                   <label htmlFor="locationstate" className="block mr-2 text-sm font-medium text-black place-content-center">State:</label>
-                  <input type="text" id='locationstate' name="locationstate" value={newLocationState} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Illinois" required />
+                  <input type="text" id='locationstate' name="locationstate" value={newLocationState} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Illinois" required />
                 </div>
                 <div className='flex mb-2'>
                   <label htmlFor="locationcities" className="block mr-2 text-sm font-medium text-black place-content-center">Cities:</label>
-                  <input type="text" id='locationcities' name="locationcities" value={newLocationCities} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicago, Springfield, Urbana" required />
+                  <input type="text" id='locationcities' name="locationcities" value={newLocationCities} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicago, Springfield, Urbana" required />
                 </div></>}
             <button className='m-auto' onClick={handleSubmit}>Add Location</button>
           </form>

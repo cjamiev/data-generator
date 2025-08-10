@@ -16,7 +16,7 @@ const StreetEntity = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
 
-  const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewStreetId(e.target.value);
   }
 
@@ -134,7 +134,7 @@ const StreetEntity = () => {
               :
               <div className='flex mb-2'>
                 <label htmlFor="streetid" className="block mr-2 text-sm font-medium text-black place-content-center">Address:</label>
-                <input type="text" id='streetid' name="streetid" value={newStreetId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
+                <input type="text" id='streetid' name="streetid" value={newStreetId} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Main St." required />
               </div>}
             <button className='m-auto' onClick={handleSubmit}>Add Street Address</button>
           </form>

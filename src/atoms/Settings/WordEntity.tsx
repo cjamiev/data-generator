@@ -1,4 +1,4 @@
-import { SetStateAction, useRef, useState } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import useStorageContent from '../../hooks/useStorageContent';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useAppDispatch } from '../../store';
@@ -22,7 +22,13 @@ const WordEntity = () => {
   const typeDropdownRef = useRef(null);
   useOnClickOutside(typeDropdownRef, () => setShowTypeList(false));
 
-  const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
+  useEffect(() => {
+    if (wordTypes.length) {
+      setSelectedType(wordTypes[0]);
+    }
+  }, [wordTypes.length])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'wordid') {
       setNewWordId(e.target.value);
     } else {
@@ -179,11 +185,11 @@ const WordEntity = () => {
               : <>
                 <div className='flex'>
                   <label htmlFor="wordid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-                  <input type="text" id='wordid' name="wordid" value={newWordId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
+                  <input type="text" id='wordid' name="wordid" value={newWordId} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Dog" required />
                 </div>
                 <div className='flex mt-2 mb-2'>
                   <label htmlFor="wordtype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
-                  <input type="text" id='wordtype' name="wordtype" onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Animal" required />
+                  <input type="text" id='wordtype' name="wordtype" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Animal" required />
                 </div>
               </>}
             <button className='m-auto' onClick={handleSubmit}>Add Word</button>

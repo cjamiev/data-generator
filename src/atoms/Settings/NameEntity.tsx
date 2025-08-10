@@ -35,12 +35,8 @@ const NameEntity = () => {
   const [alertMsg, setAlertMsg] = useState('');
 
 
-  const onChange = (e: { target: { value: SetStateAction<string>; name: SetStateAction<string>; }; }) => {
-    if (e.target.name === 'nameid') {
-      setNewNameId(e.target.value);
-    } else {
-      setNewNameGender(e.target.value);
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewNameId(e.target.value);
   }
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
@@ -183,7 +179,7 @@ const NameEntity = () => {
               : <>
                 <div className='flex'>
                   <label htmlFor="nameid" className="block mr-2 text-sm font-medium text-black place-content-center">Word:</label>
-                  <input type="text" id='nameid' name="nameid" value={newNameId} onChange={onChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
+                  <input type="text" id='nameid' name="nameid" value={newNameId} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Steve" required />
                 </div>
                 <div className="flex items-center m-auto mt-4 mb-4">
                   <input id="is-first-name" type="checkbox" value="" checked={isFirstName} onClick={() => { setIsFirstName(!isFirstName) }} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
