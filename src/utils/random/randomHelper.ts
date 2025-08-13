@@ -1,10 +1,11 @@
-import { FORMULA_TYPE, IFormulaMap } from '../types/formula';
+import { FORMULA_TYPE, IFormulaMap } from '../../types/formula';
+
 const letters = 'abcdefghijklmnopqrstuvwxyz';
 
 const START_ZERO = 0;
-const ADD_ONE = 1;
 const SECOND_INDEX = 2;
 
+const ADD_ONE = 1;
 const SINGLE_DIGIT = 9;
 
 const NUMBER_OF_MONTHS = 12;

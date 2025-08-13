@@ -6,7 +6,8 @@ import { PasswordsDisplay } from '../atoms/Password/PasswordsDisplay';
 import { PasswordOptionsForm } from '../atoms/Password/PasswordOptionsForm';
 import { PasswordReadableOptionsForm } from '../atoms/Password/PasswordReadableOptionsForm';
 import { defaultPasswordOptions, defaultPasswordReadableOptions, IPasswordOptions, IPasswordReadableOptions } from '../types/password';
-import { generatePassword, generateReadablePassword } from '../utils/passwordGeneratorHelper';
+import { generatePassword } from '../utils/password/randomPasswordHelper';
+import { generateReadablePassword } from '../utils/password/readablePasswordHelper';
 
 const PasswordGeneratorPage = () => {
   const { words, wordTypes, isLoadingWords } = useStorageContent();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../../utils/copy';
-import { getJSONData, getCSVData, getSQLInsertData } from './exportHelper';
+import { getJSONData, getCSVData, getSQLInsertData } from '../../../utils/exportHelper';
 import { RandomGeneratedTable } from '../../../atoms/DataGenerator/RandomGeneratedTable';
 
 const ZERO = 0;

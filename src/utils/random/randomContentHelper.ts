@@ -1,9 +1,9 @@
 import {
   getRandomInt
 } from './randomHelper';
-import { streets, cities, states, streetEnding } from '../mocks/address';
-import { firstNames, lastNames, emailhosts } from '../mocks/names';
-import { everything } from '../mocks/words';
+import { streets, cities, states, streetEnding } from '../../mocks/address';
+import { firstNames, lastNames, emailhosts } from '../../mocks/names';
+import { everything } from '../../mocks/words';
 
 const START_ZERO = 0;
 const ADD_ONE = 1;

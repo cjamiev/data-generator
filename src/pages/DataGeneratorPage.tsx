@@ -8,27 +8,6 @@ import { IRandomField } from '../atoms/DataGenerator/CustomRandomFieldForm/Custo
 import { PageWrapper } from '../layout';
 import { scrollToTopOfPage, scrollToBottomOfPage } from '../utils/scroll';
 
-/*
- * TODO: Refactor
- * Hi Priority Features
- * - Edit Column
- * Lo Priority Features
- * - Convert Input File to Fields
- * - Download Result, HTML
- * - Sort Column, Collapse Column
- * - Edit Row, Delete Row
- * - Custom String
- *   - input (limit possibilities, unique?)
- *   - Incrementer (increment by)
- *   - Timestamp (toLocaleString format)
- * - Improve email generator with the name
- * - Words, Fake Words, Sentence
- * - Geometric/Weighted Distributed Number
- * - Draggabled up and down
- * - Frequency: Never, Once, Daily, Weekly, Monthly, Yearly
- * - Height, Bloodtype, weight, shirt size, profession, race, title
- */
-
 const INDEX_ZERO = 0;
 const INDEX_ONE = 1;
 const INDEX_TWO = 2;

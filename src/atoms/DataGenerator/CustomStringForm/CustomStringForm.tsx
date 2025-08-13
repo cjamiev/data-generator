@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FORMULA_TYPE, IFormulaMap } from '../../../types/formula';
-import { getRandomAlphanumberic, getRandomDigit, getRandomLetter } from '../../../utils/randomHelper';
+import { getRandomAlphanumberic, getRandomDigit, getRandomLetter } from '../../../utils/random/randomHelper';
 
 const MOVE_LEFT = '<-';
 const MOVE_RIGHT = '->';

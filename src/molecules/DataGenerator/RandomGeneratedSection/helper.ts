@@ -5,7 +5,7 @@ import {
   generateStreetName,
   generateCity,
   generateState,
-} from '../../../utils/randomContentHelper';
+} from '../../../utils/random/randomContentHelper';
 import {
   generateDate,
   generateBoolean,
@@ -15,7 +15,7 @@ import {
   generateWeightedRangeValue,
   generateRange,
   formulaMapper
-} from '../../../utils/randomHelper';
+} from '../../../utils/random/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../../types/randomField';
 import { formatMoney } from '../../../utils/stringHelper';
 import { IFormulaMap } from '../../../types/formula';

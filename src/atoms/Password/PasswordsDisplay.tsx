@@ -1,5 +1,5 @@
 import { copyToClipboard } from '../../utils/copy';
-import { ERROR_MESSAGE, ERROR_MESSAGE2 } from '../../utils/passwordGeneratorHelper';
+import { ERROR_MESSAGE, ERROR_MESSAGE2 } from '../../utils/password/randomPasswordHelper';
 
 interface IPasswordsDisplay {
   generatedPasswords: string[],
