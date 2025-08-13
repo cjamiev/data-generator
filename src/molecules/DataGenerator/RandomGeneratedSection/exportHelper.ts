@@ -32,10 +32,11 @@ const getCSVData = (header: string[], rows: string[][]) => {
 };
 
 const getSQLInsertData = (header: string[], rows: string[][]) => {
-  const lineOne = `INSERT INTO Table (${header.map((i) => `'${i.replace(' ', '_')}'`).join(',')})`;
-  const remainingLines = rows.map((entry) => `(${entry.map((i) => `'${i}'`).join(',')})`);
+  const lineOne = `INSERT INTO Table (${header.map((i) => `${i.replace(' ', '_')}`).join(',')})`;
+  const size = rows.length;
+  const remainingLines = rows.map((entry, idx) => `(${entry.map((i) => `'${i}'`).join(',')})${size === idx + 1 ? ';' : ','}`);
 
-  return [lineOne, 'VALUES', ...remainingLines, ';'].join('\n');
+  return [lineOne, 'VALUES', ...remainingLines].join('\n');
 };
 
 const getSQLUpdateData = (header: string[], row: string[]) => {
