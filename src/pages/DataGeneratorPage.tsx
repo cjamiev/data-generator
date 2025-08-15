@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { GeneratedSection } from '../molecules/DataGenerator/GeneratedSection';
-import { DisplayRandomFields } from '../atoms/DataGenerator/DisplayRandomFields';
+import { SelectedGeneratorFields } from '../atoms/DataGenerator/SelectedGeneratorFields';
 import { fieldTypes, IFieldType, PredefinedRandomLabel } from '../types/randomField';
 import { getCorrectGeneratedValue } from '../molecules/DataGenerator/GeneratedSection/helper';
 import { RandomFieldForm } from '../molecules/DataGenerator/RandomFieldForm';
@@ -170,7 +170,7 @@ export const DataGeneratorPage = () => {
         <h1 className="mb-4 text-6xl">Data Generator</h1>
         <div className="flex gap-4">
           <div>
-            <DisplayRandomFields
+            <SelectedGeneratorFields
               columns={columns}
               onHandleRemoveField={onHandleRemoveField}
               onHandleColumnNameChange={onHandleColumnNameChange}

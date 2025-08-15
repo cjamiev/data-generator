@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IFieldType } from '../../../types/randomField';
 
-interface IDisplayRandomFields {
+interface ISelectedGeneratorFields {
   columns: IFieldType[];
   onHandleRemoveField: (selectedIndex: number) => void;
   onHandleColumnNameChange: (updatedName: string, selectedIndex: number) => void;
@@ -52,13 +52,13 @@ const FieldInput = ({ name, index, onHandleColumnNameChange }: IFieldInput) => {
   );
 };
 
-export const DisplayRandomFields = ({
+export const SelectedGeneratorFields = ({
   columns,
   onHandleRemoveField,
   onHandleColumnNameChange,
   onMoveUp,
   onMoveDown,
-}: IDisplayRandomFields) => {
+}: ISelectedGeneratorFields) => {
   return (
     <div>
       <div className="mb-2 flex flex-row gap-x-2">
