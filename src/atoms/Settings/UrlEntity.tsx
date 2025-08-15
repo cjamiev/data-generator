@@ -1,0 +1,203 @@
+import { useEffect, useRef, useState } from 'react';
+import useStorageContent from '../../hooks/useStorageContent';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
+import { useAppDispatch } from '../../store';
+import { addUrl, deleteUrl } from '../../store/url/urlSlice';
+import { Url } from '../../models/storage';
+import { capitalizeEachWord } from '../../utils/stringHelper';
+
+const placeHolderBatchContent = 'url;category\nurl2;category\nurl3;category';
+
+const UrlEntity = () => {
+  const { urls, urlCategories } = useStorageContent();
+  const dispatch = useAppDispatch();
+  const [isBatchMode, setIsBatchMode] = useState(true);
+  const [batchContent, setBatchContent] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(urlCategories[0]);
+  const [showTypeList, setShowTypeList] = useState(false);
+  const [newUrlId, setNewUrlId] = useState('');
+  const [newUrlType, setNewUrlType] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState('');
+  const typeDropdownRef = useRef(null);
+  useOnClickOutside(typeDropdownRef, () => setShowTypeList(false));
+
+  useEffect(() => {
+    if (urlCategories.length) {
+      setSelectedCategory(urlCategories[0]);
+    }
+  }, [urlCategories.length])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'urlid') {
+      setNewUrlId(e.target.value);
+    } else {
+      setNewUrlType(e.target.value);
+    }
+  }
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    if (!isBatchMode) {
+      if (!newUrlId) {
+        return;
+      }
+      const newUrl: Url = { id: newUrlId, category: capitalizeEachWord(newUrlType) };
+      const hasDuplicate = urls.some(w => w.id === newUrl.id && w.category === newUrl.category);
+      if (!hasDuplicate) {
+        dispatch(addUrl(newUrl));
+        setNewUrlId('');
+        setErrorMsg('');
+        setAlertMsg('Successfully Added ' + newUrl.id);
+        setTimeout(() => { setAlertMsg('') }, 5000);
+      } else {
+        setErrorMsg('Error: Duplicate record found');
+      }
+    } else {
+      let hasDuplicateError = false;
+      let hasMissingDataError = false;
+      const batchLines = batchContent.split('\n');
+      batchLines.forEach(line => {
+        const [newUrlId = '', newUrlType = ''] = line.split(';');
+        const newUrl: Url = { id: newUrlId, category: capitalizeEachWord(newUrlType) };
+        const hasDuplicate = urls.some(w => w.id === newUrl.id && w.category === newUrl.category);
+        if (!newUrlId || !newUrlId) {
+          hasMissingDataError = true;
+        }
+        else if (hasDuplicate) {
+          hasDuplicateError = true;
+        } else {
+          dispatch(addUrl(newUrl));
+        }
+      });
+      if (hasDuplicateError) {
+        setErrorMsg('Error: Duplicate record found');
+      }
+      else if (hasMissingDataError) {
+        setErrorMsg('Error: Missing id');
+      } else {
+        setAlertMsg('Successfully Added in batch');
+        setTimeout(() => { setAlertMsg('') }, 5000);
+      }
+      setBatchContent('');
+    }
+  }
+
+  const handleDelete = (urlId: string) => {
+    dispatch(deleteUrl(urlId));
+    setAlertMsg('Successfully Deleted ' + urlId);
+    setTimeout(() => { setAlertMsg('') }, 5000);
+  }
+
+  const handleCategorySelectionChange = (category: string) => {
+    setSelectedCategory(category);
+  }
+
+  const toggleDropdown = () => {
+    setShowTypeList(!showTypeList);
+  }
+
+  const handleBatchModeChange = () => { setIsBatchMode(!isBatchMode); }
+
+  const handleBatchContentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setBatchContent(e.target.value);
+  }
+
+  return (
+    <div>
+      <div>
+        <div className='relative '>
+          <h2 className="mb-4 text-4xl">Urls</h2>
+          {errorMsg ? <span className='absolute top-0 left-30 p-2 bg-red-500 text-white border rounded border-red-600'>{errorMsg}</span> : null}
+          {alertMsg ? <span className='absolute top-0 left-30 p-2 bg-green-500 text-white border rounded border-green-600'>{alertMsg}</span> : null}
+        </div>
+        <div ref={typeDropdownRef} className='mb-2 relative w-32'>
+          <button id="dropdownDefaultButton" onClick={toggleDropdown} className="relative w-32 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-sky-500" type="button">
+            {selectedCategory}
+            <svg className="absolute right-4 w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+          {showTypeList ? <div id="dropdown" className="z-1 w-32 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm border border-sky-500">
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              {urlCategories.map(category => {
+                return (
+                  <li key={category} onClick={() => handleCategorySelectionChange(category)}>
+                    <span className="block px-4 py-2 hover:bg-sky-500 hover:text-white cursor-pointer">{category}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div> : null}
+        </div>
+      </div>
+      <div className='flex'>
+        <div className="relative overflow-x-auto">
+          <table className="w-full text-sm text-left rtl:text-right">
+            <thead className="text-xs uppercase bg-white text-black">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Url
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Type
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Delete
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {urls.filter(w => w.category === selectedCategory).map(e => {
+                return <tr key={e.id} className="bg-white border-b border-gray-700">
+                  <td scope="row" className="px-6 py-4">
+                    {e.id}
+                  </td>
+                  <td className="px-6 py-4">
+                    {e.category}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <button className='w-fit h-fit border-none' onClick={() => handleDelete(e.id)}>X</button>
+                  </td>
+                </tr>
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <form className='rounded border border-gray-500 flex flex-col p-4 ml-4'>
+            <div>
+              <label>Is String Batch Format? <input className='ml-2' type='checkbox' checked={isBatchMode} onClick={handleBatchModeChange} /></label>
+            </div>
+            {isBatchMode
+              ? <div className='mt-2 mb-2'>
+                <textarea
+                  className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="batch-content"
+                  value={batchContent}
+                  onChange={handleBatchContentChange}
+                  rows={12}
+                  cols={28}
+                  placeholder={placeHolderBatchContent}
+                />
+              </div>
+              : <>
+                <div className='flex'>
+                  <label htmlFor="urlid" className="block mr-2 text-sm font-medium text-black place-content-center">Url:</label>
+                  <input type="text" id='urlid' name="urlid" value={newUrlId} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://www.google.com" required />
+                </div>
+                <div className='flex mt-2 mb-2'>
+                  <label htmlFor="urltype" className="block mr-2 text-sm font-medium text-black place-content-center">Type:</label>
+                  <input type="text" id='urltype' name="urltype" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Google" />
+                </div>
+              </>}
+            <button className='m-auto' onClick={handleSubmit}>Add Url</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { UrlEntity };

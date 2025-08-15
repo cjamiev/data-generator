@@ -7,8 +7,9 @@ import { citySlice } from "./city/citySlice";
 import { nameSlice } from "./name/nameSlice";
 import { wordSlice } from "./word/wordSlice";
 import { streetSlice } from "./street/streetSlice";
+import { urlSlice } from "./url/urlSlice";
 
-const rootReducer = combineSlices(emailSlice, citySlice, nameSlice, wordSlice, streetSlice)
+const rootReducer = combineSlices(emailSlice, citySlice, nameSlice, wordSlice, streetSlice, urlSlice)
 export type RootState = ReturnType<typeof rootReducer>
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {

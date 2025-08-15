@@ -4,9 +4,10 @@ import { CityEntity } from '../atoms/Settings/CityEntity';
 import { NameEntity } from '../atoms/Settings/NameEntity';
 import { WordEntity } from '../atoms/Settings/WordEntity';
 import { StreetEntity } from '../atoms/Settings/StreetEntity';
+import { UrlEntity } from '../atoms/Settings/UrlEntity';
 import { PageWrapper } from '../layout';
 
-const ALL_TABS = ['Words', 'Names', 'Emails', 'Cities', 'Streets'];
+const ALL_TABS = ['Words', 'Names', 'Emails', 'Cities', 'Streets', 'Urls'];
 const SettingTab = ({ selectedTab }: { selectedTab: string }) => {
   if (selectedTab === 'Words') {
     return <WordEntity />;
@@ -19,8 +20,10 @@ const SettingTab = ({ selectedTab }: { selectedTab: string }) => {
   }
   else if (selectedTab === 'Cities') {
     return <CityEntity />
-  } else {
+  } else if (selectedTab === 'Streets') {
     return <StreetEntity />
+  } else {
+    return <UrlEntity />
   }
 }
 

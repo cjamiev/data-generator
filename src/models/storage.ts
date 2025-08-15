@@ -22,3 +22,8 @@ export interface Word {
   id: string;
   type: string;
 }
+
+export interface Url {
+  id: string;
+  category: string;
+}

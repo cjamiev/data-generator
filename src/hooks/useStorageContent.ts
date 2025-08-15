@@ -5,6 +5,7 @@ import { loadCities, selectCities, selectIsLoadingCities } from '../store/city/c
 import { loadNames, selectNames, selectIsLoadingNames } from '../store/name/nameSlice';
 import { loadStreets, selectStreets, selectIsLoadingStreets } from '../store/street/streetSlice';
 import { loadWords, selectWords, selectWordTypes, selectIsLoadingWords } from '../store/word/wordSlice';
+import { loadUrls, selectIsLoadingUrls, selectUrls, selectUrlCategories } from '../store/url/urlSlice';
 
 function useStorageContent() {
   const dispatch = useAppDispatch();
@@ -19,6 +20,9 @@ function useStorageContent() {
   const words = useAppSelector(selectWords);
   const wordTypes = useAppSelector(selectWordTypes);
   const isLoadingWords = useAppSelector(selectIsLoadingWords);
+  const urls = useAppSelector(selectUrls);
+  const urlCategories = useAppSelector(selectUrlCategories);
+  const isLoadingUrls = useAppSelector(selectIsLoadingUrls);
 
   useEffect(() => {
     if (isLoadingEmails) {
@@ -50,8 +54,13 @@ function useStorageContent() {
       dispatch(loadWords());
     }
   }, [isLoadingWords, dispatch]);
+  useEffect(() => {
+    if (isLoadingUrls) {
+      dispatch(loadUrls());
+    }
+  }, [isLoadingUrls, dispatch]);
 
-  return { emails, cities, names, streets, words, wordTypes, isLoadingWords };
+  return { emails, cities, names, streets, words, wordTypes, isLoadingWords, urls, urlCategories, isLoadingUrls };
 }
 
 export default useStorageContent;
