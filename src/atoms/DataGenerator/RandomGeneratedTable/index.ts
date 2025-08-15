@@ -1,1 +1,0 @@
-export { RandomGeneratedTable } from './RandomGeneratedTable';

@@ -21,7 +21,7 @@ interface IGenerateTable {
   deleteRow: (selectedIndex: number) => void;
 }
 
-export const RandomGeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
+export const GeneratedTable = ({ data, deleteRow }: IGenerateTable) => {
   const { headers, rows } = getTableData(data);
 
   if (!data.length) {
