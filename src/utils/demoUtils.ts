@@ -1,4 +1,4 @@
-import { emails, names, streets, words, locations } from '../mocked/words';
+import { emails, names, streets, words, cities } from '../mocked/words';
 
 export const loadMockData = <T>(type: string) => {
   const currentDataStr = localStorage.getItem(type);
@@ -26,7 +26,7 @@ export const loadAllMockData = () => {
   localStorage.setItem('dg-emails', JSON.stringify(emails));
   localStorage.setItem('dg-names', JSON.stringify(names));
   localStorage.setItem('dg-streets', JSON.stringify(streets));
-  localStorage.setItem('dg-locations', JSON.stringify(locations));
+  localStorage.setItem('dg-cities', JSON.stringify(cities));
 }
 
 export const initializeApp = () => {

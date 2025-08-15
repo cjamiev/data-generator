@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { EmailEntity } from '../atoms/Settings/EmailEntity';
-import { LocationEntity } from '../atoms/Settings/LocationEntity';
+import { CityEntity } from '../atoms/Settings/CityEntity';
 import { NameEntity } from '../atoms/Settings/NameEntity';
 import { WordEntity } from '../atoms/Settings/WordEntity';
 import { StreetEntity } from '../atoms/Settings/StreetEntity';
 import { PageWrapper } from '../layout';
 
-const ALL_TABS = ['Words', 'Names', 'Emails', 'Locations', 'Streets'];
+const ALL_TABS = ['Words', 'Names', 'Emails', 'Cities', 'Streets'];
 const SettingTab = ({ selectedTab }: { selectedTab: string }) => {
   if (selectedTab === 'Words') {
     return <WordEntity />;
@@ -17,8 +17,8 @@ const SettingTab = ({ selectedTab }: { selectedTab: string }) => {
   else if (selectedTab === 'Emails') {
     return <EmailEntity />
   }
-  else if (selectedTab === 'Locations') {
-    return <LocationEntity />
+  else if (selectedTab === 'Cities') {
+    return <CityEntity />
   } else {
     return <StreetEntity />
   }

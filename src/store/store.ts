@@ -3,12 +3,12 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { emailSlice } from "./email/emailSlice";
-import { locationSlice } from "./location/locationSlice";
+import { citySlice } from "./city/citySlice";
 import { nameSlice } from "./name/nameSlice";
 import { wordSlice } from "./word/wordSlice";
 import { streetSlice } from "./street/streetSlice";
 
-const rootReducer = combineSlices(emailSlice, locationSlice, nameSlice, wordSlice, streetSlice)
+const rootReducer = combineSlices(emailSlice, citySlice, nameSlice, wordSlice, streetSlice)
 export type RootState = ReturnType<typeof rootReducer>
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {

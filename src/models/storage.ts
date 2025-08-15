@@ -6,10 +6,9 @@ export interface Street {
   id: string;
 }
 
-export interface Location {
-  code: string;
-  state: string;
-  cities: string;
+export interface City {
+  id: string;
+  origin: string;
 }
 
 export interface Name {
