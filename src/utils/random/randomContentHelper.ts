@@ -1,6 +1,6 @@
 import {
   getRandomInt
-} from './randomHelper';
+} from './randomNumberHelper';
 import { streets, cities, states, streetEnding } from '../../mocks/address';
 import { firstNames, lastNames, emailhosts } from '../../mocks/names';
 import { everything } from '../../mocks/words';

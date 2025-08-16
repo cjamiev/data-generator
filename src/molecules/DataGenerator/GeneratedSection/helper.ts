@@ -7,20 +7,22 @@ import {
   generateState,
 } from '../../../utils/random/randomContentHelper';
 import {
-  generateDate,
   generateBoolean,
-  generateCustomState,
-  customStringGenerator,
-  generateTime,
   generateWeightedRangeValue,
   generateRange,
+} from '../../../utils/random/randomNumberHelper';
+import {
+  generateDate,
+  generateTime,
+} from '../../../utils/random/randomTimeHelper';
+import {
+  generateCustomState,
+  customStringGenerator,
   formulaMapper
 } from '../../../utils/random/randomHelper';
 import { IFieldType, PredefinedRandomLabel, CustomFieldLabel } from '../../../types/randomField';
 import { formatMoney } from '../../../utils/stringHelper';
 import { IFormulaMap } from '../../../types/formula';
-
-const EIGHTY_YEARS_AGO = 80;
 
 const getPIGeneratedValue = (col: IFieldType, index: number) => {
   if (col.randomType === PredefinedRandomLabel.FIRST_NAME) {
@@ -53,7 +55,7 @@ const getPIGeneratedValue = (col: IFieldType, index: number) => {
     return email;
   }
   if (col.randomType === PredefinedRandomLabel.BIRTH_DATE) {
-    const randomDate = generateDate(false, EIGHTY_YEARS_AGO, col.options);
+    const randomDate = generateDate(1960, 2050, col.options);
 
     return randomDate;
   } else {
@@ -98,9 +100,8 @@ const getOtherGeneratedValue = (col: IFieldType, index: number) => {
     return uuid;
   }
   if (col.randomType === CustomFieldLabel.DATE) {
-    const [dateCount, futureFlag, format] = col.options.split(',');
-    const isFuture = futureFlag === 'true';
-    const randomDate = generateDate(isFuture, Number(dateCount), format);
+    const [minYear, maxYear, format] = col.options.split(',');
+    const randomDate = generateDate(Number(minYear), Number(maxYear), format);
     const randomTime = format.includes('HH:MM:SS') ? generateTime() : '';
 
     return randomDate + ' ' + randomTime;

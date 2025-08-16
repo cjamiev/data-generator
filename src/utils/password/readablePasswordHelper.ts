@@ -1,7 +1,7 @@
 import { Word } from "../../models/storage";
 import { IPasswordReadableOptions } from "../../types/password";
 import { generateRandomContent } from "../random/randomContentHelper";
-import { getRandomInt } from "../random/randomHelper";
+import { getRandomInt } from '../random/randomNumberHelper';
 import { ERROR_MESSAGE2 } from "./randomPasswordHelper";
 
 const getDistinctIndicies = (typeSize: number, wordSize: number) => {

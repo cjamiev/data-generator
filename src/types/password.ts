@@ -1,4 +1,4 @@
-const SPECIAL_CHARACTERS = '`~!@#$%^&*=+-_\\/|,.;(){}[]<>';
+import { SPECIAL_CHARACTERS } from "../constants/characters";
 
 export interface IPasswordOptions {
   passwordLength: number;

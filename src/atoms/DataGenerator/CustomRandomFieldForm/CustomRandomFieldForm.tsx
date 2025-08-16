@@ -20,8 +20,8 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
   const [columnName, setColumnName] = useState<string>(`field${currentLength}`);
   const [options, setOptions] = useState<string>('');
   const [booleanWeight, setBooleanWeight] = useState<number>(50);
-  const [isDateInFuture, setIsDateInFuture] = useState<boolean>(false);
-  const [dateCount, setDateCount] = useState<number>(3);
+  const [minYear, setMinYear] = useState<string>('1960');
+  const [maxYear, setMaxYear] = useState<string>('2050');
   const [format, setFormat] = useState(dateFormats[0]);
   const [minAmount, setMinAmount] = useState<number>(0);
   const [maxAmount, setMaxAmount] = useState<number>(1000);
@@ -37,8 +37,12 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
     setBooleanWeight(Number(event.target.value));
   };
 
-  const onHandleDateCountChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDateCount(Number(event.target.value));
+  const onHandleMinYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMinYear(event.target.value);
+  };
+
+  const onHandleMaxYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMaxYear(event.target.value);
   };
 
   const onHandleFormatChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -82,7 +86,7 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
     } else if (selectedType === CustomFieldLabel.DATE) {
       onHandleConfirm(selectedType, {
         variableName: columnName,
-        options: dateCount + ',' + String(isDateInFuture) + ',' + format,
+        options: maxYear + ',' + minYear + ',' + format,
       });
     } else if (selectedType === CustomFieldLabel.BOOLEAN) {
       onHandleConfirm(selectedType, {
@@ -200,33 +204,27 @@ const CustomRandomFieldForm = ({ onHandleConfirm, onHandleCancel, currentLength 
           <div className="flex pb-4 pt-4">
             <div>
               <div className="flex">
-                <label htmlFor="future-year" className="mr-2 font-bold">
-                  Is Future Date?
+                <label htmlFor="min-year" className="mr-2 font-bold">
+                  Minimum Year
                 </label>
                 <input
-                  onChange={() => setIsDateInFuture(!isDateInFuture)}
-                  type="checkbox"
-                  name="future-year"
-                  id="future-year"
-                  value="future-year"
-                  checked={isDateInFuture}
+                  type="text"
+                  id="min-year"
+                  name="min-year"
+                  value={minYear}
+                  onChange={onHandleMinYearChange}
                 />
               </div>
               <div>
-                <span className="mr-2 font-bold">Select Count</span>
+                <span className="mr-2 font-bold">Maximum Year</span>
                 <input
-                  type="range"
-                  id="date-count"
-                  name="date-count"
-                  min="3"
-                  max="80"
-                  value={dateCount}
-                  onChange={(event) => onHandleDateCountChange(event)}
+                  type="text"
+                  id="max-year"
+                  name="max-year"
+                  value={maxYear}
+                  onChange={onHandleMaxYearChange}
                 />
               </div>
-              <label className="font-bold">
-                Distance From Today:<span className="font-medium"> {dateCount} years</span>
-              </label>
             </div>
             <div className="ml-2 flex flex-col">
               <span className="font-bold">Select Date Format</span>
